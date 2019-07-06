@@ -16,22 +16,22 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:http://code.sky.cn:9090/spring-cloud/skycloud-base.git</connection>
-        <developerConnection>scm:git:http://code.sky.cn:9090/spring-cloud/skycloud-base.git</developerConnection>
-        <url>http://code.sky.cn:9090/spring-cloud/skycloud-base</url>
+        <connection>scm:git:https://github.com/xk11961677/skycloud-base.git</connection>
+        <developerConnection>scm:git:https://github.com/xk11961677/skycloud-base.git</developerConnection>
+        <url>https://github.com/xk11961677/skycloud-base</url>
         <tag>HEAD</tag>
     </scm>
 
     <developers>
         <developer>
-            <id>framework</id>
-            <name>framework</name>
-            <email>framework@sky.com.cn</email>
+            <id>sky</id>
+            <name>sky</name>
+            <email>shen11961677@163.com</email>
         </developer>
     </developers>
 
     <issueManagement>
-        <url>http://code.sky.cn:9090/spring-cloud/skycloud-base/issues</url>
+        <url>https://github.com/xk11961677/skycloud-base/issues</url>
     </issueManagement>
 
     <properties>
