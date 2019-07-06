@@ -1,9 +1,9 @@
 ## sky Cloud 项目
 <p align="center">
     <p align="center">
-        sky微服务
+        skycloud
         <br>
-        <a href="http://code.sky.cn:9090/spring-cloud/skycloud-base/" ><strong>Home Page</strong></a>
+        <a href="https://github.com/xk11961677/skycloud-base" ><strong>Home Page</strong></a>
         <br>
         <br>
         <img src="https://img.shields.io/badge/license-MIT-ff69b4.svg" >
@@ -39,11 +39,12 @@
 ### 整体代码结构层
 ```
 
-│  ├─framework-------------------------框架层
+│  ├─framework-------------------------框架层(https://github.com/xk11961677/framework)
+                                          
 │  │
-│  ├─skycloud-base------------------微服务基础层
+│  ├─skycloud-base------------------微服务基础层(https://github.com/xk11961677/skycloud-base)
 │  │
-│  ├─skycloud-service---------------微服务业务层
+│  ├─skycloud-service---------------微服务业务层(https://github.com/xk11961677/skycloud-service)
 │  │
     
 ```
@@ -55,11 +56,11 @@
 │  │
 │  ├─skycloud-base-auth------------------认证与授权
 │  │  │
-│  │  ├─skycloud-base-authc-api------------------认证客户端Feign
+│  │  ├─skycloud-base-authentication-api------------------认证客户端Feign
 │  │  │
-│  │  ├─skycloud-base-authc-server------------------认证中心
+│  │  ├─skycloud-base-authentication------------------认证中心
 │  │  │
-│  │  ├─skycloud-base-authz-server------------------授权中心
+│  │  ├─skycloud-base-authorization------------------授权中心
 │  │  │
 │  ├─skycloud-base-gateway-----------------网关
 │  │
@@ -84,6 +85,8 @@
 │  ├─skycloud-base-zipkin-------------------调用链(zipkin)
 │  │
 │  ├─skywalking-agent--------------------------调用链(skywalking)
+│  │
+│  ├─skycloud-generator-tool--------------------------代码生成工具(废弃)
 │  │
 
 ```
@@ -131,7 +134,7 @@
 
 ### FAQ
 - 在使用中有任何问题，欢迎反馈
-- [apollo修改后源码](doc/apollo.zip) 
+- [apollo修改后源码](https://pan.baidu.com/s/1n8oIm-9UaxNZPUTyID02OQ) 提取码: 6fxr
 
 ### 架构图
 
