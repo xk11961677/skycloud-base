@@ -1,0 +1,18 @@
+package ${package}.${moduleName}.service.impl;
+
+import ${package}.${moduleName}.model.domain.${className};
+import ${package}.${moduleName}.service.${className}Service;
+import com.sky.framework.web.support.BaseService;
+import org.springframework.stereotype.Service;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Service("${classname}Service")
+public class ${className}ServiceImpl extends BaseService<${className}> implements ${className}Service {
+
+
+}

@@ -1,0 +1,24 @@
+app:
+  id: skycloud-base-zipkin
+apollo:
+  meta: http://192.168.1.224:8080
+
+
+spring:
+  rabbitmq:
+    host: '@spring.rabbitmq.host@'
+    password: '@spring.rabbitmq.password@'
+    port: '@spring.rabbitmq.port@'
+    publisher-confirms: '@spring.rabbitmq.publisher-confirms@'
+    username: '@spring.rabbitmq.username@'
+    virtual-host: '@spring.rabbitmq.virtual-host@'
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    enabled: true
+    locator:
+      discovery:
+        enabled: true
+    sender:
+      type: rabbit

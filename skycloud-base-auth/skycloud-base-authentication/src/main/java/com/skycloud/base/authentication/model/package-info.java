@@ -1,0 +1,1 @@
+package com.skycloud.base.authentication.model;

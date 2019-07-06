@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <properties resource="config.properties"/>
+    <!-- 数据库驱动 -->
+    <context id="DB2Tables"  targetRuntime="MyBatis3">
+        <plugin type="com.sky.framework.generator.plugin.SerializablePlugin"></plugin>
+        <plugin type="com.sky.framework.generator.plugin.LombokPlugin"></plugin>
+        <plugin type="com.sky.framework.generator.plugin.CommentPlugin">
+            <property name="modelClassAuthor" value="sky"></property>
+        </plugin>
+        <plugin type="com.sky.framework.generator.plugin.MapperAnnotationPlugin"></plugin>
+        <plugin type="${mapper.plugin}">
+            <property name="mappers" value="${mapper.Mapper}"></property>
+        </plugin>
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="false"/>
+        </commentGenerator>
+        <!-- 数据库链接URL, 用户名、密码 -->
+        <jdbcConnection driverClass="${jdbc.driverClass}" connectionURL="${jdbc.url}" userId="${jdbc.user}" password="${jdbc.password}">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 请开发人员修改 targetPackage targetProject -->
+
+        <!-- 生成模型的包名和位置 -->
+        <javaModelGenerator targetPackage="com.skycloud.service.omc.model.domain" targetProject="/Users/sky/develop/workspace_sky/skycloud-service/skycloud-generator-tool/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+            <property name="rootClass" value="${domain.rootClass}"/>
+        </javaModelGenerator>
+        <!-- 生成映射文件的包名和位置 -->
+        <sqlMapGenerator targetPackage="mapper" targetProject="/Users/sky/develop/workspace_sky/skycloud-service/skycloud-generator-tool/src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!-- 生成DAO的包名和位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.skycloud.service.omc.mapper" targetProject="/Users/sky/develop/workspace_sky/skycloud-service/skycloud-generator-tool/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 请开发人员修改 要生成哪些表 -->
+        <table tableName="users" domainObjectName="User"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+    </context>
+</generatorConfiguration>

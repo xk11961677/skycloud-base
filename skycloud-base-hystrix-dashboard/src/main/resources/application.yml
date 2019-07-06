@@ -1,0 +1,6 @@
+app:
+  id: skycloud-base-hystrix
+apollo:
+  custom:
+    dev:
+      meta: http://127.0.0.1:8081

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_PATH" value="skycloud-log" />
+    <springProperty scope="context" name="appName" source="spring.application.name" />
+    <springProperty scope="context" name="ip" source="spring.cloud.client.ip-address" />
+    <springProperty scope="context" name="env" source="spring.profiles.active" />
+    <property name="CONSOLE_LOG_PATTERN"
+              value="[%d{yyyy-MM-dd HH:mm:ss.SSS} ${ip} ${appName} %highlight(%-5level) %yellow(%thread) %green(%logger) %L %msg%n"/>
+
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination></destination>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>UTC</timeZone>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                        {
+                        "tags":["log"],
+                        "ip": "${ip}",
+                        "env":"${env}",
+                        "appName": "${appName}",
+                        "level": "%level",
+                        "thread": "%thread",
+                        "class": "%logger{40}",
+                        "line_number":"%L",
+                        "message": "%message",
+                        "stack_trace": "%exception{10}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+    </appender>
+
+    <logger name="org.springframework" level="INFO" />
+    <logger name="com.sky" level="INFO" />
+
+    <root level="INFO">
+        <!--<appender-ref ref="LOGSTASH" />-->
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

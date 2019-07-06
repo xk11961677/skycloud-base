@@ -1,0 +1,18 @@
+package ${package}.${moduleName}.mapper;
+
+import com.sky.framework.web.mybatis.MyMapper;
+import ${package}.${moduleName}.model.domain.${className};
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Mapper
+@Repository
+public interface ${className}Mapper extends MyMapper<${className}> {
+
+}

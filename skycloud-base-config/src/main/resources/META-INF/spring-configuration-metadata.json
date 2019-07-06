@@ -1,0 +1,72 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "name": "app",
+      "type": "com.skycloud.base.config.property.ApolloProperties",
+      "sourceType": "com.skycloud.base.config.property.ApolloProperties"
+    },
+    {
+      "name": "apollo",
+      "type": "com.ctrip.framework.apollo.spring.config.PropertySourcesConstants",
+      "sourceType": "com.ctrip.framework.apollo.spring.config.PropertySourcesConstants"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app.id",
+      "type": "com.skycloud.base.config.property.ApolloProperties",
+      "sourceType": "com.skycloud.base.config.property.ApolloProperties"
+    },
+    {
+      "name": "apollo.bootstrap.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.ctrip.framework.apollo.spring.config.PropertySourcesConstants"
+    },
+    {
+      "name": "apollo.bootstrap.eagerLoad.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.ctrip.framework.apollo.spring.config.PropertySourcesConstants"
+    },
+    {
+      "name": "apollo.bootstrap.namespaces",
+      "type": "java.lang.String",
+      "sourceType": "com.ctrip.framework.apollo.spring.config.PropertySourcesConstants"
+    },
+    {
+      "name": "apollo.cacheDir",
+      "type": "java.lang.String",
+      "sourceType": "com.skycloud.base.config.property.ApolloProperties"
+    },
+    {
+      "name": "apollo.cluster",
+      "type": "java.lang.String",
+      "sourceType": "com.skycloud.base.config.property.ApolloProperties"
+    },
+    {
+      "name": "apollo.meta",
+      "type": "java.lang.String",
+      "sourceType": "com.skycloud.base.config.property.ApolloProperties"
+    },
+    {
+      "name": "apollo.custom.dev.meta",
+      "type": "java.lang.String",
+      "sourceType": "com.skycloud.base.config.property.ApolloProperties"
+    },
+    {
+      "name": "apollo.custom.fat.meta",
+      "type": "java.lang.String",
+      "sourceType": "com.skycloud.base.config.property.ApolloProperties"
+    },
+    {
+      "name": "apollo.custom.uat.meta",
+      "type": "java.lang.String",
+      "sourceType": "com.skycloud.base.config.property.ApolloProperties"
+    },
+    {
+      "name": "apollo.custom.pro.meta",
+      "type": "java.lang.String",
+      "sourceType": "com.skycloud.base.config.property.ApolloProperties"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+package ${package}.${moduleName}.service;
+
+import com.sky.framework.web.support.IService;
+import ${package}.${moduleName}.model.domain.${className};
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${className}Service extends IService<${className}> {
+
+
+}

@@ -1,0 +1,18 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "name": "spring.cloud.consul.custom.registry",
+      "type": "com.skycloud.base.config.property.CustomConsulProperties",
+      "sourceType": "com.skycloud.base.config.property.CustomConsulProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.cloud.consul.custom.registry.instance",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.skycloud.base.config.property.CustomConsulRegistryProperties",
+      "defaultValue": true
+    }
+  ]
+}

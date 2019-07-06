@@ -1,0 +1,32 @@
+package ${package}.${moduleName}.controller;
+
+import ${package}.${moduleName}.model.domain.${className};
+import ${package}.${moduleName}.service.${className}Service;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.http.MediaType;
+import javax.annotation.Resource;
+import com.sky.framework.web.support.BaseController;
+import com.sky.framework.model.dto.MessageReq;
+import com.sky.framework.model.dto.MessageRes;
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@RestController
+@AllArgsConstructor
+@RequestMapping("/${pathName}")
+@Api(value = "WEB - ${className}Controller", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class ${className}Controller extends BaseController{
+
+  @Resource
+  private  ${className}Service ${classname}Service;
+
+
+}

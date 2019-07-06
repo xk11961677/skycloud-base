@@ -1,0 +1,31 @@
+server:
+  port: 5003
+
+spring:
+  application:
+    name: skycloud-base-codegen
+  cloud:
+    consul:
+      discovery:
+        healthCheckInterval: 15s
+        healthCheckPath: /consulhealth/healthCheck
+        heartbeat:
+          enabled: true
+        instanceId: ${spring.application.name}
+        port: ${server.port}
+        prefer-ip-address: true
+        register: true
+        serviceName: ${spring.application.name}
+        tags: ${spring.application.name},management.context-path=/monitor
+      host: 127.0.0.1
+      port: 8500
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/payment?useSSL=false&characterEncoding=utf8
+    driver-class-name: com.mysql.jdbc.Driver
+    password: aaa
+    username: aaaa
+
+
+logging:
+  level:
+    root: info

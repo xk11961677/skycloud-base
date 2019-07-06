@@ -1,0 +1,41 @@
+version: '2'
+networks:
+  sky:
+
+services:
+  consul1:
+    image: consul
+    container_name: node1
+    command: agent -server -bootstrap-expect=3 -node=node1 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+    networks:
+      - sky
+
+  consul2:
+    image: consul
+    container_name: node2
+    command: agent -server -retry-join=node1 -node=node2 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+    depends_on:
+      - consul1
+    networks:
+      - sky
+
+  consul3:
+    image: consul
+    container_name: node3
+    command: agent -server -retry-join=node1 -node=node3 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1
+    depends_on:
+      - consul1
+    networks:
+      - sky
+
+  consul4:
+    image: consul
+    container_name: node4
+    command: agent -retry-join=node1 -node=ndoe4 -bind=0.0.0.0 -client=0.0.0.0 -datacenter=dc1 -ui
+    ports:
+      - 8500:8500
+    depends_on:
+      - consul2
+      - consul3
+    networks:
+      - sky
