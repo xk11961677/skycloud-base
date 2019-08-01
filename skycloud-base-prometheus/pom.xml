@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.sky.skycloud</groupId>
+        <artifactId>skycloud-base-bom</artifactId>
+        <version>${revision}</version>
+        <relativePath>../skycloud-base-bom</relativePath>
+    </parent>
+
+    <artifactId>skycloud-base-prometheus</artifactId>
+    <packaging>jar</packaging>
+    <name>skycloud-base-prometheus</name>
+    <description>skycloud base prometheus</description>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-actuator-autoconfigure</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

@@ -1,0 +1,1 @@
+用于skycloud-base对外提供整体兼容版本jar包
