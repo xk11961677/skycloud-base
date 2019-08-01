@@ -11,4 +11,4 @@
 #### 全局熔断降级
 
 #### 在线文档
-![swagger](../doc/swagger.png)
+![swagger](../doc/image/swagger.png)

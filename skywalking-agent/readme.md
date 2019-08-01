@@ -18,7 +18,7 @@ agent增加 apm-trace-ignore-plugin 插件(忽略某些路径)
 
 
 启动jar包时增加参数
--javaagent:/Users/sky/develop/workspace_reach/skycloud-base/skywalking-agent/系统类型/agent/skywalking-agent.jar
+-javaagent:/Users/sky/develop/workspace_github/skycloud-base/skywalking-agent/系统类型/agent/skywalking-agent.jar
 -Dskywalking.agent.service_name=服务名称
 
 

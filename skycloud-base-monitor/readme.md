@@ -6,4 +6,4 @@ http://localhost:8906
 admin
 admin123
 
-![图片展示](../doc/monitor.png)
+![图片展示](../doc/image/monitor.png)

@@ -9,7 +9,7 @@ github: https://github.com/ctripcorp/apollo
 ####服务端
 1.将eureka去掉,使用公共consul作为注册中心
 
-修改后源码: [点我](../doc/apollo.zip)
+修改后源码: [点我](../pom.xml)
 
 ####客户端
 1.meta server address 加载方式
@@ -86,6 +86,6 @@ spring.redis.redisson.config 路径为 [客户端创建新文件] 路径
 1.服务端邮件接入
 
 ## 介绍
-[apollo介绍PDF](../doc/apollo.pdf)
+[apollo介绍PDF](../doc/image/apollo.pdf)
 
-![图片展示](../doc/apollo.png)
+![图片展示](../doc/image/apollo.png)
