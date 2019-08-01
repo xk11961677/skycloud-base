@@ -1,0 +1,27 @@
+global:
+ smtp_smarthost: 'smtp.exmail.qq.com:465'
+ smtp_from: ''
+ smtp_auth_username: ''
+ smtp_auth_password: ''
+ smtp_require_tls: false
+route:
+ group_by: ['alertname','cluster','service']
+ group_wait: 30s
+ group_interval: 5m
+ repeat_interval: 10m
+ receiver: dingtalk-receiver
+ #routes:
+ #- receiver: dingtalk-receiver
+   #group_wait: 30s
+   #match_re:
+    #severity: dingtalk-receiver
+receivers:
+- name: 'default-receiver'
+  email_configs:
+  - to: ''
+    html: '{{ template "email.default.html" . }}'
+    headers: { Subject: "[WARN] 报警邮件" }
+- name: 'dingtalk-receiver'
+  webhook_configs:
+  - url: http://127.0.0.1:8060/dingtalk/webhook1/send
+    send_resolved: true

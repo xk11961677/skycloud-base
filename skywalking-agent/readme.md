@@ -1,6 +1,7 @@
 ## skywalking 调用链监控
 
 skywalking 6.1.0
+skywalking 6.2.0 (已更新此版本)
 
 
 
@@ -8,6 +9,7 @@ skywalking 6.1.0
 
 #### agent 分为 linux 和 [window](http://mirrors.tuna.tsinghua.edu.cn/apache/skywalking/6.1.0/apache-skywalking-apm-6.1.0.zip) 启动时需要指定VM参数
 
+#### 6.2.0版本agent请到官网自行下载,配置文件可参考6.1.0版本现有配置
 ```
 
 agent增加 apm-trace-ignore-plugin 插件(忽略某些路径)
@@ -16,8 +18,12 @@ agent增加 apm-trace-ignore-plugin 插件(忽略某些路径)
 
 
 启动jar包时增加参数
--javaagent:/Users/sky/develop/workspace_sky/skycloud-base/skywalking-agent/系统类型/agent/skywalking-agent.jar
+-javaagent:/Users/sky/develop/workspace_reach/skycloud-base/skywalking-agent/系统类型/agent/skywalking-agent.jar
 -Dskywalking.agent.service_name=服务名称
+
+
+6.2.0版本使用spring-gateway需要将可选插件目录(optional-plugins)添加到插件目录(plugins)
+apm-spring-cloud-gateway-2.x-plugin-6.2.0.jar
 
 ```
 
@@ -32,6 +38,7 @@ agent增加 apm-trace-ignore-plugin 插件(忽略某些路径)
 
 
 #### 修改 config/application.yml 文件 (将h2改为es存储)
+(6.2.0版本es存储做了性能优化，配置略微更改,具体请查看测试环境配置)
 
 ```
 
@@ -63,6 +70,7 @@ collector:
     # Point to all backend's restHost:restPort, split by ,
     listOfServers: 127.0.0.1:12800
 
+6.2.0版本已经去掉登录页面(即以下属性可不配置)
 security:
   user:
     # username
@@ -71,7 +79,7 @@ security:
       password: admin
       
 ```
-
+### 分别启动
 #### 初始化collector
 
 ./oapServiceInit.sh
@@ -84,9 +92,14 @@ security:
 
 ./webappService.sh
 
+### 整体启动
 
-![skywalking_01](../doc/skywalking_01.png)
-![skywalking_02](../doc/skywalking_02.png)
-![skywalking_03](../doc/skywalking_03.png)
-![skywalking_04](../doc/skywalking_04.png)
-![skywalking_05](../doc/skywalking_05.png)
+#### 以上启动项是分别启动,使用如下命令整体启动
+./startup.sh
+
+
+![skywalking_01](../doc/image/skywalking_01.png)
+![skywalking_02](../doc/image/skywalking_02.png)
+![skywalking_03](../doc/image/skywalking_03.png)
+![skywalking_04](../doc/image/skywalking_04.png)
+![skywalking_05](../doc/image/skywalking_05.png)

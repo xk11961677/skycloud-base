@@ -1,0 +1,11 @@
+groups:
+- name: up.rules
+  rules:
+  - alert: InstanceDown
+    expr: up == 0
+    for: 10s
+    labels:
+     severity: warnning
+    annotations:
+     description: "{{ $labels.service }} {{ $labels.instance }} of job {{ $labels.job }} has been down for more then 10s"
+     summary: "Instance {{ $labels.service }} {{ $labels.instance }} is down"

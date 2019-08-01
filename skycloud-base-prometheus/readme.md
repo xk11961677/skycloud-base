@@ -20,7 +20,7 @@
 
 2. [docker单机启动脚本](../doc/script/prometheus/start.sh)
 
-3. 地址: http://121.40.79.96:9090
+3. 地址: http://127.0.0.1:9090
 
 #### grafana
 
@@ -48,7 +48,7 @@
 
 [配置文件](../doc/script/alertmanager/conf/config.yml)
 
-地址: http://121.40.79.96:9093
+地址: http://127.0.0.1:9093
 
 ##### prometheus报警规则
 

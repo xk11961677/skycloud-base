@@ -15,16 +15,16 @@ docker-compose stop
 #### 访问地址
 http://host:9411/zipkin/
 
-![调用链监控](../doc/zipkin_01.png)
+![调用链监控](../doc/image/zipkin_01.png)
 
-![调用链依赖](../doc/zipkin_02.png)
+![调用链依赖](../doc/image/zipkin_02.png)
 
 
 http://host:15672
 username= admin
 password= 123456
 
-![rabbtimq ui](../doc/rabbitmq.png)
+![rabbtimq ui](../doc/image/rabbitmq.png)
 
 ## 客户端
 
