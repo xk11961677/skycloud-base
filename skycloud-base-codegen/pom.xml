@@ -5,8 +5,9 @@
 
     <parent>
         <groupId>com.sky.skycloud</groupId>
-        <artifactId>skycloud-base</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <artifactId>skycloud-base-bom</artifactId>
+        <version>${revision}</version>
+        <relativePath>../skycloud-base-bom</relativePath>
     </parent>
 
     <artifactId>skycloud-base-codegen</artifactId>
@@ -19,6 +20,7 @@
         <dependency>
             <groupId>com.sky.skycloud</groupId>
             <artifactId>skycloud-base-consul</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <!--<dependency>

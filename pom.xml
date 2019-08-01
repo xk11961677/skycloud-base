@@ -4,7 +4,7 @@
 
     <groupId>com.sky.skycloud</groupId>
     <artifactId>skycloud-base</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
 
@@ -35,9 +35,12 @@
     </issueManagement>
 
     <properties>
+        <revision>1.0.0-SNAPSHOT</revision>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
         <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
@@ -46,47 +49,30 @@
         <sonar-maven-plugin.version>3.4.0.905</sonar-maven-plugin.version>
         <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+        <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+        <flatten-maven-plugin.version>1.1.0</flatten-maven-plugin.version>
+        <license-maven-plugin.version>3.0</license-maven-plugin.version>
+        <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
 
-        <springfox.version>2.9.2</springfox.version>
-        <swagger-bootstrap-ui.version>1.8.7</swagger-bootstrap-ui.version>
+        <spring-boot-maven-plugin.version>2.1.0.RELEASE</spring-boot-maven-plugin.version>
+
         <lombok.version>1.16.14</lombok.version>
-        <commons-codec.version>1.10</commons-codec.version>
-        <commons-lang3.version>3.5</commons-lang3.version>
-        <commons-lang.version>2.6</commons-lang.version>
-        <codehaus-jackson.version>1.9.13</codehaus-jackson.version>
-        <mybatis-starter-version>2.0.1</mybatis-starter-version>
-        <mybatis.plus.version>2.0.7</mybatis.plus.version>
-        <druid.version>1.1.16</druid.version>
-        <mapper.version>4.1.5</mapper.version>
-        <springframework.version>5.1.6.RELEASE</springframework.version>
-        <spring.security.jwt.version>1.0.10.RELEASE</spring.security.jwt.version>
-        <spring.security.oauth2.version>2.3.6.RELEASE</spring.security.oauth2.version>
-        <mysql.version>5.1.39</mysql.version>
-        <guava.version>26.0-jre</guava.version>
-        <boot.admin.version>2.1.5</boot.admin.version>
-        <httpclientutil.version>1.0</httpclientutil.version>
-        <fastjson.version>1.2.29</fastjson.version>
-        <feign.form.spring.version>3.0.3</feign.form.spring.version>
-        <javax.el.version>3.0.1-b08</javax.el.version>
-        <!--<modelmapper.version>1.1.2</modelmapper.version>-->
-
-        <!--<rocketmq.version>4.1.0-incubating</rocketmq.version>-->
-
-        <sky.framework.version>1.0.0-SNAPSHOT</sky.framework.version>
     </properties>
 
     <modules>
+        <module>skycloud-base-dependencies</module>
+        <module>skycloud-base-bom</module>
         <module>skycloud-base-common</module>
         <module>skycloud-base-auth</module>
         <module>skycloud-base-gateway</module>
         <module>skycloud-base-consul</module>
         <module>skycloud-base-config</module>
         <module>skycloud-base-monitor</module>
-        <module>skycloud-base-bom</module>
         <module>skycloud-base-hystrix-dashboard</module>
         <module>skycloud-base-hystrix-client</module>
         <module>skycloud-base-hystrix-turbine</module>
         <module>skycloud-base-codegen</module>
+        <module>skycloud-base-prometheus</module>
     </modules>
 
 
@@ -94,495 +80,20 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
         </dependency>
     </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-
-            <!-- sky -->
-            <dependency>
-                <groupId>com.sky.framework</groupId>
-                <artifactId>framework-model</artifactId>
-                <version>${sky.framework.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.sky.framework</groupId>
-                <artifactId>framework-util-common</artifactId>
-                <version>${sky.framework.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.sky.framework</groupId>
-                <artifactId>framework-web</artifactId>
-                <version>${sky.framework.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.sky.framework</groupId>
-                <artifactId>framework-integrate-redis</artifactId>
-                <version>${sky.framework.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.sky.framework</groupId>
-                <artifactId>framework-integrate-rocketmq</artifactId>
-                <version>${sky.framework.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.sky.framework</groupId>
-                <artifactId>framework-integrate-job</artifactId>
-                <version>${sky.framework.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.sky.framework</groupId>
-                <artifactId>framework-util-threadpool</artifactId>
-                <version>${sky.framework.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.sky.skycloud</groupId>
-                <artifactId>skycloud-base-consul</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.sky.skycloud</groupId>
-                <artifactId>skycloud-base-config</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.sky.skycloud</groupId>
-                <artifactId>skycloud-base-hystrix-client</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.sky.skycloud</groupId>
-                <artifactId>skycloud-base-common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <!-- sky end -->
-
-            <!--支持Spring Boot 2.1.X-->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.1.4.RELEASE</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Greenwich.RELEASE</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <!-- consul -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-consul-discovery</artifactId>
-                <version>2.1.1.RELEASE</version>
-            </dependency>
-
-            <!-- apollo -->
-            <dependency>
-                <groupId>com.ctrip.framework.apollo</groupId>
-                <artifactId>apollo-client</artifactId>
-                <version>1.4.0</version>
-            </dependency>
-
-            <!-- google java lib -->
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
-
-
-            <!-- swagger -->
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${springfox.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>swagger-bootstrap-ui</artifactId>
-                <version>${swagger-bootstrap-ui.version}</version>
-            </dependency>
-
-            <!--<dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox.version}</version>
-            </dependency>-->
-
-            <!-- swagger  end -->
-
-            <!-- lombok -->
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-            </dependency>
-
-            <!-- commons-codec -->
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>${commons-codec.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>${commons-lang.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-jaxrs</artifactId>
-                <version>${codehaus-jackson.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-smile</artifactId>
-                <version>${codehaus-jackson.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-core-asl</artifactId>
-                <version>${codehaus-jackson.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.codehaus.jackson</groupId>
-                <artifactId>jackson-mapper-asl</artifactId>
-                <version>${codehaus-jackson.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>2.9.9</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>2.9.9</version>
-            </dependency>
-
-            <!--mybatis-->
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis</artifactId>
-                <version>3.4.2</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis-starter-version}</version>
-            </dependency>
-
-            <!--tk mybaits-->
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper</artifactId>
-                <version>${mapper.version}</version>
-            </dependency>
-
-            <!--mapper-->
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-spring-boot-starter</artifactId>
-                <version>2.1.5</version>
-            </dependency>
-
-            <!--pagehelper-->
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>1.2.10</version>
-            </dependency>
-
-            <!-- druid -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid</artifactId>
-                <version>${druid.version}</version>
-            </dependency>
-
-            <!-- druid boot starter -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid.version}</version>
-            </dependency>
-
-            <!-- mybatis generator  -->
-            <dependency>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-core</artifactId>
-                <version>1.3.7</version>
-                <scope>test</scope>
-            </dependency>
-
-
-            <dependency>
-                <groupId>joda-time</groupId>
-                <artifactId>joda-time</artifactId>
-                <version>2.9.6</version>
-            </dependency>
-
-
-            <!-- spring framework -->
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${springframework.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-web</artifactId>
-                <version>${springframework.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-tx</artifactId>
-                <version>${springframework.version}</version>
-            </dependency>
-
-            <!-- spring framework end -->
-
-            <!-- spring security jwt -->
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-jwt</artifactId>
-                <version>${spring.security.jwt.version}</version>
-            </dependency>
-
-            <!-- spring security oauth -->
-            <dependency>
-                <groupId>org.springframework.security.oauth</groupId>
-                <artifactId>spring-security-oauth2</artifactId>
-                <version>${spring.security.oauth2.version}</version>
-            </dependency>
-
-            <!-- feign -->
-
-            <dependency>
-                <groupId>io.github.openfeign</groupId>
-                <artifactId>feign-okhttp</artifactId>
-                <version>10.1.0</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.github.openfeign.form</groupId>
-                <artifactId>feign-form</artifactId>
-                <version>${feign.form.spring.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.github.openfeign.form</groupId>
-                <artifactId>feign-form-spring</artifactId>
-                <version>${feign.form.spring.version}</version>
-            </dependency>
-
-            <!-- feign end -->
-
-
-            <!--
-            <dependency>
-                <groupId>com.aliyun</groupId>
-                <artifactId>aliyun-java-sdk-common</artifactId>
-                <version>3.2.2</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.aliyun</groupId>
-                <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
-                <version>1.1.0</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.aliyun.mns</groupId>
-                <artifactId>aliyun-sdk-mns</artifactId>
-                <version>1.1.8.4</version>
-            </dependency>
-            <dependency>
-                <groupId>com.aliyun.mns</groupId>
-                <artifactId>alicom-mns-receive-sdk</artifactId>
-                <version>1.0</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.rocketmq</groupId>
-                <artifactId>rocketmq-client</artifactId>
-                <version>${rocketmq.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.qiniu</groupId>
-                <artifactId>qiniu-java-sdk</artifactId>
-                <version>[7.0.0, 7.2.99]</version>
-            </dependency>-->
-            <!-- alipay start-->
-            <!--<dependency>
-                <groupId>com.alipay</groupId>
-                <artifactId>alipay-sdk-java</artifactId>
-                <version>20170725114550</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alipay</groupId>
-                <artifactId>alipay-trade-sdk</artifactId>
-                <version>20161215</version>
-            </dependency>-->
-            <!-- alipay end-->
-
-            <!-- object converter -->
-            <!--<dependency>
-                <groupId>org.modelmapper</groupId>
-                <artifactId>modelmapper</artifactId>
-                <version>${modelmapper.version}</version>
-            </dependency>-->
-
-            <dependency>
-                <groupId>net.rakugakibox.spring.boot</groupId>
-                <artifactId>orika-spring-boot-starter</artifactId>
-                <version>1.8.0</version>
-            </dependency>
-
-            <!-- spring boot admin  -->
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-server-ui-login</artifactId>
-                <version>${boot.admin.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-server</artifactId>
-                <version>${boot.admin.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-server-ui</artifactId>
-                <version>${boot.admin.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-starter-client</artifactId>
-                <version>${boot.admin.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-server-ui-hystrix</artifactId>
-                <version>${boot.admin.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-server-ui-activiti</artifactId>
-                <version>${boot.admin.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-server-ui-turbine</artifactId>
-                <version>${boot.admin.version}</version>
-            </dependency>
-
-            <!-- spring boot admin end -->
-
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
-            </dependency>
-
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
-
-            <!-- hibernate validator depend lib -->
-            <dependency>
-                <groupId>org.glassfish</groupId>
-                <artifactId>javax.el</artifactId>
-                <version>${javax.el.version}</version>
-            </dependency>
-
-
-            <!-- use it to get browser info -->
-            <dependency>
-                <groupId>eu.bitwalker</groupId>
-                <artifactId>UserAgentUtils</artifactId>
-                <version>1.20</version>
-            </dependency>
-
-            <!-- http://www.hutool.cn/ -->
-            <dependency>
-                <groupId>com.xiaoleilu</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>3.0.7</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.zipkin.java</groupId>
-                <artifactId>zipkin-autoconfigure-collector-rabbitmq</artifactId>
-                <version>2.3.1</version>
-            </dependency>
-
-            <!-- logstash logback -->
-            <dependency>
-                <groupId>net.logstash.logback</groupId>
-                <artifactId>logstash-logback-encoder</artifactId>
-                <version>6.0</version>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
-
     <build>
-        <!--<pluginManagement>-->
-            <!--<plugins>-->
-                <!--<plugin>-->
-                    <!--<groupId>org.apache.maven.plugins</groupId>-->
-                    <!--<artifactId>maven-deploy-plugin</artifactId>-->
-                    <!--<version>2.8.2</version>-->
-                    <!--<configuration>-->
-                        <!--<skip>true</skip>-->
-                    <!--</configuration>-->
-                <!--</plugin>-->
-            <!--</plugins>-->
-        <!--</pluginManagement>-->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
 
         <plugins>
             <plugin>
@@ -590,8 +101,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
@@ -599,7 +110,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.1.0.RELEASE</version>
+                <version>${spring-boot-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -617,6 +128,44 @@
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${flatten-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <!-- Flatten and simplify our own POM for install/deploy -->
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                        <configuration>
+                            <updatePomFile>true</updatePomFile>
+                            <pomElements>
+                                <parent>expand</parent>
+                                <name>keep</name>
+                                <description>keep</description>
+                                <url>expand</url>
+                                <properties>keep</properties>
+                                <pluginManagement>keep</pluginManagement>
+                                <dependencyManagement>keep</dependencyManagement>
+                                <build>keep</build>
+                                <issueManagement>keep</issueManagement>
+                                <developers>keep</developers>
+                            </pomElements>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>flatten-clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -697,25 +246,61 @@
                 </executions>
             </plugin>
 
-            <!-- docker images -->
+
+            <!--生成license header 插件-->
             <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.4.13</version>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${license-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>remove</goal>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
-                    <imageName>${project.artifactId}:${project.version}</imageName>
-                    <baseImage>java</baseImage>
-                    <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
+                    <quiet>true</quiet>
+                    <header>style/copyright</header>
+                    <includes>
+                        <include>**/src/main/java/**</include>
+                        <include>**/src/test/java/**</include>
+                    </includes>
+                    <excludes>
+                        <exclude>**/generated/**</exclude>
+                    </excludes>
+                    <strictCheck>true</strictCheck>
+                    <mapping>
+                        <java>SLASHSTAR_STYLE</java>
+                    </mapping>
                 </configuration>
             </plugin>
 
+            <!-- 代码静态检查插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven-checkstyle-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <configLocation>style/sky_checkstyle.xml</configLocation>
+                            <encoding>UTF-8</encoding>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>false</failsOnError>
+                            <failOnViolation>false</failOnViolation>
+                            <excludes>**/generated/**</excludes>
+                        </configuration>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
     </build>

@@ -1,15 +1,36 @@
+/*
+ * The MIT License (MIT)
+ * Copyright © 2019 <sky>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the “Software”), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package com.skycloud.base.authentication.api.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.sky.framework.common.LogUtils;
+import com.sky.framework.model.dto.MessageRes;
+import com.sky.framework.redis.util.RedisUtils;
 import com.skycloud.base.authentication.api.client.AuthFeignApi;
 import com.skycloud.base.authentication.api.service.AuthService;
-import com.sky.framework.common.LogUtil;
-import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.redis.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
@@ -42,9 +63,6 @@ public class AuthServiceImpl implements AuthService {
      */
     @Value("${spring.security.oauth2.jwt.signingKey}")
     private String signingKey;
-
-    @Autowired
-    private RedisUtil redisUtil;
 
     /**
      * 不需要网关签权的url配置(/oauth,/open)
@@ -123,7 +141,7 @@ public class AuthServiceImpl implements AuthService {
         if (authentication.contains("bearer")) {
             authentication = StringUtils.substring(authentication, BEARER_BEGIN_INDEX);
         }
-        userId = ObjectUtils.toString(redisUtil.getString(authentication));
+        userId = ObjectUtils.toString(RedisUtils.getString(authentication));
         return userId;
     }
 
@@ -132,7 +150,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             authentication = getJwt(authentication).getClaims();
         } catch (Exception e) {
-            LogUtil.error(log, "getJwtOrNoOld exception:{}", e);
+            LogUtils.error(log, "getJwtOrNoOld exception:{}", e);
         }
         if (authentication.contains("bearer")) {
             authentication = StringUtils.substring(authentication, BEARER_BEGIN_INDEX);

@@ -51,22 +51,27 @@
     {
       "name": "apollo.custom.dev.meta",
       "type": "java.lang.String",
-      "sourceType": "com.skycloud.base.config.property.ApolloProperties"
+      "sourceType": "com.skycloud.base.config.property.CustomApolloProperties"
     },
     {
       "name": "apollo.custom.fat.meta",
       "type": "java.lang.String",
-      "sourceType": "com.skycloud.base.config.property.ApolloProperties"
+      "sourceType": "com.skycloud.base.config.property.CustomApolloProperties"
     },
     {
       "name": "apollo.custom.uat.meta",
       "type": "java.lang.String",
-      "sourceType": "com.skycloud.base.config.property.ApolloProperties"
+      "sourceType": "com.skycloud.base.config.property.CustomApolloProperties"
     },
     {
       "name": "apollo.custom.pro.meta",
       "type": "java.lang.String",
-      "sourceType": "com.skycloud.base.config.property.ApolloProperties"
+      "sourceType": "com.skycloud.base.config.property.CustomApolloProperties"
+    },
+    {
+      "name": "apollo.custom.replace",
+      "type": "java.lang.String",
+      "sourceType": "com.skycloud.base.config.property.CustomApolloProperties"
     }
   ]
 }

@@ -1,2 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.skycloud.base.config.SkyConfigAutoConfiguration
+org.springframework.context.ApplicationContextInitializer=\
+com.skycloud.base.config.common.CustomApolloApplicationContextInitializer

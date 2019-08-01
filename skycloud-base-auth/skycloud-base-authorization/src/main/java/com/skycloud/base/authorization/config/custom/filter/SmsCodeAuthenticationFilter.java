@@ -1,9 +1,31 @@
+/*
+ * The MIT License (MIT)
+ * Copyright © 2019 <sky>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the “Software”), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package com.skycloud.base.authorization.config.custom.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.sky.framework.common.IpUtils;
-import com.sky.framework.common.LogUtil;
-import com.sky.framework.common.ValidateUtil;
+import com.sky.framework.common.LogUtils;
+import com.sky.framework.common.validation.ValidateUtils;
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.model.exception.BusinessException;
 import com.skycloud.base.authorization.common.Constants;
@@ -53,7 +75,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
             mobileLoginDto.setChannel(channel);
             mobileLoginDto.setLoginIp(clientIp);
 
-            ValidateUtil.validThrowFailFast(mobileLoginDto);
+            ValidateUtils.validThrowFailFast(mobileLoginDto);
 
             /**
              * 验证短信验证码
@@ -69,14 +91,14 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
             return this.getAuthenticationManager().authenticate(smsCodeAuthToken);
         } catch (AuzBussinessException e) {
             CustomResponse.response(response, e);
-            LogUtil.error(log, "mobile login AuzException:{}", e);
+            LogUtils.error(log, "mobile login AuzException:{}", e);
         } catch (BusinessException e) {
             CustomResponse.response(response, e);
-            LogUtil.error(log, "mobile login AuzException:{}", e);
+            LogUtils.error(log, "mobile login AuzException:{}", e);
         } catch (Exception e) {
             MessageRes fail = MessageRes.fail(AuthErrorType.AUZ100026.getCode(), e.getMessage() == null ? AuthErrorType.AUZ100026.getMsg() : e.getMessage());
             CustomResponse.response(response, JSON.toJSONString(fail));
-            LogUtil.error(log, "mobile login exception:{}", e);
+            LogUtils.error(log, "mobile login exception:{}", e);
         }
         return null;
     }
@@ -92,7 +114,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
             String body = sb.toString();
             return JSON.parseObject(body, MobileLoginDto.class);
         } catch (Exception e) {
-            LogUtil.error(log, "get param exception:{}", e);
+            LogUtils.error(log, "get param exception:{}", e);
         }
         return new MobileLoginDto();
 

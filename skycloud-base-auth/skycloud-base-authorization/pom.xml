@@ -2,18 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.sky.skycloud.auth</groupId>
+        <artifactId>skycloud-base-auth</artifactId>
+        <version>${revision}</version>
+    </parent>
 
     <artifactId>skycloud-base-authorization</artifactId>
     <packaging>jar</packaging>
 
     <name>skycloud-base-authorization</name>
     <description>授权 sky Cloud Oauth2 Authorization Server</description>
-
-    <parent>
-        <groupId>com.sky.skycloud.auth</groupId>
-        <artifactId>skycloud-base-auth</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
 
     <dependencies>
         <!-- sky -->
@@ -52,11 +51,27 @@
         <dependency>
             <groupId>com.sky.skycloud</groupId>
             <artifactId>skycloud-base-consul</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.sky.skycloud</groupId>
             <artifactId>skycloud-base-config</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <!-- hystrix -->
+        <dependency>
+            <groupId>com.sky.skycloud</groupId>
+            <artifactId>skycloud-base-hystrix-client</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.sky.skycloud</groupId>
+            <artifactId>skycloud-base-prometheus</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <!-- sky end -->

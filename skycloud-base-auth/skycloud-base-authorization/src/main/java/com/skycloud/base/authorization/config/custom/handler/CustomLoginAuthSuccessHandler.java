@@ -1,13 +1,35 @@
+/*
+ * The MIT License (MIT)
+ * Copyright © 2019 <sky>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the “Software”), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package com.skycloud.base.authorization.config.custom.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
-import com.sky.framework.common.LogUtil;
+import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.model.enums.FailureCodeEnum;
-import com.sky.framework.redis.util.RedisTokenUtil;
-import com.sky.framework.redis.util.RedisUtil;
+import com.sky.framework.redis.util.RedisTokenUtils;
+import com.sky.framework.redis.util.RedisUtils;
 import com.skycloud.base.authorization.common.Constants;
 import com.skycloud.base.authorization.config.custom.token.CustomAuthenticationToken;
 import com.skycloud.service.member.api.model.dto.CustomLoginDto;
@@ -45,14 +67,12 @@ public class CustomLoginAuthSuccessHandler extends SavedRequestAwareAuthenticati
 
     private PasswordEncoder passwordEncoder;
 
-    private RedisUtil redisUtil;
-
     private static final String TOKEN_SALT = "12321321324243";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
-        try{
+        try {
             //todo 需要转移代码
 //            String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 //            if (header == null || !header.startsWith(HTTP_BASIC)) {
@@ -82,7 +102,7 @@ public class CustomLoginAuthSuccessHandler extends SavedRequestAwareAuthenticati
             OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
             OAuth2AccessToken oAuth2AccessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
 
-            CustomLoginDto customLoginDto = (CustomLoginDto)customAuthenticationToken.getData().get("userInfo");
+            CustomLoginDto customLoginDto = (CustomLoginDto) customAuthenticationToken.getData().get("userInfo");
 
             // 终端渠道
             String channel = request.getHeader(Constants.CHANNEL);
@@ -90,15 +110,15 @@ public class CustomLoginAuthSuccessHandler extends SavedRequestAwareAuthenticati
             // 用户当前使用token
             String token;
             // 验证是否已存在token,如果存在则刷新
-            String userToken = ObjectUtils.toString(redisUtil.getString(channel + ":" + String.format(Constants.TOKEN_KEY, customLoginDto.getLoginName())));
-            LogUtil.info(log,"====【userValidateLogin】用户已存在的token-userToken：" + userToken);
+            String userToken = ObjectUtils.toString(RedisUtils.getString(channel + ":" + String.format(Constants.TOKEN_KEY, customLoginDto.getLoginName())));
+            LogUtils.info(log, "====【userValidateLogin】用户已存在的token-userToken：" + userToken);
             if (StringUtils.isNotEmpty(userToken)) {
                 // 删除原token用户ID
-                redisUtil.deleteKey(userToken);
-                token = RedisTokenUtil.refreshUserToken(channel, customLoginDto.getLoginName() + "", oAuth2AccessToken.getValue());
+                RedisUtils.deleteKey(userToken);
+                token = RedisTokenUtils.refreshUserToken(channel, customLoginDto.getLoginName() + "", oAuth2AccessToken.getValue());
             } else {
                 //可能返回原来token
-                token = RedisTokenUtil.getUserToken(channel, customLoginDto.getLoginName() + "", oAuth2AccessToken.getValue());
+                token = RedisTokenUtils.getUserToken(channel, customLoginDto.getLoginName() + "", oAuth2AccessToken.getValue());
             }
 
             //todo  重写 refresh token接口 ,兼容旧系统
@@ -110,12 +130,12 @@ public class CustomLoginAuthSuccessHandler extends SavedRequestAwareAuthenticati
 
             jsonObject.put("userInfo", customLoginDto);
 
-            LogUtil.info(log, "登录成功:{}" + authentication.getName());
+            LogUtils.info(log, "登录成功:{}" + authentication.getName());
             String resp = JSON.toJSONString(MessageRes.success(jsonObject));
             response.getWriter().write(resp);
-        }catch (Exception e) {
-            LogUtil.error(log,"手机验证码登录异常",e);
-            String result = JSON.toJSONString(MessageRes.fail(FailureCodeEnum.GL999999.getCode(),FailureCodeEnum.GL999999.getMsg()));
+        } catch (Exception e) {
+            LogUtils.error(log, "手机验证码登录异常", e);
+            String result = JSON.toJSONString(MessageRes.fail(FailureCodeEnum.GL999999.getCode(), FailureCodeEnum.GL999999.getMsg()));
             response.getWriter().write(result);
         }
     }
@@ -123,6 +143,7 @@ public class CustomLoginAuthSuccessHandler extends SavedRequestAwareAuthenticati
 
     /**
      * 获取头部信息
+     *
      * @param header
      * @param request
      * @return

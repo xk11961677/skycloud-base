@@ -5,17 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.sky.skycloud</groupId>
-        <artifactId>skycloud-base</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <artifactId>skycloud-base-bom</artifactId>
+        <version>${revision}</version>
+        <relativePath>../skycloud-base-bom</relativePath>
     </parent>
 
     <artifactId>skycloud-base-common</artifactId>
 
     <dependencies>
-
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>com.sky.framework</groupId>
+            <artifactId>framework-model</artifactId>
         </dependency>
 
         <dependency>
@@ -27,6 +27,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -44,18 +45,13 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sky.framework</groupId>
-            <artifactId>framework-model</artifactId>
         </dependency>
 
         <dependency>

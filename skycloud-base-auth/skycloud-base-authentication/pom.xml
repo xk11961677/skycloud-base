@@ -2,18 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>skycloud-base-authentication</artifactId>
-    <packaging>jar</packaging>
-
-    <name>skycloud-base-authentication</name>
-    <description>Demo Oauth2 project for Spring Cloud Oauth2 Authentication Server</description>
-
     <parent>
         <groupId>com.sky.skycloud.auth</groupId>
         <artifactId>skycloud-base-auth</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
+
+    <artifactId>skycloud-base-authentication</artifactId>
+    <packaging>jar</packaging>
+    <name>skycloud-base-authentication</name>
+    <description>Demo Oauth2 project for Spring Cloud Oauth2 Authentication Server</description>
 
     <dependencies>
         <!-- sky -->
@@ -25,11 +23,13 @@
         <dependency>
             <groupId>com.sky.skycloud</groupId>
             <artifactId>skycloud-base-consul</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.sky.skycloud</groupId>
             <artifactId>skycloud-base-config</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <!-- sky end -->

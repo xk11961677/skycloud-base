@@ -35,6 +35,29 @@ logging.level.xxxxxxxx = info
 xxxxxxxx为包名
 
 
+4.增加某些属性直接按照文件形式读取,而统一配置注册中心后,无法知道其路径问题,无法读取文件问题
+
+在配置中心配置如下文件,多个以 , 分割
+格式: 
+apollo.custom.replace = 属性名称=配置中心文件名称(加格式后缀)=替换成哪种格式文件
+
+例子:
+apollo.custom.replace = spring.redis.redisson.config=redisson.properties=yml
+
+流程:
+1.在配置中心配置redisson.properties属性文件,本客户端会从apollo拉取文件后,根据此文件创建新yml格式文件
+
+2.将spring.redis.redisson.config属性增加到environment ，且路径是替换成apollo本地缓存目录文件路径
+
+
+例子:
+配置中心拉取文件: /Users/sky/develop/workspace_github/skycloud-service/skycloud-service-member/target/classes/config-cache/skycloud-service-member+default+redisson.properties
+客户端创建新文件: /Users/sky/develop/workspace_github/skycloud-service/skycloud-service-member/target/classes/config-cache/skycloud-service-member+default+redisson.yml
+spring.redis.redisson.config 路径为 [客户端创建新文件] 路径
+
+注意: apollo.custom.replace 配置中只有按 = 分割 ,第三个格式文件为 yml 时才创建文件 ,其他仅替换路径
+
+
 ## 使用方式
 
 ```
