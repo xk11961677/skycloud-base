@@ -105,7 +105,7 @@
 | ------------- | ------------------------ | ---- | ----------------------------------------------------- |
 | 注册中心      | consul                   | ✅    |                                                       |
 | 配置中心      | apollo                   | ✅    |                                                       |
-| 动态网关      | SpringCloud Gateway      | ✅    | 多种维度的流量控制（服务、IP、用户等），后端可配置化🏗 |
+| 动态网关      | SpringCloud Gateway      | ✅    | 多种维度的流量控制（服务、IP、用户等），后端可配置化✅ |
 | 授权认证      | Spring Security OAuth2   | ✅    |                                                       |
 | 服务容错      | SpringCloud Hystrix      | ✅    |                                                       |
 | 服务调用      | SpringCloud OpenFeign    | ✅    |  
