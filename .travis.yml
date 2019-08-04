@@ -5,7 +5,11 @@ jdk:
   - openjdk8
 
 cache:
+  ccache: true
   directories:
     - $HOME/.m2
 
-install: true
+script:
+  - mvn clean install
+
+#install: true
