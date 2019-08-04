@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.geteway.swagger;
+package com.skycloud.base.geteway.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,28 +33,23 @@ import springfox.documentation.swagger.web.*;
 
 import java.util.Optional;
 
-import springfox.documentation.swagger.web.SecurityConfiguration;
-
 /**
  * @author
  */
 @RestController
 @RequestMapping("/swagger-resources")
-public class SwaggerController {
+public class SwaggerHandler {
 
     @Autowired(required = false)
-
     private SecurityConfiguration securityConfiguration;
 
     @Autowired(required = false)
-
     private UiConfiguration uiConfiguration;
 
     private final SwaggerResourcesProvider swaggerResources;
 
     @Autowired
-    public SwaggerController(SwaggerResourcesProvider swaggerResources) {
-
+    public SwaggerHandler(SwaggerResourcesProvider swaggerResources) {
         this.swaggerResources = swaggerResources;
 
     }
@@ -69,18 +64,14 @@ public class SwaggerController {
 
     @GetMapping("/configuration/ui")
     public Mono<ResponseEntity<UiConfiguration>> uiConfiguration() {
-
         return Mono.just(new ResponseEntity<>(
-
                 Optional.ofNullable(uiConfiguration).orElse(UiConfigurationBuilder.builder().build()), HttpStatus.OK));
 
     }
 
     @GetMapping("")
     public Mono<ResponseEntity> swaggerResources() {
-
         return Mono.just((new ResponseEntity<>(swaggerResources.get(), HttpStatus.OK)));
-
     }
 
 }

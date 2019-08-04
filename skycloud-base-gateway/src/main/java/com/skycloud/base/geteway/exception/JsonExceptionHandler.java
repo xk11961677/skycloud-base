@@ -28,6 +28,7 @@ import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
+import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.server.*;
@@ -37,11 +38,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 全局自定义异常处理
+ * 全局自定义异常处理JSON类型
  *
  * @author
  */
 public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
+
+    /**
+     * 常量值 status
+     */
+    private static final String STATUS = "status";
 
     public JsonExceptionHandler(ErrorAttributes errorAttributes, ResourceProperties resourceProperties,
                                 ErrorProperties errorProperties, ApplicationContext applicationContext) {
@@ -54,22 +60,19 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
     @Override
     protected Map<String, Object> getErrorAttributes(ServerRequest request, boolean includeStackTrace) {
         int errCode = FailureCodeEnum.GL999999.getCode();
-        int code = 500;
+        int code = HttpStatus.INTERNAL_SERVER_ERROR.value();
         Throwable error = super.getError(request);
-        if (error instanceof org.springframework.cloud.gateway.support.NotFoundException) {
+        if (error instanceof NotFoundException || code == HttpStatus.NOT_FOUND.value()) {
             errCode = FailureCodeEnum.GL990004.getCode();
-            code = 404;
+            code = HttpStatus.NOT_FOUND.value();
         }
-        if(error instanceof ResponseStatusException) {
+        if (error instanceof ResponseStatusException) {
             code = ((ResponseStatusException) error).getStatus().value();
         }
-        if(code == HttpStatus.NOT_FOUND.value()) {
-            errCode = FailureCodeEnum.GL990004.getCode();
-        }
-        if(code == HttpStatus.BAD_REQUEST.value()) {
+        if (code == HttpStatus.BAD_REQUEST.value()) {
             errCode = FailureCodeEnum.GL990003.getCode();
         }
-        return response(code,errCode, this.buildMessage(request, error));
+        return response(code, errCode, this.buildMessage(request, error));
     }
 
     /**
@@ -90,11 +93,10 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
     @Override
     protected HttpStatus getHttpStatus(Map<String, Object> map) {
         int statusCode = HttpStatus.INTERNAL_SERVER_ERROR.value();
-        if (map.get("status") != null) {
-            statusCode = Integer.parseInt(ObjectUtils.toString(map.get("status")));
-            map.remove("status");
+        if (map.get(STATUS) != null) {
+            statusCode = Integer.parseInt(ObjectUtils.toString(map.get(STATUS)));
+            map.remove(STATUS);
         }
-
         return HttpStatus.valueOf(statusCode);
     }
 
@@ -125,11 +127,11 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
      * @param errorMessage 异常信息
      * @return
      */
-    public Map<String, Object> response(int status, int errCode,String errorMessage) {
+    public Map<String, Object> response(int status, int errCode, String errorMessage) {
         Map<String, Object> map = new HashMap<>(8);
         map.put("code", errCode);
         map.put("msg", errorMessage);
-        map.put("status", status);
+        map.put(STATUS, status);
         return map;
     }
 

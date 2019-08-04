@@ -37,13 +37,13 @@ import org.springframework.context.annotation.Configuration;
  * @author
  */
 @Configuration
-@ComponentScan(basePackageClasses = ConsulConfigConfiguration.class)
+@ComponentScan(basePackageClasses = SkyConsulAutoConfiguration.class)
 @EnableDiscoveryClient
 @ConditionalOnProperty(value = "spring.cloud.service-registry.enabled", matchIfMissing = true)
 @AutoConfigureBefore(ServiceRegistryAutoConfiguration.class)
 @EnableConfigurationProperties(CustomConsulProperties.class)
 @Slf4j
-public class ConsulConfigConfiguration implements CommandLineRunner {
+public class SkyConsulAutoConfiguration implements CommandLineRunner {
 
 
 //    @Bean

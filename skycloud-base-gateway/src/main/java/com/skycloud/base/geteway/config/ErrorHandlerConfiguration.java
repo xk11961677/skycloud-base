@@ -41,11 +41,13 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * 异常配置
+ *
  * @author
  */
 @Configuration
 @EnableConfigurationProperties({ServerProperties.class, ResourceProperties.class})
-public class ErrorHandlerConfig {
+public class ErrorHandlerConfiguration {
 
     private final ServerProperties serverProperties;
 
@@ -57,11 +59,11 @@ public class ErrorHandlerConfig {
 
     private final ServerCodecConfigurer serverCodecConfigurer;
 
-    public ErrorHandlerConfig(ServerProperties serverProperties,
-                              ResourceProperties resourceProperties,
-                              ObjectProvider<List<ViewResolver>> viewResolversProvider,
-                              ServerCodecConfigurer serverCodecConfigurer,
-                              ApplicationContext applicationContext) {
+    public ErrorHandlerConfiguration(ServerProperties serverProperties,
+                                     ResourceProperties resourceProperties,
+                                     ObjectProvider<List<ViewResolver>> viewResolversProvider,
+                                     ServerCodecConfigurer serverCodecConfigurer,
+                                     ApplicationContext applicationContext) {
         this.serverProperties = serverProperties;
         this.applicationContext = applicationContext;
         this.resourceProperties = resourceProperties;

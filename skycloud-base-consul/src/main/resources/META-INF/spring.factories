@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.skycloud.base.config.ConsulConfigConfiguration
+com.skycloud.base.config.SkyConsulAutoConfiguration

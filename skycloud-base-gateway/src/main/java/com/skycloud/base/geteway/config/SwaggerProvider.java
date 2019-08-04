@@ -20,19 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.geteway.swagger;
+package com.skycloud.base.geteway.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.support.NameUtils;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author
@@ -45,10 +45,22 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
 
     private static final String CONSUL_PREFIX = "CompositeDiscoveryClient_";
 
-    private static final String exclude_instance_prefix = "consul,apollo-configservice,config,apollo-adminservice,apollo-portal,skycloud-base-gateway";
+    private static final String exclude_instance_prefix = "consul,apollo-configservice,config,apollo-adminservice,apollo-portal,dooolycloud-base-gateway";
 
+    /**
+     * 网关应用名称
+     */
+    @Value("${spring.application.name}")
+    private String self;
+
+    /**
+     *
+     */
     private final RouteLocator routeLocator;
 
+    /**
+     * 路由配置
+     */
     private final GatewayProperties gatewayProperties;
 
     public SwaggerProvider(RouteLocator routeLocator, GatewayProperties gatewayProperties) {
@@ -59,59 +71,45 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
     @Override
 
     public List<SwaggerResource> get() {
-
         List<SwaggerResource> resources = new ArrayList<>();
-
         List<String> routes = new ArrayList<>();
-
-        //取出gateway的route
-
-        routeLocator.getRoutes().subscribe(route -> routes.add(route.getId().replace(CONSUL_PREFIX,"")));
-
-        //结合配置的route-路径(Path)，和route过滤，只获取有效的route节点
-
-//        gatewayProperties.getRoutes().stream().filter(routeDefinition -> routes.contains(routeDefinition.getId()))
-//
-//                .forEach(routeDefinition -> routeDefinition.getPredicates().stream()
-//
-//                        .filter(predicateDefinition -> ("Path").equalsIgnoreCase(predicateDefinition.getName()))
-//
-//                        .forEach(predicateDefinition -> resources.add(swaggerResource(routeDefinition.getId(),
-//
-//                                predicateDefinition.getArgs().get("\"pattern\"")
-//
-//                                        .replace("/**", API_URI)))));
-//        routeLocator.getRoutes().filter(route -> route.getUri().getHost() != null)
-//                .filter(route -> !self.equals(route.getUri().getHost()))
-//                .subscribe(route -> routeHosts.add(route.getUri().getHost()));
-
+        /*routeLocator.getRoutes().subscribe(route -> routes.add(route.getId().substring(CONSUL_PREFIX.length())));
         Set<String> dealed = new HashSet<>();
         routes.forEach(instance -> {
             String url = "/" + instance + API_URI;
             if (!dealed.contains(url) && exclude_instance_prefix.indexOf(instance) == -1) {
                 dealed.add(url);
-                SwaggerResource swaggerResource = new SwaggerResource();
-                swaggerResource.setUrl(url);
-                swaggerResource.setName(instance);
-                resources.add(swaggerResource);
+                resources.add(swaggerResource(instance, url));
             }
-        });
+        });*/
+
+        routeLocator.getRoutes().filter(route ->
+                !self.equals(route.getUri().getHost()))
+                .subscribe(route -> routes.add(route.getId()));
+        //结合配置的route-路径(Path)，和route过滤，只获取有效的route节点
+        gatewayProperties.getRoutes().stream().filter(routeDefinition -> routes.contains(routeDefinition.getId()))
+                .forEach(routeDefinition -> routeDefinition.getPredicates().stream()
+                        .filter(predicateDefinition -> ("Path").equalsIgnoreCase(predicateDefinition.getName()))
+                        .forEach(predicateDefinition -> resources.add(swaggerResource(routeDefinition.getId(),
+                                predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0")
+                                        .replace("/**", API_URI)))));
         return resources;
 
     }
 
+    /**
+     * 创建swagger resource
+     *
+     * @param name
+     * @param location
+     * @return
+     */
     private SwaggerResource swaggerResource(String name, String location) {
-
         SwaggerResource swaggerResource = new SwaggerResource();
-
         swaggerResource.setName(name);
-
         swaggerResource.setLocation(location);
-
         swaggerResource.setSwaggerVersion("2.0");
-
         return swaggerResource;
-
     }
 
 }
