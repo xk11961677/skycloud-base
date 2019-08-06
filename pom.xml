@@ -307,6 +307,17 @@
 
     <distributionManagement>
         <repository>
+            <id>rdc-releases</id>
+            <url>https://repo.rdc.aliyun.com/repository/81047-release-zDCqyt/</url>
+        </repository>
+        <snapshotRepository>
+            <id>rdc-snapshots</id>
+            <url>https://repo.rdc.aliyun.com/repository/81047-snapshot-xQDwbd/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <!--<distributionManagement>
+        <repository>
             <id>nexus-releases</id>
             <url>http://192.168.1.1:8081/nexus/content/repositories/releases/</url>
         </repository>
@@ -323,6 +334,6 @@
             <url>http://192.168.1.1:8081/nexus/content/repositories/maven-public/</url>
             <layout>default</layout>
         </repository>
-    </repositories>
+    </repositories>-->
 
 </project>
