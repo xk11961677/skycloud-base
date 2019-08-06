@@ -24,12 +24,12 @@ package com.skycloud.base.authorization.config.custom.provider;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sky.framework.model.dto.MessageRes;
+import com.skycloud.base.authorization.client.AdUserFeignApi;
+import com.skycloud.base.authorization.client.dto.CustomLoginDto;
 import com.skycloud.base.authorization.config.custom.CustomUserDetail;
 import com.skycloud.base.authorization.config.custom.token.UserPasswordAuthenticationToken;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
 import com.skycloud.base.authorization.model.dto.UserPasswordLoginDto;
-import com.skycloud.service.member.api.model.dto.CustomLoginDto;
-import com.skycloud.service.member.api.service.AdUserFeignApi;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
