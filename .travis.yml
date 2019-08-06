@@ -19,7 +19,7 @@ cache:
     - $HOME/.m2
 
 install:
-  - mvn clean deploy -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  - travis_wait 60 mvn clean deploy -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 script:
 #  - mvn clean deploy -DskipTests=true -Dmaven.javadoc.skip=true -B -V
