@@ -1,14 +1,7 @@
-## sky Cloud 项目
-<p align="center">
-    <p align="center">
-        skycloud
-        <br>
-        <a href="https://github.com/xk11961677/skycloud-base" ><strong>Home Page</strong></a>
-        <br>
-        <br>
-        <img src="https://img.shields.io/badge/license-MIT-ff69b4.svg" >
-    </p>    
-</p>
+## Sky Cloud 项目
+[![Build Status](https://travis-ci.org/xk11961677/skycloud-base.svg?branch=master)](https://travis-ci.org/xk11961677/skycloud-base)
+[![license](https://img.shields.io/badge/license-MIT-ff69b4.svg)](https://mit-license.org/license.html)
+
 
 ### 项目介绍
 ```
