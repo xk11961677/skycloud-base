@@ -98,8 +98,8 @@ security:
 ./startup.sh
 
 
-![skywalking_01](../doc/image/skywalking_01.png)
-![skywalking_02](../doc/image/skywalking_02.png)
-![skywalking_03](../doc/image/skywalking_03.png)
-![skywalking_04](../doc/image/skywalking_04.png)
-![skywalking_05](../doc/image/skywalking_05.png)
+![skywalking_01](../docs/image/skywalking_01.png)
+![skywalking_02](../docs/image/skywalking_02.png)
+![skywalking_03](../docs/image/skywalking_03.png)
+![skywalking_04](../docs/image/skywalking_04.png)
+![skywalking_05](../docs/image/skywalking_05.png)

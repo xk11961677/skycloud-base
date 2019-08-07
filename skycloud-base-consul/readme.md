@@ -15,7 +15,7 @@ docker-compose stop
 docker exec -t node1 consul members
 
 
-![UI页面](../doc/image/consul.png)
+![UI页面](../docs/image/consul.png)
 
 
 ## 客户端使用方法

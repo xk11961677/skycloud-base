@@ -60,7 +60,7 @@ password: `password`
 
 用途：可用于用户通过前端应用登陆、使用应用，如app，web等终端
 
-![postman](../../doc/image/auth/oauth2_password_token.png)
+![postman](../../docs/image/auth/oauth2_password_token.png)
 
 请求报文
 

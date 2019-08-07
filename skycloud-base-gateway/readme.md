@@ -15,4 +15,4 @@
 #### 基于IP限流
 
 #### 在线文档
-![swagger](../doc/image/swagger.png)
+![swagger](../docs/image/swagger.png)

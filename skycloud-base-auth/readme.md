@@ -20,7 +20,7 @@
 
 服务调用授权与认证时序如下
 
-![网关架构](../doc/image/auth.png)
+![网关架构](../docs/image/auth.png)
 
 ### OAuth2简介:
 

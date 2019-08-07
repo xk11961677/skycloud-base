@@ -133,11 +133,11 @@
 ### FAQ
 - 在使用中有任何问题，欢迎反馈
 - [apollo修改后源码](https://pan.baidu.com/s/1n8oIm-9UaxNZPUTyID02OQ) 提取码: 6fxr
-- [apollo数据库](doc/script/db/apollo)
+- [apollo数据库](docs/script/db/apollo)
 
 ### 架构图
 
-![架构图](doc/image/architecture_diagram.jpg)
+![架构图](docs/image/architecture_diagram.jpg)
 
 ### 关于作者
 

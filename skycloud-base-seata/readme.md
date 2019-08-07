@@ -12,7 +12,7 @@
 [start.sh](fat/server/start.sh)
 
 #### 从注册中心查看是否启动成功
-![seata-server](../doc/image/seata_01.png)
+![seata-server](../docs/image/seata_01.png)
 
 ## 客户端
 
@@ -76,11 +76,11 @@
 且在配置中心配置如文件内属性[properties](fat/client/properties)
 
 第四步: 修改数据源
-![seata_02](../doc/image/seata_02.png)
+![seata_02](../docs/image/seata_02.png)
 
 第五步: 在代码中添加注解
 
-![seata_03](../doc/image/seata_03.png)
+![seata_03](../docs/image/seata_03.png)
 
 第六步: 在对应业务数据库创建undo_log表
 

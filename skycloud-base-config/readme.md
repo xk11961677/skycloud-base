@@ -86,6 +86,6 @@ spring.redis.redisson.config 路径为 [客户端创建新文件] 路径
 1.服务端邮件接入
 
 ## 介绍
-[apollo介绍PDF](../doc/image/apollo.pdf)
+[apollo介绍PDF](../docs/image/apollo.pdf)
 
-![图片展示](../doc/image/apollo.png)
+![图片展示](../docs/image/apollo.png)

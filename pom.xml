@@ -263,7 +263,7 @@
                 </executions>
                 <configuration>
                     <quiet>true</quiet>
-                    <header>style/copyright</header>
+                    <header>${user.dir}/style/copyright</header>
                     <includes>
                         <include>**/src/main/java/**</include>
                         <include>**/src/test/java/**</include>
@@ -288,7 +288,7 @@
                         <id>validate</id>
                         <phase>validate</phase>
                         <configuration>
-                            <configLocation>style/sky_checkstyle.xml</configLocation>
+                            <configLocation>${user.dir}/style/sky_checkstyle.xml</configLocation>
                             <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
                             <failsOnError>false</failsOnError>
