@@ -18,7 +18,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.sky.skycloud</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>skycloud-base-bom</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
@@ -26,31 +26,31 @@
             </dependency>
 
             <dependency>
-                <groupId>com.sky.skycloud</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>skycloud-base-consul</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.sky.skycloud</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>skycloud-base-config</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.sky.skycloud</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>skycloud-base-hystrix-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.sky.skycloud</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>skycloud-base-prometheus</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.sky.skycloud</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>skycloud-base-common</artifactId>
                 <version>${project.version}</version>
             </dependency>

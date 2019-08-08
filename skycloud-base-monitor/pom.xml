@@ -17,13 +17,13 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.sky.skycloud</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>skycloud-base-consul</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.sky.skycloud</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>skycloud-base-config</artifactId>
             <version>${project.version}</version>
         </dependency>
