@@ -31,6 +31,7 @@
         <!--<dependency>
             <groupId>com.sky.skycloud</groupId>
             <artifactId>skycloud-base-hystrix-client</artifactId>
+            <version>${project.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>spring-boot-starter-web</artifactId>
