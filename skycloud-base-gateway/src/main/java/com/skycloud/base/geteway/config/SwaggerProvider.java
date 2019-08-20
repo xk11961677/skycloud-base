@@ -45,7 +45,7 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
 
     private static final String CONSUL_PREFIX = "CompositeDiscoveryClient_";
 
-    private static final String exclude_instance_prefix = "consul,apollo-configservice,config,apollo-adminservice,apollo-portal,dooolycloud-base-gateway";
+    private static final String exclude_instance_prefix = "consul,apollo-configservice,config,apollo-adminservice,apollo-portal,skycloud-base-gateway";
 
     /**
      * 网关应用名称
