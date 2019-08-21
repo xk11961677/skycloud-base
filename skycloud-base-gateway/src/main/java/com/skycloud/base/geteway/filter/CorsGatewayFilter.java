@@ -40,7 +40,7 @@ import static org.springframework.web.cors.CorsConfiguration.ALL;
  * @author
  */
 @Component
-public class GlobalCorsFilter implements WebFilter {
+public class CorsGatewayFilter implements WebFilter {
 
     private static final String MAX_AGE = "18000L";
 
