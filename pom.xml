@@ -73,6 +73,7 @@
         <module>skycloud-base-hystrix-turbine</module>
         <module>skycloud-base-codegen</module>
         <module>skycloud-base-prometheus</module>
+        <module>skycloud-base-upload</module>
     </modules>
 
 
