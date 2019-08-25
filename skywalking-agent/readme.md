@@ -1,29 +1,25 @@
 ## skywalking 调用链监控
 
-skywalking 6.1.0
-skywalking 6.2.0 (已更新此版本)
-
-
+skywalking 6.3.0
 
 ## 客户端启动需要指定agent
 
-#### agent 分为 linux 和 [window](http://mirrors.tuna.tsinghua.edu.cn/apache/skywalking/6.1.0/apache-skywalking-apm-6.1.0.zip) 启动时需要指定VM参数
+#### agent 分为 [linux](https://mirrors.tuna.tsinghua.edu.cn/apache/skywalking/6.3.0/apache-skywalking-apm-6.3.0.tar.gz) 和 [window](http://mirrors.tuna.tsinghua.edu.cn/apache/skywalking/6.3.0/apache-skywalking-apm-6.3.0.zip) 启动时需要指定VM参数
 
-#### 6.2.0版本agent请到官网自行下载,配置文件可参考6.1.0版本现有配置
+#### agent配置文件与步骤
 ```
+1.拷贝linux/agent/config到服务器的agent/config目录
 
-agent增加 apm-trace-ignore-plugin 插件(忽略某些路径)
+2.agent增加 apm-trace-ignore-plugin 插件(忽略某些路径)
 将apm-trace-ignore-plugin.jar 从optional-plugins 拷贝到plugins
 在config目录增加apm-trace-ignore-plugin.config文件，编写过滤路径
 
+3.如使用spring-cloud-gateway需要将可选插件目录(optional-plugins)添加到插件目录(plugins)
+apm-spring-cloud-gateway-2.x-plugin-6.3.0.jar
 
-启动jar包时增加参数
--javaagent:/Users/sky/develop/workspace_github/skycloud-base/skywalking-agent/系统类型/agent/skywalking-agent.jar
+4.启动jar包时增加参数
+-javaagent:/skywalking-agent/系统类型/agent/skywalking-agent.jar
 -Dskywalking.agent.service_name=服务名称
-
-
-6.2.0版本使用spring-gateway需要将可选插件目录(optional-plugins)添加到插件目录(plugins)
-apm-spring-cloud-gateway-2.x-plugin-6.2.0.jar
 
 ```
 
@@ -32,29 +28,32 @@ apm-spring-cloud-gateway-2.x-plugin-6.2.0.jar
 
 #### 启动es 
 
-- [es单机 docker-compose ](../skycloud-base-zipkin/docker-compose.yml)
+- [es单机 docker-compose ](../dooolycloud-base-zipkin/docker-compose.yml)
 
-- [es集群 docker-compose ](../skycloud-base-zipkin/docker-compose-es.yml)
+- [es集群 docker-compose ](../dooolycloud-base-zipkin/docker-compose-es.yml)
 
 
 #### 修改 config/application.yml 文件 (将h2改为es存储)
-(6.2.0版本es存储做了性能优化，配置略微更改,具体请查看测试环境配置)
-
 ```
-
 storage:
-  elasticsearch:
-    clusterName: elasticsearch
-    clusterNodes: localhost:9200
-    indexShardsNumber: 2
-    indexReplicasNumber: 0
-    # Batch process setting, refer to https://www.elastic.co/guide/en/elasticsearch/client/java-api/5.5/java-docs-bulk-processor.html
-    bulkActions: 2000 # Execute the bulk every 2000 requests
-    bulkSize: 20 # flush the bulk every 20mb
-    flushInterval: 10 # flush the bulk every 10 seconds whatever the number of requests
-    concurrentRequests: 2 # the number of concurrent requests
+   elasticsearch:
+     nameSpace: ${SW_NAMESPACE:"es_skywalking"}
+     clusterNodes: ${SW_STORAGE_ES_CLUSTER_NODES:127.0.0.1:9200}
+ #    user: ${SW_ES_USER:""}
+ #    password: ${SW_ES_PASSWORD:""}
+     indexShardsNumber: ${SW_STORAGE_ES_INDEX_SHARDS_NUMBER:2}
+     indexReplicasNumber: ${SW_STORAGE_ES_INDEX_REPLICAS_NUMBER:0}
+ #    # Those data TTL settings will override the same settings in core module.
+     recordDataTTL: ${SW_STORAGE_ES_RECORD_DATA_TTL:7} # Unit is day
+     otherMetricsDataTTL: ${SW_STORAGE_ES_OTHER_METRIC_DATA_TTL:45} # Unit is day
+     monthMetricsDataTTL: ${SW_STORAGE_ES_MONTH_METRIC_DATA_TTL:18} # Unit is month
+ #    # Batch process setting, refer to https://www.elastic.co/guide/en/elasticsearch/client/java-api/5.5/java-docs-bulk-processor.html
+     bulkActions: ${SW_STORAGE_ES_BULK_ACTIONS:1000} # Execute the bulk every 1000 requests
+     flushInterval: ${SW_STORAGE_ES_FLUSH_INTERVAL:10} # flush the bulk every 10 seconds whatever the number of requests
+     concurrentRequests: ${SW_STORAGE_ES_CONCURRENT_REQUESTS:2} # the number of concurrent requests
+     metadataQueryMaxSize: ${SW_STORAGE_ES_QUERY_MAX_SIZE:5000}
+     segmentQueryMaxSize: ${SW_STORAGE_ES_QUERY_SEGMENT_SIZE:200}
 ```
-
 
 #### 修改 webapp/webapp.yml 文件(UI界面)
 
@@ -70,7 +69,7 @@ collector:
     # Point to all backend's restHost:restPort, split by ,
     listOfServers: 127.0.0.1:12800
 
-6.2.0版本已经去掉登录页面(即以下属性可不配置)
+6.2.0版本以上已经去掉登录页面(即以下属性可不配置)
 security:
   user:
     # username
