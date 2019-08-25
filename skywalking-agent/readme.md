@@ -26,14 +26,14 @@ apm-spring-cloud-gateway-2.x-plugin-6.3.0.jar
 
 ## 服务端配置说明
 
-#### 启动es 
+#### 前提条件启动es 
 
 - [es单机 docker-compose ](../dooolycloud-base-zipkin/docker-compose.yml)
 
 - [es集群 docker-compose ](../dooolycloud-base-zipkin/docker-compose-es.yml)
 
 
-#### 修改 config/application.yml 文件 (将h2改为es存储)
+#### skywalking修改 config/application.yml 文件 (将h2改为es存储)
 ```
 storage:
    elasticsearch:
@@ -55,7 +55,7 @@ storage:
      segmentQueryMaxSize: ${SW_STORAGE_ES_QUERY_SEGMENT_SIZE:200}
 ```
 
-#### 修改 webapp/webapp.yml 文件(UI界面)
+#### skywalking修改 webapp/webapp.yml 文件(UI界面)
 
 
 ```
@@ -91,9 +91,8 @@ security:
 
 ./webappService.sh
 
-### 整体启动
-
 #### 以上启动项是分别启动,使用如下命令整体启动
+
 ./startup.sh
 
 
