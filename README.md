@@ -135,6 +135,21 @@
              3. deploy到的maven私服 
     -  直接修改<revision>1.0.0-SNAPSHOT</revision>属性版本 
 
+
+### 运维管理页面
+http://xxx.xxx.xxx.xxx:8922
+
+### docker-compose 启动方式(仅为 java项目)
+##### 前提条件 在skycloud-base根目录执行所有脚本
+```
+1. 创建镜像
+docker-compose -f docs/docker/docker-compose.yml build
+
+2. 启动容器
+docker-compose -f docs/docker/docker-compose.yml up -d
+
+```
+
 ### FAQ
 - 在使用中有任何问题，欢迎反馈
 - [apollo修改后源码](https://pan.baidu.com/s/1n8oIm-9UaxNZPUTyID02OQ) 提取码: 6fxr

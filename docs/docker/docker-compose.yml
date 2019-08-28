@@ -1,0 +1,54 @@
+version: '3'
+services:
+  skycloud-base-authorization:
+    #build: ./authorization
+    build:
+      context: ../../
+      dockerfile: docs/docker/authorization/Dockerfile
+
+    image: skycloud-base-authorization
+    environment:
+      - CONFIG_ENV=dev
+      - JAVA_OPTS=
+
+  skycloud-base-upload:
+    build:
+      context: ../../
+      dockerfile: docs/docker/upload/Dockerfile
+    image: skycloud-base-upload
+    environment:
+      - CONFIG_ENV=dev
+      - JAVA_OPTS=
+
+  skycloud-base-gateway:
+    build:
+      context: ../../
+      dockerfile: docs/docker/gateway/Dockerfile
+    image: skycloud-base-gateway
+    ports:
+      - 8904:8904
+    environment:
+      - CONFIG_ENV=dev
+      - JAVA_OPTS=
+
+  skycloud-base-monitor:
+    build:
+      context: ../../
+      dockerfile: docs/docker/monitor/Dockerfile
+    image: skycloud-base-monitor
+    ports:
+      - 8906:8906
+    environment:
+      - CONFIG_ENV=dev
+      - JAVA_OPTS=
+
+  skycloud-base-hystrix-turbine:
+    build:
+      context: ../../
+      dockerfile: docs/docker/turbine/Dockerfile
+    image: skycloud-base-hystrix-turbine
+    ports:
+      - 8908:8908
+    environment:
+      - CONFIG_ENV=dev
+      - JAVA_OPTS=

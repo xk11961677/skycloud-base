@@ -28,9 +28,9 @@ apm-spring-cloud-gateway-2.x-plugin-6.3.0.jar
 
 #### 前提条件启动es 
 
-- [es单机 docker-compose ](../dooolycloud-base-zipkin/docker-compose.yml)
+- [es单机 docker-compose ](../zipkin/docker-compose.yml)
 
-- [es集群 docker-compose ](../dooolycloud-base-zipkin/docker-compose-es.yml)
+- [es集群 docker-compose ](../zipkin/docker-compose-es.yml)
 
 
 #### skywalking修改 config/application.yml 文件 (将h2改为es存储)

@@ -89,7 +89,7 @@ services:
 #      - 9300:9300
 
 #  skywalking:
-#    image: wutang/skywalking-docker:5.x
+#    image: wutang/skywalking-docker:6.3.0
 #    container_name: skywalking
 #    privileged: true
 #    networks:
