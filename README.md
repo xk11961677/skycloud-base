@@ -152,7 +152,7 @@ docker-compose -f docs/docker/docker-compose.yml up -d
 
 ### FAQ
 - 在使用中有任何问题，欢迎反馈
-- [apollo修改后源码](https://pan.baidu.com/s/1n8oIm-9UaxNZPUTyID02OQ) 提取码: 6fxr
+- [apollo-consul源码与部署包](https://pan.baidu.com/s/1s7tXv1uXBdWGxL84Ha5tFw) 提取码: xbdw
 - [apollo数据库](docs/script/db/apollo)
 
 ### 架构图
