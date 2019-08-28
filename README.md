@@ -138,7 +138,7 @@
     -  直接修改<revision>1.0.0-SNAPSHOT</revision>属性版本 
 
 
-### docker-compose 启动方式(仅为 java项目)
+## docker-compose 启动方式(仅为 java项目)
 ##### 前提条件 在skycloud-base根目录执行所有脚本
 ```
 1. 创建镜像
@@ -149,22 +149,22 @@ docker-compose -f docs/docker/docker-compose.yml up -d
 
 ```
 
-### 运维管理页面
+## 运维管理页面
 ![platform](docs/image/platform.png)
 
 
-### FAQ
+## FAQ
 - 在使用中有任何问题，欢迎反馈
 - [apollo-consul源码与部署包](https://pan.baidu.com/s/1s7tXv1uXBdWGxL84Ha5tFw) 提取码: xbdw
 - [apollo数据库](docs/script/db/apollo)
 
-### 架构图
+## 架构图
 
 ![架构图](docs/image/architecture_diagram.jpg)
 
-### 关于作者
+## 关于作者
 
-### [LICENSE](LICENSE)
+## [LICENSE](LICENSE)
 
 The MIT License (MIT)
 Copyright © 2019 sky
