@@ -1,5 +1,5 @@
 #分布式事物
-spring.cloud.alibaba.seata.tx-service-group = fat_tx_group
+spring.cloud.alibaba.seata.springcloud_tx_group = springcloud
 transport.type = TCP
 transport.server = NIO
 transport.heartbeat = true
@@ -14,8 +14,8 @@ transport.thread-factory.boss-thread-size = 1
 transport.thread-factory.worker-thread-size = 8
 
 
-service.vgroup_mapping.fat_tx_group = default
-service.default.grouplist = 127.0.0.1:8092
+service.vgroup_mapping.springcloud_tx_group = springcloud
+service.springcloud.grouplist = 127.0.0.1:8092
 service.enableDegrade = false
 service.disable = false
 service.disableGlobalTransaction = false
