@@ -23,9 +23,9 @@
 package com.skycloud.base.geteway.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.skycloud.base.geteway.common.GatewayConstants;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.LogHttpDto;
+import com.skycloud.base.geteway.common.GatewayConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
