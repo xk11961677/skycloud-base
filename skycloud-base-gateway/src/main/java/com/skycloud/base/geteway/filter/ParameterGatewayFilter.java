@@ -27,6 +27,7 @@ import com.skycloud.base.geteway.common.GatewayConstants;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.LogHttpDto;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -95,7 +96,7 @@ public class ParameterGatewayFilter implements GlobalFilter, Ordered {
         String contentType = request.getHeaders().getFirst(GatewayConstants.CONTENT_TYPE);
         if (GatewayConstants.METHOD_GET.equals(method)) {
             return returnMono(chain, exchange, logHttpDto);
-        } else if (GatewayConstants.METHOD_POST.equals(method) && !contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+        } else if (parameterByPost(method, contentType)) {
             ServerRequest serverRequest = new DefaultServerRequest(exchange);
             Mono<String> modifiedBody = serverRequest.bodyToMono(String.class).flatMap((body) -> {
                 logHttpDto.setBody(formatStr(body));
@@ -134,6 +135,21 @@ public class ParameterGatewayFilter implements GlobalFilter, Ordered {
     public int getOrder() {
         return 10;
     }
+
+
+    /**
+     * 记录post请求参数验证条件
+     *
+     * @param method
+     * @param contentType
+     * @return
+     */
+    private boolean parameterByPost(String method, String contentType) {
+        return GatewayConstants.METHOD_POST.equals(method) && (
+                StringUtils.isEmpty(contentType) ||
+                        !contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE));
+    }
+
 
     /**
      * 去掉空格,换行和制表符
