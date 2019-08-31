@@ -4,8 +4,9 @@
  1.集群包含三个server：node1, node2, node3
  2.集群包含一个client：node4；并且在client上提供web UI访问服务。
 ```
-
+## [docker集群yml](../docs/docker/consul/docker-compose.yml)
 #### 启动
+
 docker-compose up -d
 
 #### 停止
