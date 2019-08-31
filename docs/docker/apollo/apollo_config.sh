@@ -1,0 +1,1 @@
+docker run --name apollo_config -d -p 8080:8080 -e datasource.url='jdbc:mysql://192.168.199.251:3306/ApolloConfigDB?useSSL=false&characterEncoding=utf8' -e consul.host='192.168.199.251' -e consul.discovery.hostname='192.168.199.251' shen11961677/apollo_config_consul:v1.4.0

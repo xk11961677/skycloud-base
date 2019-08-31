@@ -137,6 +137,16 @@
              3. deploy到的maven私服 
     -  直接修改<revision>1.0.0-SNAPSHOT</revision>属性版本 
 
+## docker 启动apollo
+```
+1. 启动consul
+
+2. 将docs/script/db/apollo 数据库脚本导入数据
+
+3. 将docs/docker/apollo 三个脚本修改IP地址与数据库地址 
+
+4. 按步骤运行apollo_config.sh 、apollo_admin.sh 、apollo_portal.sh
+```
 
 ## docker-compose 启动方式(仅为 java项目)
 ##### 前提条件 在skycloud-base根目录执行所有脚本
