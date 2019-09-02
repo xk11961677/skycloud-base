@@ -125,6 +125,14 @@
 
 分布式事物 分表分库 在POC项目中请[点我](https://github.com/xk11961677/skycloud-service-example)
 
+## git message 规约
+### 作用
+用于生成规范changelog
+### 提交格式
+[请点我](docs/script/changelog/commit.md)
+### 生成changelog方式
+运行docs/script/changelog/gitlog.sh
+
 ## 代码发布方式
 - [skycloud-base-bom](skycloud-base-bom) 
     -  版本号：<主版本>.<次版本>.<增量版本>-<代号>
