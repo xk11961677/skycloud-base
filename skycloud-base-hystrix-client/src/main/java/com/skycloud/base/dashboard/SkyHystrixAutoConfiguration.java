@@ -38,11 +38,12 @@ import org.springframework.context.annotation.Configuration;
 public class SkyHystrixAutoConfiguration {
     /**
      * 增加hystrix.stream
+     *
      * @return
      */
     @Bean
-    public ServletRegistrationBean getServlet(){
-        log.info("skycloud base hystrix monitor starter !!! ");
+    public ServletRegistrationBean getServlet() {
+        log.info("skycloud base add HystrixMetricsStreamServlet successfully ! ");
         HystrixMetricsStreamServlet streamServlet = new HystrixMetricsStreamServlet();
         ServletRegistrationBean registrationBean = new ServletRegistrationBean(streamServlet);
         registrationBean.setLoadOnStartup(1);

@@ -50,6 +50,6 @@ public class SkyPrometheusAutoConfiguration implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        log.info("skycloud base prometheus starter !!! ");
+        log.info("skycloud base prometheus startup successfully ! ");
     }
 }

@@ -60,6 +60,6 @@ public class SkyConfigAutoConfiguration implements CommandLineRunner {
         String metaServerDomainName = instance.getMetaServerDomainName();
         Env apolloEnv = instance.getApolloEnv();
         apolloEnv = Env.UNKNOWN.name().equalsIgnoreCase(apolloEnv.name())?Env.DEV:apolloEnv;
-        log.info("skycloud base config starter !!! spring env:{}  env:{}  meta:{}", springActiceEnv, apolloEnv.name(), metaServerDomainName);
+        log.info("skycloud base config startup successfully ! spring env:{}  env:{}  meta:{}", springActiceEnv, apolloEnv.name(), metaServerDomainName);
     }
 }

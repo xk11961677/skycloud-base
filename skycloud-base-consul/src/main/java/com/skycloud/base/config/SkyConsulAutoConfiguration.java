@@ -67,6 +67,6 @@ public class SkyConsulAutoConfiguration implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        log.info("skycloud base consul starter !!! ");
+        log.info("skycloud base consul startup successfully ! ");
     }
 }
