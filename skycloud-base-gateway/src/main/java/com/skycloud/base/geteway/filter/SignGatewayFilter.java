@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright © 2019 <sky>
+ * Copyright © 2019 <reach>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the “Software”), to deal
@@ -23,13 +23,13 @@
 package com.skycloud.base.geteway.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.skycloud.base.geteway.common.GatewayConstants;
-import com.skycloud.base.geteway.common.ValidationResult;
-import com.skycloud.base.geteway.common.ValidationUtils;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.common.encrypt.DefaultMd5Verifier;
 import com.sky.framework.model.dto.MessageReq;
 import com.sky.framework.model.enums.FailureCodeEnum;
+import com.skycloud.base.geteway.common.GatewayConstants;
+import com.skycloud.base.geteway.common.ValidationResult;
+import com.skycloud.base.geteway.common.ValidationUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +43,7 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -53,10 +54,12 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.net.URI;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 
@@ -71,31 +74,63 @@ import java.util.stream.Collectors;
  * 1.将验签与修改请求体分开
  * 2.秘钥管理,即接入clientId具有管理功能
  *
- * @author sky
- * @version V1.0.0
- * @package com.skycloud.base.geteway.filter
- * @class SignGatewayFilter
- * @date 2019-08-15 17:49:52
- * @upate-log name  date  reason/contents
- * ---------------------------------------
- * ***    ****  ****
+ * @author
  * @see org.springframework.cloud.gateway.filter.factory.rewrite.ModifyRequestBodyGatewayFilterFactory
  * @since
  */
 @Component
 @Slf4j
-@SuppressWarnings("all")
 public class SignGatewayFilter implements GlobalFilter, Ordered {
 
     private static final String GW_SIGN_STATUS = "gw_sign_status";
 
     private static final String GW_PARAMETERS_ERROR = "gw_parameters_error";
 
+    private static final String GW_SIGN_TIMESTAMP_STATUS = "gw_sign_timestamp_status";
+
     private static final String DEFAULT_SECRET = "123456";
 
+    private static final String CLIENT_ID = "clientId";
+
+    /**
+     * 是否开启验签
+     */
     @Value("${gw_sign_open:true}")
     private boolean GW_SIGN_OPEN;
 
+    /**
+     * 是否开启验证时间限制
+     */
+    @Value("${gw_sign_timestamp_open:true}")
+    private boolean GW_SIGN_TIMESTAMP_OPEN;
+
+    /**
+     * 是否开启验证时间限制,单位秒
+     */
+    @Value("${gw_sign_timestamp_limit:600}")
+    private int GW_SIGN_TIMESTAMP_LIMIT;
+
+    /**
+     * 是否开启此插件
+     */
+    @Value("${gw_sign_plugin_open:true}")
+    private boolean GW_SIGN_PLUGIN_OPEN;
+
+    /**
+     * 签名秘钥
+     */
+    @Value("#{${gw_sign_plugin_secret}}")
+    private Map<String, String> CLIENT_SECRET = new ConcurrentHashMap<>();
+
+    /**
+     * 不执行此插件的URL 以逗号分割且结尾
+     */
+    @Value("${gw_sign_plugin_close_url}")
+    private String GW_SIGN_PLUGIN_CLOSE_URL;
+
+    /**
+     * 默认签名验证器
+     */
     private static final DefaultMd5Verifier defaultMd5Verifier = new DefaultMd5Verifier();
 
     /**
@@ -112,7 +147,14 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        if (!GW_SIGN_OPEN) {
+        if (!GW_SIGN_PLUGIN_OPEN) {
+            return chain.filter(exchange);
+        }
+
+        ServerHttpRequest request = exchange.getRequest();
+        URI requestUri = request.getURI();
+        if (StringUtils.isNotEmpty(GW_SIGN_PLUGIN_CLOSE_URL)
+                && GW_SIGN_PLUGIN_CLOSE_URL.indexOf(requestUri.getPath() + ",") != -1) {
             return chain.filter(exchange);
         }
         ServerRequest serverRequest = new DefaultServerRequest(exchange);
@@ -127,16 +169,17 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
                 ValidationResult validate = ValidationUtils.validate(messageReq);
 
                 if (!validate.isHasErrors()) {
-                    headers.remove(GW_SIGN_STATUS);
-                    headers.set("clientId", messageReq.getClientId());
-                    boolean verify = defaultMd5Verifier.verify(messageReq, DEFAULT_SECRET);
-                    headers.set(GW_SIGN_STATUS, verify + "");
-                    String info = verify ? decodeParamters(messageReq) : "";
+                    boolean verifyLimit = doCheckTimeLimit(headers, messageReq);
+                    String info = "";
+                    if (verifyLimit) {
+                        boolean verify = doCheckSign(headers, messageReq);
+                        info = verify ? decodeParamters(messageReq) : "";
+                    }
                     return Mono.just(info);
-                } else {
-                    List<String> errors = validate.getErrorMsg();
-                    headers.set(GW_PARAMETERS_ERROR, !CollectionUtils.isEmpty(errors) ? errors.get(0) : FailureCodeEnum.GL990001.getMsg());
                 }
+                //执行到此处证明参数错误
+                List<String> errors = validate.getErrorMsg();
+                headers.set(GW_PARAMETERS_ERROR, !CollectionUtils.isEmpty(errors) ? errors.get(0) : FailureCodeEnum.GL990001.getMsg());
                 return Mono.just(body);
             });
             BodyInserter bodyInserter = BodyInserters.fromPublisher(modifiedBody, String.class);
@@ -169,7 +212,13 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
                 };
                 String parametersError = headers.getFirst(GW_PARAMETERS_ERROR);
                 if (!StringUtils.isEmpty(parametersError)) {
-                    return parametersError(exchange, parametersError);
+                    return response(exchange, FailureCodeEnum.GL990001.getCode(), parametersError);
+                }
+
+                String verifyLimit = headers.getFirst(GW_SIGN_TIMESTAMP_STATUS);
+                if (!StringUtils.equals(verifyLimit, "true")) {
+                    headers.remove(GW_SIGN_TIMESTAMP_STATUS);
+                    return response(exchange, FailureCodeEnum.GL990008.getCode(), FailureCodeEnum.GL990008.getMsg());
                 }
 
                 String verify = headers.getFirst(GW_SIGN_STATUS);
@@ -178,7 +227,7 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
                     return chain.filter(exchange.mutate().request(decorator).build());
                 }
                 //签名验证没通过
-                return unsign(exchange);
+                return response(exchange, FailureCodeEnum.GL990005.getCode(), FailureCodeEnum.GL990005.getMsg());
             }));
         }
         return chain.filter(exchange);
@@ -193,10 +242,54 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
      * @param mediaType
      * @return
      */
-    public boolean checkSignAndModifyBody(String method, MediaType mediaType) {
+    private boolean checkSignAndModifyBody(String method, MediaType mediaType) {
         return GatewayConstants.METHOD_POST.equalsIgnoreCase(method) && MediaType.APPLICATION_JSON.isCompatibleWith(mediaType);
     }
 
+    /**
+     * 验证签名
+     *
+     * @param headers
+     * @param messageReq
+     * @return
+     */
+    private boolean doCheckSign(HttpHeaders headers, MessageReq messageReq) {
+        headers.remove(GW_SIGN_STATUS);
+        String clientId = messageReq.getClientId();
+        headers.set(CLIENT_ID, clientId);
+        boolean verify = true;
+        if (GW_SIGN_OPEN) {
+            String secret = CLIENT_SECRET.getOrDefault(clientId, DEFAULT_SECRET);
+            verify = defaultMd5Verifier.verify(messageReq, secret);
+        }
+        headers.set(GW_SIGN_STATUS, verify + "");
+        return verify;
+    }
+
+    /**
+     * 检查时间限制
+     *
+     * @param headers
+     * @param messageReq
+     * @return
+     */
+    private boolean doCheckTimeLimit(HttpHeaders headers, MessageReq messageReq) {
+        boolean verify = true;
+        if (GW_SIGN_TIMESTAMP_OPEN) {
+            headers.remove(GW_SIGN_TIMESTAMP_STATUS);
+            Long timestamp = Long.valueOf(messageReq.getTimestamp());
+            verify = (timestamp > System.currentTimeMillis() - GW_SIGN_TIMESTAMP_LIMIT * 1000) ? true : false;
+        }
+        headers.set(GW_SIGN_TIMESTAMP_STATUS, verify + "");
+        return verify;
+    }
+
+    /**
+     * url解码
+     *
+     * @param messageReq
+     * @return
+     */
     private String decodeParamters(MessageReq messageReq) {
         String param = JSON.toJSONString(messageReq.getParam());
         try {
@@ -221,29 +314,16 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
     }
 
     /**
-     * @param serverWebExchange
-     * @return
-     */
-    private Mono<Void> parametersError(ServerWebExchange serverWebExchange, String info) {
-        serverWebExchange.getResponse().setStatusCode(HttpStatus.OK);
-        HttpHeaders headers = serverWebExchange.getResponse().getHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        DataBuffer buffer = serverWebExchange.getResponse()
-                .bufferFactory().wrap(response(FailureCodeEnum.GL990001.getCode(), info));
-        return serverWebExchange.getResponse().writeWith(Flux.just(buffer));
-    }
-
-    /**
-     * 验证签名失败
+     * 验证失败
      *
      * @param
      */
-    private Mono<Void> unsign(ServerWebExchange serverWebExchange) {
+    private Mono<Void> response(ServerWebExchange serverWebExchange, Integer code, String desc) {
         serverWebExchange.getResponse().setStatusCode(HttpStatus.OK);
         HttpHeaders headers = serverWebExchange.getResponse().getHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         DataBuffer buffer = serverWebExchange.getResponse()
-                .bufferFactory().wrap(response(FailureCodeEnum.GL990005.getCode(), FailureCodeEnum.GL990005.getMsg()));
+                .bufferFactory().wrap(response(code, desc));
         return serverWebExchange.getResponse().writeWith(Flux.just(buffer));
     }
 
@@ -266,5 +346,3 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
     }
 
 }
-
-

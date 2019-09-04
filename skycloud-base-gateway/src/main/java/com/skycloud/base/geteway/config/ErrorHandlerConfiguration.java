@@ -22,7 +22,6 @@
  */
 package com.skycloud.base.geteway.config;
 
-import com.skycloud.base.geteway.exception.JsonExceptionHandler;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;

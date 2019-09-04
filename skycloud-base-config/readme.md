@@ -9,7 +9,7 @@ github: https://github.com/ctripcorp/apollo
 ####服务端
 1.将eureka去掉,使用公共consul作为注册中心
 
-修改后源码: [点我](../pom.xml)
+修改后源码: [点我](../README.md#FAQ)
 
 ####客户端
 1.meta server address 加载方式

@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.geteway.exception;
+package com.skycloud.base.geteway.config;
 
 import com.sky.framework.model.enums.FailureCodeEnum;
 import org.apache.commons.lang.ObjectUtils;
