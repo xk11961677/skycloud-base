@@ -129,7 +129,9 @@
 #### 作用
 用于生成规范changelog
 #### 提交格式
-[请点我](docs/script/changelog/commit.md)
+1. [请点我](docs/script/changelog/commit.md)
+2. idea 可使用 git commit template 插件
+3. npm 可以使用 commitizen
 #### 生成changelog方式
 运行docs/script/changelog/gitlog.sh
 
