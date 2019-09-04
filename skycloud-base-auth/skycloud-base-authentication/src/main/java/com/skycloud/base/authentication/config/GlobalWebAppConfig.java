@@ -22,11 +22,9 @@
  */
 package com.skycloud.base.authentication.config;
 
-import com.sky.framework.web.interceptor.GlobalTokenInterceptor;
+import com.sky.framework.web.common.registry.SecurityRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -35,22 +33,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class GlobalWebAppConfig implements WebMvcConfigurer {
 
-    /**
-     * 拦截器注入为bean
-     *
-     * @return
-     */
     @Bean
-    public HandlerInterceptor getInterceptor() {
-        GlobalTokenInterceptor.OPEN_URL.add("/auth" );
-        return new GlobalTokenInterceptor();
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        // addPathPatterns 用于添加拦截规则, 这里假设拦截 /url 后面的全部链接
-        // excludePathPatterns 用户排除拦截
-        registry.addInterceptor(getInterceptor()).addPathPatterns("/**" );
+    public SecurityRegistry secureRegistry() {
+        SecurityRegistry registry = new SecurityRegistry();
+        registry.excludePathPatterns("/auth/**");
+        return registry;
     }
 }
 
