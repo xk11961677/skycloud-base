@@ -125,6 +125,8 @@
 
 分布式事物 分表分库 在POC项目中请[点我](https://github.com/xk11961677/skycloud-service-example)
 
+## [签名算法](docs/file/sign.md)
+
 ## git message 规约
 #### 作用
 用于生成规范changelog
