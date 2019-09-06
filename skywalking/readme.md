@@ -23,6 +23,17 @@ apm-spring-cloud-gateway-2.x-plugin-6.3.0.jar
 
 ```
 
+## 客户端logstash-logback-encoder增加skywalking trace-id
+```
+1.在客户端项目引入jar包
+<dependency>
+    <groupId>org.apache.skywalking</groupId>
+    <artifactId>apm-toolkit-logback-1.x</artifactId>
+    <version>x.x.x</version>
+</dependency>
+
+2.修改logback-spring.xml, 请参考实际项目中logback-spring.xml文件
+```
 
 ## 服务端配置说明
 
@@ -101,3 +112,4 @@ security:
 ![skywalking_03](../docs/image/skywalking_03.png)
 ![skywalking_04](../docs/image/skywalking_04.png)
 ![skywalking_05](../docs/image/skywalking_05.png)
+![skywalking_06](../docs/image/skywalking_06.png)
