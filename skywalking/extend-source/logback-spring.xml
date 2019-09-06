@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="LOG_PATH" value="dooolycloud-log"/>
+    <property name="LOG_PATH" value="skycloud-log"/>
     <springProperty scope="context" name="app_name" source="spring.application.name"/>
     <springProperty scope="context" name="ip" source="spring.cloud.client.ip-address"/>
     <springProperty scope="context" name="env" source="spring.profiles.active"/>
@@ -35,7 +35,7 @@
     </appender>
 
     <logger name="org.springframework" level="INFO"/>
-    <logger name="com.reach" level="INFO"/>
+    <logger name="com.sky" level="INFO"/>
 
     <root level="INFO">
         <appender-ref ref="LOGSTASH"/>
