@@ -22,8 +22,8 @@
  */
 package com.skycloud.base.authentication.model.domain;
 
-import com.sky.framework.web.mybatis.BaseEntity;
 
+import com.sky.framework.web.support.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
