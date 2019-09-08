@@ -11,7 +11,7 @@
 
     <artifactId>skycloud-base-hystrix-dashboard</artifactId>
     <packaging>jar</packaging>
-    <name>skycloud-base-hystrix-client</name>
+    <name>skycloud-base-hystrix-dashboard</name>
     <description>skycloud base hystrix dashboard</description>
 
     <dependencies>

@@ -11,7 +11,7 @@
 
     <artifactId>skycloud-base-monitor</artifactId>
     <packaging>jar</packaging>
-    <name>skycloud-base-hystrix-client</name>
+    <name>skycloud-base-monitor</name>
     <description>skycloud base monitor from spring boot admin</description>
 
     <dependencies>
