@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.config.common;
+package com.skycloud.base.config.initializer;
 
 import com.ctrip.framework.apollo.ConfigService;
 import com.ctrip.framework.apollo.build.ApolloInjector;
@@ -51,7 +51,7 @@ import java.util.Map;
  * @author
  */
 @Slf4j
-public class CustomApolloApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+public class ApolloApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
     private static final String CUSTOM_APOLLO_BOOTSTRAP_PROPERTY_SOURCES = "CustomApolloBootstrapPropertySources";
 

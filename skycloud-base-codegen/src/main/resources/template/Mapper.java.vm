@@ -1,6 +1,6 @@
 package ${package}.${moduleName}.mapper;
 
-import com.sky.framework.web.mybatis.MyMapper;
+import com.sky.framework.mybatis.MyMapper;
 import ${package}.${moduleName}.model.domain.${className};
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
