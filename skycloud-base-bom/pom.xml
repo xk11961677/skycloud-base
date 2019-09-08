@@ -20,7 +20,6 @@
         <springframework.version>5.1.6.RELEASE</springframework.version>
         <spring.security.jwt.version>1.0.10.RELEASE</spring.security.jwt.version>
         <spring.security.oauth2.version>2.3.6.RELEASE</spring.security.oauth2.version>
-        <mysql.version>5.1.47</mysql.version>
         <guava.version>26.0-jre</guava.version>
         <boot.admin.version>2.1.5</boot.admin.version>
         <httpclientutil.version>1.0</httpclientutil.version>
@@ -207,13 +206,6 @@
             </dependency>
 
             <!-- spring boot admin end -->
-
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
-            </dependency>
-
 
             <dependency>
                 <groupId>com.alibaba</groupId>
