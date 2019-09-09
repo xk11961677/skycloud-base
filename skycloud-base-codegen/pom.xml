@@ -18,6 +18,11 @@
     <dependencies>
         <!-- sky -->
         <dependency>
+            <groupId>com.sky.framework</groupId>
+            <artifactId>framework-web</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>skycloud-base-consul</artifactId>
             <version>${project.version}</version>

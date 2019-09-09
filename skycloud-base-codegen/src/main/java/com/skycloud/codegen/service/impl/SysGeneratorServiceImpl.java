@@ -25,6 +25,7 @@ package com.skycloud.codegen.service.impl;
 import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sky.framework.model.exception.BusinessException;
 import com.skycloud.codegen.entity.GenConfig;
 import com.skycloud.codegen.util.GenUtils;
 import com.skycloud.codegen.mapper.SysGeneratorMapper;
@@ -72,6 +73,9 @@ public class SysGeneratorServiceImpl implements SysGeneratorService {
 
 		//查询表信息
 		Map<String, String> table = queryTable(genConfig.getTableName());
+		if (table == null) {
+			throw new BusinessException(300001, "数据源没有此表");
+		}
 		//查询列信息
 		List<Map<String, String>> columns = queryColumns(genConfig.getTableName());
 		//生成代码

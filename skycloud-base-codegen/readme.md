@@ -10,7 +10,8 @@ address:5003/generator/code
 "author":"sky",
 "moduleName":"xxx",
 "tablePrefix":"dc",
-"tableName":"dc_order"
+"tableName":"dc_order",
+"datasource":"one"
 }
 ```
 
@@ -43,4 +44,8 @@ private String tableName;
  * 表备注
  */
 private String comments;
+/**
+ * 数据源,默认 one
+ */
+private String datasource;
 ```

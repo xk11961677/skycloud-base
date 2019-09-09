@@ -20,45 +20,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.codegen.entity;
+package com.skycloud.codegen.config.datasource;
 
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author
- * 生成配置
  */
+@ConfigurationProperties(prefix = "spring.datasource.one")
+@Configuration
 @Data
-public class GenConfig {
-	/**
-	 * 包名
-	 */
-	private String packageName;
-	/**
-	 * 作者
-	 */
-	private String author;
-	/**
-	 * 模块名称
-	 */
-	private String moduleName;
-	/**
-	 * 表前缀
-	 */
-	private String tablePrefix;
+public class OneDataSourceProperties {
 
-	/**
-	 * 表名称
-	 */
-	private String tableName;
+    private String url;
 
-	/**
-	 * 表备注
-	 */
-	private String comments;
+    private String user;
 
-    /**
-     * 数据源
-	 */
-	private String datasource;
+    private String password;
 }

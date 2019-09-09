@@ -20,10 +20,29 @@ spring:
       host: 127.0.0.1
       port: 8500
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/payment?useSSL=false&characterEncoding=utf8
-    driver-class-name: com.mysql.jdbc.Driver
-    password: aaa
-    username: aaaa
+    one:
+      ## 默认数据源
+      user: root
+      password: 123456
+      url: jdbc:mysql://127.0.0.1:3306/cloud?useSSL=false&characterEncoding=utf8
+    two:
+      user: root
+      password: 123456
+      url: jdbc:mysql://127.0.0.1:3306/cloud?useSSL=false&characterEncoding=utf8
+    three:
+      user: root
+      password: 123456
+      url: jdbc:mysql://127.0.0.1:3306/cloud?useSSL=false&characterEncoding=utf8
+
+#    url: jdbc:mysql://127.0.0.1:3306/payment?useSSL=false&characterEncoding=utf8
+#    driver-class-name: com.mysql.jdbc.Driver
+#    password: aaa
+#    username: aaaa
+
+web:
+  global-token-interceptor-enabled: false
+  global-exception-ding-talk-enabled: false
+  global-context-interceptor-enabled: false
 
 
 logging:

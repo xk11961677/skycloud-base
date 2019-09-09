@@ -20,45 +20,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.codegen.entity;
-
-import lombok.Data;
+package com.skycloud.codegen.common;
 
 /**
  * @author
- * 生成配置
  */
-@Data
-public class GenConfig {
-	/**
-	 * 包名
-	 */
-	private String packageName;
-	/**
-	 * 作者
-	 */
-	private String author;
-	/**
-	 * 模块名称
-	 */
-	private String moduleName;
-	/**
-	 * 表前缀
-	 */
-	private String tablePrefix;
+public class DataSourceContext {
+    private static final ThreadLocal<String> contextHolder = new ThreadLocal<>();
 
-	/**
-	 * 表名称
-	 */
-	private String tableName;
+    public static void setDataSource(String value) {
+        contextHolder.set(value);
+    }
 
-	/**
-	 * 表备注
-	 */
-	private String comments;
+    public static String getDataSource() {
+        return contextHolder.get();
+    }
 
-    /**
-     * 数据源
-	 */
-	private String datasource;
+    public static void clearDataSource() {
+        contextHolder.remove();
+    }
 }

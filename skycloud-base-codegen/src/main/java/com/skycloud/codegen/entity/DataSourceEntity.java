@@ -26,39 +26,17 @@ import lombok.Data;
 
 /**
  * @author
- * 生成配置
  */
 @Data
-public class GenConfig {
-	/**
-	 * 包名
-	 */
-	private String packageName;
-	/**
-	 * 作者
-	 */
-	private String author;
-	/**
-	 * 模块名称
-	 */
-	private String moduleName;
-	/**
-	 * 表前缀
-	 */
-	private String tablePrefix;
+public class DataSourceEntity {
 
-	/**
-	 * 表名称
-	 */
-	private String tableName;
+    private String name;
 
-	/**
-	 * 表备注
-	 */
-	private String comments;
+    private String url;
 
-    /**
-     * 数据源
-	 */
-	private String datasource;
+    private String user;
+
+    private String password;
+
+
 }
