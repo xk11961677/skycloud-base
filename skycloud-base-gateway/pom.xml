@@ -56,12 +56,6 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>skycloud-base-prometheus</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-boot-starter-web</artifactId>
-                    <groupId>org.springframework.boot</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>

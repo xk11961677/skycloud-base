@@ -40,8 +40,8 @@ import org.springframework.context.annotation.Configuration;
 public class SkyPrometheusAutoConfiguration implements CommandLineRunner {
 
 
-    @Value("${spring.application.name}")
-    private String applicationName = "请填写项目名称";
+    @Value("${spring.application.name:请填写项目名称}")
+    private String applicationName;
 
     @Bean
     MeterRegistryCustomizer<MeterRegistry> appMetricsCommonTags() {

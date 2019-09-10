@@ -1,0 +1,10 @@
+${AnsiColor.BRIGHT_CYAN}        _             ${AnsiColor.BLUE}        _                       _
+${AnsiColor.BRIGHT_CYAN}  ___  | | __  _   _  ${AnsiColor.BLUE}  ___  | |   ___    _   _    __| |
+${AnsiColor.BRIGHT_CYAN} / __| | |/ / | | | | ${AnsiColor.BLUE} / __| | |  / _ \  | | | |  / _` |
+${AnsiColor.BRIGHT_CYAN} \__ \ |   <  | |_| | ${AnsiColor.BLUE}| (__  | | | (_) | | |_| | | (_| |
+${AnsiColor.BRIGHT_CYAN} |___/ |_|\_\  \__, | ${AnsiColor.BLUE} \___| |_|  \___/   \__,_|  \__,_|
+${AnsiColor.BRIGHT_CYAN}               |___/  ${AnsiColor.BLUE}
+${AnsiColor.BRIGHT_CYAN}
+${AnsiColor.BRIGHT_CYAN}
+
+${AnsiColor.BLUE}:: skycloud :: ${spring.application.name}:${AnsiColor.RED}${spring.profiles.active}${AnsiColor.BLUE} :: Running SpringBoot ${spring-boot.version} :: ${AnsiColor.BRIGHT_BLACK}
