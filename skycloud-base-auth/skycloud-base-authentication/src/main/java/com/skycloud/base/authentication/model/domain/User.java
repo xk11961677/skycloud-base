@@ -39,7 +39,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "dl_user")
+@Table(name = "t_user")
 public class User extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -38,7 +38,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "dl_role")
+@Table(name = "t_role")
 public class Role extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

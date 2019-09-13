@@ -24,11 +24,13 @@ package com.skycloud.base.authentication.web.rpc;
 
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.web.support.BaseController;
-import com.skycloud.base.authentication.api.client.AuthFeignApi;
 import com.skycloud.base.authentication.service.AuthenticationService;
 import com.skycloud.base.authentication.web.HttpServletRequestAuthWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -36,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Slf4j
-public class AuthenticationFeignClient extends BaseController implements AuthFeignApi {
+public class AuthenticationFeignClient extends BaseController {
 
     @Autowired
     private AuthenticationService authenticationService;
@@ -46,8 +48,9 @@ public class AuthenticationFeignClient extends BaseController implements AuthFei
      * @param method
      * @return
      */
-    @Override
-    public MessageRes auth(String authentication, String url, String method) {
+    @PostMapping(value = "/auth/permission")
+    @ResponseBody
+    public MessageRes auth(@RequestParam("url") String url, @RequestParam("method") String method) {
         log.debug("authentication controller :{}");
         boolean decide = authenticationService.decide(new HttpServletRequestAuthWrapper(request, url, method));
         return MessageRes.success(decide);
