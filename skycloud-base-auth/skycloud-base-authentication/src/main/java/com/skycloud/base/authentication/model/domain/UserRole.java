@@ -20,30 +20,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.mapper;
+package com.skycloud.base.authentication.model.domain;
 
-import com.skycloud.base.authentication.model.domain.Resource;
-import com.skycloud.base.authentication.model.dto.UserDto;
-import com.sky.framework.mybatis.MyMapper;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import com.sky.framework.web.support.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Table;
+import java.io.Serializable;
+
 
 /**
- * 资源表
+ * 用户和角色关系表
  *
  * @author code generator
- * @date 2019-09-11 17:47:27
+ * @date 2019-09-11 13:34:28
  */
-@Mapper
-@Repository
-public interface ResourceMapper extends MyMapper<Resource> {
+@Data
+@EqualsAndHashCode(callSuper = true)
+@Table(name = "dl_user_role")
+public class UserRole extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     /**
-     * 根据用户信息获取resource
-     *
-     * @param userDto
-     * @return
+     * 用户id
      */
-    List<Resource> listResourceByUserId(UserDto userDto);
+    @Column(name = "user_id")
+    private Integer userId;
+    /**
+     * 角色id
+     */
+    @Column(name = "role_id")
+    private Integer roleId;
+
 }

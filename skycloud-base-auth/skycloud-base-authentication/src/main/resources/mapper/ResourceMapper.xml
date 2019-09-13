@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.skycloud.base.authentication.mapper.ResourceMapper">
+
+    <resultMap id="BaseResultMap" type="com.skycloud.base.authentication.model.domain.Resource">
+        <id property="id" javaType="java.lang.Long" column="id"/>
+        <result property="code" javaType="java.lang.String" column="code"/>
+        <result property="type" javaType="java.lang.String" column="type"/>
+        <result property="name" javaType="java.lang.String" column="name"/>
+        <result property="url" javaType="java.lang.String" column="url"/>
+        <result property="method" javaType="java.lang.String" column="method"/>
+        <result property="description" javaType="java.lang.String" column="description"/>
+        <result property="createdTime" javaType="java.util.Date" column="created_time"/>
+        <result property="updatedTime" javaType="java.util.Date" column="updated_time"/>
+        <result property="createdBy" javaType="java.lang.String" column="created_by"/>
+        <result property="updatedBy" javaType="java.lang.String" column="updated_by"/>
+        <result property="disabled" javaType="java.lang.Integer" column="disabled"/>
+        <result property="sort" javaType="java.lang.Integer" column="sort"/>
+        <result property="parentId" javaType="java.lang.Long" column="parent_id"/>
+        <result property="icon" javaType="java.lang.String" column="icon"/>
+    </resultMap>
+
+    <sql id="BaseColumnList">
+        id,
+        code,
+        type,
+        name,
+        url,
+        method,
+        description,
+        created_time,
+        updated_time,
+        created_by,
+        updated_by,
+        disabled,
+        sort,
+        parent_id
+    </sql>
+
+    <sql id="AliasBaseColumnList">
+       r.id,
+       r.parent_id,
+       r.code,
+       r.type,
+       r.name,
+       r.url,
+       r.method,
+       r.description,
+       r.created_time,
+       r.updated_time,
+       r.created_by,
+       r.updated_by,
+       r.disabled,
+       r.sort,
+       r.icon
+    </sql>
+
+    <select id="listResourceByUserId" parameterType="com.skycloud.base.authentication.model.dto.UserDto"
+            resultMap="BaseResultMap">
+        select <include refid="AliasBaseColumnList"/> from dl_user_role ur
+        inner join dl_role_resource rr on ur.role_id=rr.role_id
+        left join dl_resource r on rr.resource_id=r.id
+        where ur.user_id=#{id} and ur.disabled=0
+        and r.type=#{type}
+    </select>
+</mapper>

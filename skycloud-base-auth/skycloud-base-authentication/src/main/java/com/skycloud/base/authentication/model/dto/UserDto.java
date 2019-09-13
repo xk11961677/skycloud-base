@@ -76,4 +76,9 @@ public class UserDto extends BaseQueryPageRequestDto implements Serializable {
      */
     private Boolean accountNonLocked;
 
+    /**
+     * 资源type
+     */
+    private String type;
+
 }

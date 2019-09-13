@@ -29,6 +29,7 @@
         <jackson.dataformat.convert.version>2.9.4</jackson.dataformat.convert.version>
         <fasterxml.jackson.version>2.9.9</fasterxml.jackson.version>
         <logstash.logback.encoder.version>6.1</logstash.logback.encoder.version>
+        <skywalking.version>6.4.0</skywalking.version>
         <hutool.version>4.5.18</hutool.version>
         <apollo.client.version>1.4.0</apollo.client.version>
         <sky.framework.version>1.0.0-SNAPSHOT</sky.framework.version>
@@ -246,6 +247,13 @@
                 <groupId>net.logstash.logback</groupId>
                 <artifactId>logstash-logback-encoder</artifactId>
                 <version>${logstash.logback.encoder.version}</version>
+            </dependency>
+
+            <!-- skywalking -->
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-logback-1.x</artifactId>
+                <version>${skywalking.version}</version>
             </dependency>
 
             <!-- yaml <==> properties -->

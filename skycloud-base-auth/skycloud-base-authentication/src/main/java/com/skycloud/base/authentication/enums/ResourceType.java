@@ -20,30 +20,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.mapper;
+package com.skycloud.base.authentication.enums;
 
-import com.skycloud.base.authentication.model.domain.Resource;
-import com.skycloud.base.authentication.model.dto.UserDto;
-import com.sky.framework.mybatis.MyMapper;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import lombok.Getter;
 
-import java.util.List;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
- * 资源表
+ * 资源类型
  *
- * @author code generator
- * @date 2019-09-11 17:47:27
+ * @author
  */
-@Mapper
-@Repository
-public interface ResourceMapper extends MyMapper<Resource> {
+public enum ResourceType {
+    MENU(10),
+    TOP_MENU(20),
+    INTERFACE_URL(30),
+    BUTTON(40);
+
+    @Getter
+    private final int key;
+
+    ResourceType(final int key) {
+        this.key = key;
+    }
+
     /**
-     * 根据用户信息获取resource
-     *
-     * @param userDto
+     * @param key
      * @return
      */
-    List<Resource> listResourceByUserId(UserDto userDto);
+    public static ResourceType acquire(final int key) {
+        Optional<ResourceType> serializeEnum =
+                Arrays.stream(ResourceType.values())
+                        .filter(v -> Objects.equals(v.getKey(), key))
+                        .findFirst();
+        return serializeEnum.orElse(ResourceType.MENU);
+
+    }
 }

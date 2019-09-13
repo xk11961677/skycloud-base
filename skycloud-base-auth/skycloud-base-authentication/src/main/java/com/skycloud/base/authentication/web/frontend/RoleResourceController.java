@@ -20,30 +20,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.mapper;
+package com.skycloud.base.authentication.web.frontend;
 
-import com.skycloud.base.authentication.model.domain.Resource;
-import com.skycloud.base.authentication.model.dto.UserDto;
-import com.sky.framework.mybatis.MyMapper;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import com.skycloud.base.authentication.service.RoleResourceService;
+import com.sky.framework.web.support.BaseController;
+import io.swagger.annotations.Api;
+import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import javax.annotation.Resource;
+
 
 /**
- * 资源表
+ * 角色和资源关系表
  *
  * @author code generator
- * @date 2019-09-11 17:47:27
+ * @date 2019-09-11 13:34:12
  */
-@Mapper
-@Repository
-public interface ResourceMapper extends MyMapper<Resource> {
-    /**
-     * 根据用户信息获取resource
-     *
-     * @param userDto
-     * @return
-     */
-    List<Resource> listResourceByUserId(UserDto userDto);
+@RestController
+@AllArgsConstructor
+@RequestMapping("/roleresources")
+@Api(value = "WEB - RoleResourcesController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class RoleResourceController extends BaseController {
+
+    @Resource
+    private RoleResourceService roleResourcesService;
+
+
 }

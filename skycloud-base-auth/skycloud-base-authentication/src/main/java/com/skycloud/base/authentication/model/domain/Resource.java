@@ -24,18 +24,63 @@ package com.skycloud.base.authentication.model.domain;
 
 import com.sky.framework.web.support.BaseEntity;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.Column;
+import javax.persistence.Table;
+import java.io.Serializable;
+
 
 /**
- * @author
+ * 资源表
+ *
+ * @author code generator
+ * @date 2019-09-11 17:47:27
  */
 @Data
-@NoArgsConstructor
-public class Resource extends BaseEntity {
+@EqualsAndHashCode(callSuper = true)
+@Table(name = "dl_resource")
+public class Resource extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 资源code
+     */
     private String code;
-    private String name;
+    /**
+     * 资源类型(10 左侧菜单 20 top菜单 30 接口URL 40 按钮)
+     */
     private String type;
+    /**
+     * 资源名称
+     */
+    private String name;
+    /**
+     * 资源url
+     */
     private String url;
+    /**
+     * 资源方法
+     */
     private String method;
+    /**
+     * 简介
+     */
     private String description;
+    /**
+     * 排序
+     */
+    private Integer sort;
+    /**
+     * 父ID
+     */
+    @Column(name = "parent_id")
+    private Long parentId;
+
+    /**
+     * 图标
+     */
+    private String icon;
+
 }

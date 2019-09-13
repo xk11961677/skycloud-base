@@ -20,30 +20,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.mapper;
+package com.skycloud.base.authentication.web.rpc;
 
-import com.skycloud.base.authentication.model.domain.Resource;
-import com.skycloud.base.authentication.model.dto.UserDto;
-import com.sky.framework.mybatis.MyMapper;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import com.sky.framework.model.dto.MessageRes;
+import com.sky.framework.web.support.BaseController;
+import com.skycloud.base.authentication.api.client.AuthFeignApi;
+import com.skycloud.base.authentication.service.AuthenticationService;
+import com.skycloud.base.authentication.web.HttpServletRequestAuthWrapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 资源表
- *
- * @author code generator
- * @date 2019-09-11 17:47:27
+ * @author
  */
-@Mapper
-@Repository
-public interface ResourceMapper extends MyMapper<Resource> {
+@RestController
+@Slf4j
+public class AuthenticationFeignClient extends BaseController implements AuthFeignApi {
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
     /**
-     * 根据用户信息获取resource
-     *
-     * @param userDto
+     * @param url
+     * @param method
      * @return
      */
-    List<Resource> listResourceByUserId(UserDto userDto);
+    @Override
+    public MessageRes auth(String authentication, String url, String method) {
+        log.debug("authentication controller :{}");
+        boolean decide = authenticationService.decide(new HttpServletRequestAuthWrapper(request, url, method));
+        return MessageRes.success(decide);
+    }
 }

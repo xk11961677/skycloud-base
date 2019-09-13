@@ -20,23 +20,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.service.impl;
+package com.skycloud.base.authentication.web.frontend;
 
-import com.skycloud.base.authentication.enums.ResourceType;
-import com.skycloud.base.authentication.mapper.ResourceMapper;
-import com.skycloud.base.authentication.model.bo.ResourceTreeNodeBo;
-import com.skycloud.base.authentication.model.domain.Resource;
 import com.skycloud.base.authentication.model.dto.UserDto;
 import com.skycloud.base.authentication.service.ResourceService;
-import com.sky.framework.common.json.JsonUtils;
-import com.sky.framework.common.tree.ITreeNode;
-import com.sky.framework.common.tree.Tree;
-import com.sky.framework.web.support.BaseService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.sky.framework.model.dto.MessageRes;
+import com.sky.framework.web.support.BaseController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.Resource;
+
 
 /**
  * 资源表
@@ -44,20 +45,23 @@ import java.util.List;
  * @author code generator
  * @date 2019-09-11 13:33:46
  */
-@Service("resourcesService")
-public class ResourceServiceImpl extends BaseService<Resource> implements ResourceService {
+@RestController
+@AllArgsConstructor
+@RequestMapping("/resources")
+@Api(value = "WEB - ResourcesController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@Slf4j
+public class ResourceController extends BaseController {
 
-    @Autowired
-    private ResourceMapper resourceMapper;
+    @Resource
+    private ResourceService resourcesService;
 
-    @Override
-    public String listMenuByUserId(UserDto userDto) {
-        userDto.setType(ResourceType.MENU.getKey() + "");
-        List<Resource> resources = resourceMapper.listResourceByUserId(userDto);
-        List<ITreeNode> list = new ArrayList<>();
-        resources.forEach(resource -> list.add(new ResourceTreeNodeBo(resource)));
-        Tree tree = new Tree(list);
-        String data = JsonUtils.toJsonString(tree.getRoot(), "parent", "allChildren");
-        return data;
+    @ApiOperation(httpMethod = "POST", value = "获取菜单")
+    @RequestMapping(method = RequestMethod.POST, value = "/getMenu")
+    @ResponseBody
+    public MessageRes<String> getMenu() {
+        UserDto userDto = new UserDto();
+        userDto.setId(101L);
+        String data = resourcesService.listMenuByUserId(userDto);
+        return MessageRes.success(data);
     }
 }

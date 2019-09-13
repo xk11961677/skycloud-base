@@ -20,30 +20,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.mapper;
+package com.skycloud.base.authentication.service;
 
-import com.skycloud.base.authentication.model.domain.Resource;
-import com.skycloud.base.authentication.model.dto.UserDto;
-import com.sky.framework.mybatis.MyMapper;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import com.skycloud.base.authentication.model.domain.RoleResource;
+import com.sky.framework.web.support.IService;
 
 /**
- * 资源表
+ * 角色和资源关系表
  *
  * @author code generator
- * @date 2019-09-11 17:47:27
+ * @date 2019-09-11 13:34:12
  */
-@Mapper
-@Repository
-public interface ResourceMapper extends MyMapper<Resource> {
-    /**
-     * 根据用户信息获取resource
-     *
-     * @param userDto
-     * @return
-     */
-    List<Resource> listResourceByUserId(UserDto userDto);
+public interface RoleResourceService extends IService<RoleResource> {
+
+
 }

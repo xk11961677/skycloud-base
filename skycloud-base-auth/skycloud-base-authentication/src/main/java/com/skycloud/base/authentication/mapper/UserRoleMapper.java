@@ -20,4 +20,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.model;
+package com.skycloud.base.authentication.mapper;
+
+import com.skycloud.base.authentication.model.domain.UserRole;
+import com.sky.framework.mybatis.MyMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
+/**
+ * 用户和角色关系表
+ *
+ * @author code generator
+ * @date 2019-09-11 13:34:28
+ */
+@Mapper
+@Repository
+public interface UserRoleMapper extends MyMapper<UserRole> {
+
+}

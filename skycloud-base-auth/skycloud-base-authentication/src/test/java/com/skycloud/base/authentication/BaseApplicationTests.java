@@ -20,30 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.mapper;
+package com.skycloud.base.authentication;
 
-import com.skycloud.base.authentication.model.domain.Resource;
-import com.skycloud.base.authentication.model.dto.UserDto;
-import com.sky.framework.mybatis.MyMapper;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
-import java.util.List;
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@WebAppConfiguration
+public class BaseApplicationTests {
 
-/**
- * 资源表
- *
- * @author code generator
- * @date 2019-09-11 17:47:27
- */
-@Mapper
-@Repository
-public interface ResourceMapper extends MyMapper<Resource> {
-    /**
-     * 根据用户信息获取resource
-     *
-     * @param userDto
-     * @return
-     */
-    List<Resource> listResourceByUserId(UserDto userDto);
+    @Before
+    public void init() {
+        System.out.println("-----------------begin test-----------------");
+    }
+
+    @After
+    public void after() {
+        System.out.println("-----------------end test-----------------");
+    }
 }

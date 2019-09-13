@@ -22,25 +22,24 @@
  */
 package com.skycloud.base.authentication.model.domain;
 
-
 import com.sky.framework.web.support.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 
 /**
  * 用户表
  *
- * @author
- * @date 2019-06-04 14:19:39
+ * @author code generator
+ * @date 2019-09-11 13:27:16
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "dl_user" )
+@Table(name = "dl_user")
 public class User extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -68,17 +67,17 @@ public class User extends BaseEntity implements Serializable {
     /**
      * 账号是否未过期
      */
-    @Column(name = "account_non_expired" )
+    @Column(name = "account_non_expired")
     private Boolean accountNonExpired;
     /**
      * 密码是否未过期
      */
-    @Column(name = "credentials_non_expired" )
+    @Column(name = "credentials_non_expired")
     private Boolean credentialsNonExpired;
     /**
      * 是否未锁定
      */
-    @Column(name = "account_non_locked" )
+    @Column(name = "account_non_locked")
     private Boolean accountNonLocked;
 
 }

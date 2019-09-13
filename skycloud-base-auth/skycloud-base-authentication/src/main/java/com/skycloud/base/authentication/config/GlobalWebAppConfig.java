@@ -36,7 +36,7 @@ public class GlobalWebAppConfig implements WebMvcConfigurer {
     @Bean
     public SecurityRegistry secureRegistry() {
         SecurityRegistry registry = new SecurityRegistry();
-        registry.excludePathPatterns("/auth/**");
+        registry.excludePathPatterns("/**");
         return registry;
     }
 }

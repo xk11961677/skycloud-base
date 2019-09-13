@@ -49,6 +49,7 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
         log.debug("HttpSecurity configure method");
         http.csrf().disable();
         http.authorizeRequests()
+                .antMatchers("/**").permitAll()
                 .antMatchers("/doc.html").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/images/**").permitAll()
@@ -59,6 +60,5 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/consulhealth/**").permitAll()
                 .antMatchers("/monitor/**").permitAll()
                 .anyRequest().authenticated();
-
     }
 }

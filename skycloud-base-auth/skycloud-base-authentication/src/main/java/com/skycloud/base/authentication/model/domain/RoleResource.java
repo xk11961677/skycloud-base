@@ -20,39 +20,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.web;
+package com.skycloud.base.authentication.model.domain;
 
-import com.skycloud.base.authentication.service.AuthenticationService;
-import com.sky.framework.model.dto.MessageRes;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import com.sky.framework.web.support.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.persistence.Column;
+import javax.persistence.Table;
+import java.io.Serializable;
+
 
 /**
- * @author
+ * 角色和资源关系表
+ *
+ * @author code generator
+ * @date 2019-09-11 13:34:12
  */
-@RestController
-@Slf4j
-public class AuthenticationController {
+@Data
+@EqualsAndHashCode(callSuper = true)
+@Table(name = "dl_role_resource")
+public class RoleResource extends BaseEntity implements Serializable {
 
-    @Autowired
-    private AuthenticationService authenticationService;
+    private static final long serialVersionUID = 1L;
 
     /**
-     *
-     * @param url
-     * @param method
-     * @param request
-     * @return
+     * 角色id
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/auth/permission")
-    @ResponseBody
-    public MessageRes decide(@RequestParam String url, @RequestParam String method, HttpServletRequest request) {
-        log.debug("authentication controller :{}");
-        boolean decide = authenticationService.decide(new HttpServletRequestAuthWrapper(request, url, method));
-        return MessageRes.success(decide);
-    }
+    @Column(name = "resource_id")
+    private Integer resourceId;
+    /**
+     * 资源id
+     */
+    @Column(name = "role_id")
+    private Integer roleId;
 
 }

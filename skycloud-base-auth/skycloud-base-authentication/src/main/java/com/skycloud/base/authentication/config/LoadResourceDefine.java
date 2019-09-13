@@ -35,8 +35,8 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -54,7 +54,7 @@ class LoadResourceDefine {
 
     @Bean
     public Map<RequestMatcher, ConfigAttribute> resourceConfigAttributes() {
-        Set<Resource> resources = resourceService.findAll();
+        List<Resource> resources = resourceService.selectAll();
         Map<RequestMatcher, ConfigAttribute> map = resources.stream()
                 .collect(Collectors.toMap(
                         resource -> {

@@ -22,8 +22,8 @@
  */
 package com.skycloud.base.authentication.service.impl;
 
-import com.skycloud.base.authentication.service.AuthenticationService;
 import com.skycloud.base.authentication.model.domain.Resource;
+import com.skycloud.base.authentication.service.AuthenticationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -129,7 +129,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList())
                 .toArray(new String[authorityRoles.size()]);
-        Set<Resource> resources = resourceService.queryByRoleCodes(authorityRoleCodes);
+        Set<Resource> resources = null;//resourceService.queryByRoleCodes(authorityRoleCodes);
         if (log.isDebugEnabled()) {
             log.debug("用户被授予角色的资源数量是:{}, 资源集合信息为:{}", resources.size(), resources);
         }

@@ -20,30 +20,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.mapper;
+package com.skycloud.base.authentication.model.bo;
 
 import com.skycloud.base.authentication.model.domain.Resource;
-import com.skycloud.base.authentication.model.dto.UserDto;
-import com.sky.framework.mybatis.MyMapper;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import com.sky.framework.common.tree.ITreeNode;
+import org.apache.commons.lang.StringUtils;
 
 /**
- * 资源表
- *
- * @author code generator
- * @date 2019-09-11 17:47:27
+ * @author
  */
-@Mapper
-@Repository
-public interface ResourceMapper extends MyMapper<Resource> {
-    /**
-     * 根据用户信息获取resource
-     *
-     * @param userDto
-     * @return
-     */
-    List<Resource> listResourceByUserId(UserDto userDto);
+public class ResourceTreeNodeBo implements ITreeNode {
+
+    private Resource resource;
+
+    public ResourceTreeNodeBo(Resource resource) {
+        this.resource = resource;
+    }
+
+    @Override
+    public String getNodeId() {
+        return resource.getId() + "";
+    }
+
+    @Override
+    public String getNodeName() {
+        return resource.getName();
+    }
+
+    @Override
+    public String getCode() {
+        return resource.getCode();
+    }
+
+    @Override
+    public String getNodeParentId() {
+        return resource.getParentId() + "";
+    }
+
+    @Override
+    public Integer getOrderNum() {
+        return resource.getSort();
+    }
+
+    @Override
+    public String getMethod() {
+        return resource.getMethod();
+    }
+
+    @Override
+    public String getUrl() {
+        return StringUtils.isEmpty(resource.getUrl())?resource.getCode():resource.getUrl();
+    }
+
+    @Override
+    public String getIcon() {
+        return resource.getIcon();
+    }
 }

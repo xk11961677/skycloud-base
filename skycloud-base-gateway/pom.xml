@@ -151,6 +151,12 @@
             <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
 
+        <!-- skywalking -->
+        <dependency>
+            <groupId>org.apache.skywalking</groupId>
+            <artifactId>apm-toolkit-logback-1.x</artifactId>
+        </dependency>
+
         <!-- hot deployment -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

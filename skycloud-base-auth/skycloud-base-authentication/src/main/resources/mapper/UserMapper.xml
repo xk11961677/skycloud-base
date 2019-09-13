@@ -13,27 +13,27 @@
         <result property="accountNonExpired" javaType="java.lang.Boolean" column="account_non_expired"/>
         <result property="credentialsNonExpired" javaType="java.lang.Boolean" column="credentials_non_expired"/>
         <result property="accountNonLocked" javaType="java.lang.Boolean" column="account_non_locked"/>
-        <result property="createdTime" javaType="java.sql.Timestamp" column="created_time"/>
-        <result property="updatedTime" javaType="java.sql.Timestamp" column="updated_time"/>
+        <result property="createdTime" javaType="java.util.Date" column="created_time"/>
+        <result property="updatedTime" javaType="java.util.Date" column="updated_time"/>
         <result property="createdBy" javaType="java.lang.String" column="created_by"/>
         <result property="updatedBy" javaType="java.lang.String" column="updated_by"/>
         <result property="disabled" javaType="java.lang.Integer" column="disabled"/>
     </resultMap>
 
     <sql id="BaseColumnList">
-        id,
-        username,
-        password,
-        name,
-        mobile,
-        enabled,
-        account_non_expired,
-        credentials_non_expired,
-        account_non_locked,
-        created_time,
-        updated_time,
-        created_by,
-        updated_by,
-        disabled
-    </sql>
+                              id,
+                                        username,
+                                        password,
+                                        name,
+                                        mobile,
+                                        enabled,
+                                        account_non_expired,
+                                        credentials_non_expired,
+                                        account_non_locked,
+                                        created_time,
+                                        updated_time,
+                                        created_by,
+                                        updated_by,
+                                        disabled
+                      </sql>
 </mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.skycloud.base.authentication.mapper.RoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.skycloud.base.authentication.model.domain.Role">
+        <id property="id" javaType="java.lang.Long" column="id"/>
+        <result property="code" javaType="java.lang.String" column="code"/>
+        <result property="name" javaType="java.lang.String" column="name"/>
+        <result property="description" javaType="java.lang.String" column="description"/>
+        <result property="createdTime" javaType="java.util.Date" column="created_time"/>
+        <result property="updatedTime" javaType="java.util.Date" column="updated_time"/>
+        <result property="createdBy" javaType="java.lang.String" column="created_by"/>
+        <result property="updatedBy" javaType="java.lang.String" column="updated_by"/>
+        <result property="disabled" javaType="java.lang.Integer" column="disabled"/>
+    </resultMap>
+
+    <sql id="BaseColumnList">
+                              id,
+                                        code,
+                                        name,
+                                        description,
+                                        created_time,
+                                        updated_time,
+                                        created_by,
+                                        updated_by,
+                                        disabled
+                      </sql>
+</mapper>

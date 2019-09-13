@@ -23,25 +23,23 @@
 package com.skycloud.base.authentication.service;
 
 import com.skycloud.base.authentication.model.domain.Resource;
-
-import java.util.Set;
+import com.skycloud.base.authentication.model.dto.UserDto;
+import com.sky.framework.web.support.IService;
 
 /**
- * @author
+ * 资源表
+ *
+ * @author code generator
+ * @date 2019-09-11 13:33:46
  */
-public interface ResourceService {
-    /**
-     * 返回所有的资源定义内容，resources表中
-     *
-     * @return
-     */
-    Set<Resource> findAll();
+public interface ResourceService extends IService<Resource> {
 
     /**
-     * 根据角色code查询到角色把对应的资源定义
+     * 根据用户获取菜单资源
      *
-     * @param roleCodes
+     * @param userDto
      * @return
      */
-    Set<Resource> queryByRoleCodes(String[] roleCodes);
+    String listMenuByUserId(UserDto userDto);
+
 }
