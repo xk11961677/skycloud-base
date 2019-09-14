@@ -22,15 +22,18 @@
  */
 package com.skycloud.base.geteway.filter;
 
-import com.skycloud.base.authentication.api.client.AuthFeignApi;
-import com.skycloud.base.authentication.api.service.AuthService;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.enums.FailureCodeEnum;
+import com.skycloud.base.authentication.api.client.AuthFeignApi;
+import com.skycloud.base.authentication.api.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.gateway.route.Route;
+import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
@@ -43,6 +46,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.util.stream.Stream;
 
 /**
  * 请求url权限校验
@@ -67,6 +71,12 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
     private AuthFeignApi authFeignApi;
 
     /**
+     * 不需要网关签权的路由配置
+     */
+    @Value("${gate.ignore.authentication.route:''}")
+    private String ignoreRoutes;
+
+    /**
      * 1.首先网关检查token是否有效，无效直接返回401，不调用签权服务
      * 2.调用签权服务器看是否对该请求有权限，有权限进入下一个filter，没有权限返回401
      *
@@ -76,6 +86,11 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        Route route = (Route) exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
+        if(ignoreRouteAuthentication(route.getId())) {
+            return chain.filter(exchange);
+        }
+
         ServerHttpRequest request = exchange.getRequest();
         String authentication = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         String channel = request.getHeaders().getFirst(CHANNEL);
@@ -139,6 +154,16 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
         DataBuffer buffer = serverWebExchange.getResponse()
                 .bufferFactory().wrap(response(FailureCodeEnum.AUZ100016.getCode(), FailureCodeEnum.AUZ100016.getMsg()));
         return serverWebExchange.getResponse().writeWith(Flux.just(buffer));
+    }
+
+    /**
+     * 获取认证的路由
+     *
+     * @param route
+     * @return
+     */
+    private boolean ignoreRouteAuthentication(String route) {
+        return Stream.of(ignoreRoutes.split(",")).anyMatch(ignoreRoute -> route.equals(StringUtils.trim(ignoreRoute)));
     }
 
     /**

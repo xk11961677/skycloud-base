@@ -58,9 +58,9 @@
 
     <select id="listResourceByUserId" parameterType="com.skycloud.base.authentication.model.dto.UserDto"
             resultMap="BaseResultMap">
-        select <include refid="AliasBaseColumnList"/> from dl_user_role ur
-        inner join dl_role_resource rr on ur.role_id=rr.role_id
-        left join dl_resource r on rr.resource_id=r.id
+        select <include refid="AliasBaseColumnList"/> from t_user_role ur
+        inner join t_role_resource rr on ur.role_id=rr.role_id
+        left join t_resource r on rr.resource_id=r.id
         where ur.user_id=#{id} and ur.disabled=0
         and r.type=#{type}
     </select>

@@ -68,8 +68,8 @@ public class AuthServiceImpl implements AuthService {
      * 不需要网关签权的url配置(/oauth,/open)
      * 默认/oauth开头是不需要的
      */
-    @Value("${gate.ignore.authentication.startWith}")
-    private String ignoreUrls = "/oauth";
+    @Value("${gate.ignore.authentication.startWith:/oauth,/open}")
+    private String ignoreUrls;
     /**
      * jwt验签
      */
