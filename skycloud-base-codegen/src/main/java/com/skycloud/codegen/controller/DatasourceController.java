@@ -74,10 +74,17 @@ public class DatasourceController {
                     @ApiImplicitParam(paramType = "query", dataType = "String", name = "pluginName", value = "插件名"),
                     @ApiImplicitParam(paramType = "query", dataType = "String", name = "pluginType", value = "插件类型")
             })
-    public MessageRes<IPage<DataSourceEntity>> selectAll() {
+    public MessageRes<IPage<DataSourceEntity>> selectPage() {
         BaseForm<DataSourceEntity> baseForm = new BaseForm();
         IPage page = this.datasourceService.page(baseForm.getPlusPagingQueryEntity(), pageQueryWrapperCustom(baseForm.getParameters()));
         return MessageRes.success(page);
+    }
+
+    @GetMapping("/select")
+    @ApiOperation("查询所有数据")
+    public MessageRes<List<DataSourceEntity>> selectAll() {
+        List<DataSourceEntity> list = this.datasourceService.list();
+        return MessageRes.success(list);
     }
 
     /**

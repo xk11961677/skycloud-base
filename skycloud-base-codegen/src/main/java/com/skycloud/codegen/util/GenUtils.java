@@ -99,8 +99,8 @@ public class GenUtils {
         TableEntity tableEntity = new TableEntity();
         tableEntity.setTableName(table.get("tableName"));
 
-        if (StrUtil.isNotBlank(genConfig.getComments())) {
-            tableEntity.setComments(genConfig.getComments());
+        if (StrUtil.isNotBlank(genConfig.getRemark())) {
+            tableEntity.setComments(genConfig.getRemark());
         } else {
             tableEntity.setComments(table.get("tableComment"));
         }
@@ -186,8 +186,8 @@ public class GenUtils {
 
         map.put("datetime", DateUtil.now());
 
-        if (StrUtil.isNotBlank(genConfig.getComments())) {
-            map.put("comments", genConfig.getComments());
+        if (StrUtil.isNotBlank(genConfig.getRemark())) {
+            map.put("comments", genConfig.getRemark());
         } else {
             map.put("comments", tableEntity.getComments());
         }

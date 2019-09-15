@@ -20,20 +20,11 @@ spring:
       host: 47.96.117.253
       port: 8500
   datasource:
-    one:
+    default:
       ## 默认数据源
       user: root
       password: 123456
       url: jdbc:mysql://47.96.117.253:3306/cloud?useSSL=false&characterEncoding=utf8
-    two:
-      user: root
-      password: 123456
-      url: jdbc:mysql://47.96.117.253:3306/cloud?useSSL=false&characterEncoding=utf8
-    three:
-      user: root
-      password: 123456
-      url: jdbc:mysql://47.96.117.253:3306/cloud?useSSL=false&characterEncoding=utf8
-
 #    url: jdbc:mysql://127.0.0.1:3306/payment?useSSL=false&characterEncoding=utf8
 #    driver-class-name: com.mysql.jdbc.Driver
 #    password: aaa

@@ -22,16 +22,26 @@
  */
 package com.skycloud.codegen.model.domain;
 
+import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 /**
  * @author 生成配置
  */
 @Data
+@TableName("t_codegen")
 public class GenConfig {
+
+    @TableId(type = IdType.AUTO)
+    private Long id;
     /**
      * 包名
      */
+    @TableField(value = "package_name")
     private String packageName;
     /**
      * 作者
@@ -40,24 +50,66 @@ public class GenConfig {
     /**
      * 模块名称
      */
+    @TableField(value = "module_name")
     private String moduleName;
+    /**
+     * 服务名称
+     */
+    @TableField(value = "service_name")
+    private String serviceName;
     /**
      * 表前缀
      */
+    @TableField(value = "table_prefix")
     private String tablePrefix;
 
     /**
      * 表名称
      */
+    @TableField(value = "table_name")
     private String tableName;
 
     /**
      * 表备注
      */
-    private String comments;
+    private String remark;
 
     /**
      * 数据源
      */
-    private String datasource;
+    @TableField(value = "datasource_id")
+    private Long datasourceId;
+
+    /**
+     * 状态 0 有效 1 无效
+     */
+    private Integer disabled;
+
+    /**
+     * 创建时间
+     */
+    @TableField(value = "created_time", fill = FieldFill.INSERT)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createdTime;
+
+    /**
+     * 创建人
+     */
+    @TableField(value = "created_by", fill = FieldFill.INSERT)
+    private String createdBy;
+
+    /**
+     * 更新时间
+     */
+    @TableField(value = "updated_time", fill = FieldFill.INSERT_UPDATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date updatedTime;
+
+    /**
+     * 更新人
+     */
+    @TableField(value = "updated_by", fill = FieldFill.INSERT_UPDATE)
+    private String updatedBy;
 }

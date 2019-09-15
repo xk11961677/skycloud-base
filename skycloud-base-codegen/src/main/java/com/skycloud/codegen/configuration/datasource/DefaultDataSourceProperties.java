@@ -29,10 +29,10 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author
  */
-@ConfigurationProperties(prefix = "spring.datasource.one")
+@ConfigurationProperties(prefix = "spring.datasource.default")
 @Configuration
 @Data
-public class OneDataSourceProperties {
+public class DefaultDataSourceProperties {
 
     private String url;
 

@@ -22,9 +22,7 @@
  */
 package com.skycloud.codegen.configuration.datasource;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.skycloud.codegen.common.MultiRouteDataSource;
-import com.skycloud.codegen.model.domain.DataSourceEntity;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +31,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,20 +42,16 @@ import java.util.Map;
 public class DataSourceConfiguration {
 
     @Autowired
-    private OneDataSourceProperties oneDataSourceProperties;
+    private DefaultDataSourceProperties defaultDataSourceProperties;
 
-    /*@Autowired
-    private TwoDataSourceProperties twoDataSourceProperties;
 
-    @Autowired
-    private ThreeDataSourceProperties threeDataSourceProperties;*/
 
     @Bean(name = "defaultDataSource")
     public HikariDataSource defaultDataSource() {
         HikariDataSource oneDataSource = new HikariDataSource();
-        oneDataSource.setJdbcUrl(oneDataSourceProperties.getUrl());
-        oneDataSource.setUsername(oneDataSourceProperties.getUser());
-        oneDataSource.setPassword(oneDataSourceProperties.getPassword());
+        oneDataSource.setJdbcUrl(defaultDataSourceProperties.getUrl());
+        oneDataSource.setUsername(defaultDataSourceProperties.getUser());
+        oneDataSource.setPassword(defaultDataSourceProperties.getPassword());
         return oneDataSource;
     }
 
