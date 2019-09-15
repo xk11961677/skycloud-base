@@ -22,7 +22,8 @@
  */
 package com.skycloud.codegen.controller;
 
-import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.codec.Base64Encoder;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -30,6 +31,7 @@ import com.sky.framework.model.dto.MessageRes;
 import com.skycloud.codegen.common.DataSourceContext;
 import com.skycloud.codegen.model.domain.DataSourceEntity;
 import com.skycloud.codegen.model.domain.GenConfig;
+import com.skycloud.codegen.model.dto.GenConfigDTO;
 import com.skycloud.codegen.model.form.BaseForm;
 import com.skycloud.codegen.service.CodegenService;
 import com.skycloud.codegen.service.DatasourceService;
@@ -73,7 +75,8 @@ public class SysGeneratorController {
      * 生成代码
      */
     @PostMapping("/gen-code")
-    public void code(@RequestParam("ids") List<Long> ids, HttpServletResponse response) throws IOException {
+    @ResponseBody
+    public MessageRes<List<GenConfigDTO>> code(@RequestParam("ids") List<Long> ids, HttpServletResponse response) throws IOException {
         List<GenConfig> genConfigs = (List) this.codegenService.listByIds(ids);
         List<Long> list = new ArrayList<>();
         for (GenConfig gen : genConfigs) {
@@ -87,20 +90,25 @@ public class SysGeneratorController {
         for (DataSourceEntity dataSourceEntity : dataSources) {
             map.put(dataSourceEntity.getId(), dataSourceEntity.getName());
         }
+        List<GenConfigDTO> genConfigDTOList = new ArrayList();
+
         for (GenConfig genConfig : genConfigs) {
             DataSourceContext.setDataSource(map.get(genConfig.getDatasourceId()));
             byte[] data = sysGeneratorService.generatorCode(genConfig);
             DataSourceContext.clearDataSource();
 
-            response.reset();
-            response.setHeader("Content-Disposition", String.format("attachment; filename=%s.zip", genConfig.getTableName()));
-            response.addHeader("Content-Length", "" + data.length);
-            response.setContentType("application/octet-stream; charset=UTF-8");
-
-            IoUtil.write(response.getOutputStream(), Boolean.FALSE, data);
+//            response.reset();
+//            response.setHeader("Content-Disposition", String.format("attachment; filename=%s.zip", genConfig.getTableName()));
+//            response.addHeader("Content-Length", "" + data.length);
+//            response.setContentType("application/octet-stream; charset=UTF-8");
+//
+//            IoUtil.write(response.getOutputStream(), Boolean.FALSE, data);
+            GenConfigDTO genConfigDTO = new GenConfigDTO();
+            BeanUtil.copyProperties(genConfig, genConfigDTO);
+            genConfigDTO.setBase64(Base64Encoder.encode(data));
+            genConfigDTOList.add(genConfigDTO);
         }
-
-
+        return MessageRes.success(genConfigDTOList);
     }
 
 
