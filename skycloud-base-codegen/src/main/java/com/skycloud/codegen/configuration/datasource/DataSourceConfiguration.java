@@ -20,26 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.codegen.config.datasource;
+package com.skycloud.codegen.configuration.datasource;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.skycloud.codegen.common.MultiRouteDataSource;
-import com.skycloud.codegen.entity.DataSourceEntity;
+import com.skycloud.codegen.model.domain.DataSourceEntity;
 import com.zaxxer.hikari.HikariDataSource;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,57 +42,24 @@ import java.util.Map;
  * @author
  */
 @Configuration
-public class DataSourceConfig {
-
-    public static ArrayList<DataSourceEntity> dataSourcesContainer = new ArrayList<>();
-
+public class DataSourceConfiguration {
 
     @Autowired
     private OneDataSourceProperties oneDataSourceProperties;
 
-    @Autowired
+    /*@Autowired
     private TwoDataSourceProperties twoDataSourceProperties;
 
     @Autowired
-    private ThreeDataSourceProperties threeDataSourceProperties;
+    private ThreeDataSourceProperties threeDataSourceProperties;*/
 
-    @Bean(name = "oneDataSource")
-    public HikariDataSource oneDataSource() {
+    @Bean(name = "defaultDataSource")
+    public HikariDataSource defaultDataSource() {
         HikariDataSource oneDataSource = new HikariDataSource();
         oneDataSource.setJdbcUrl(oneDataSourceProperties.getUrl());
         oneDataSource.setUsername(oneDataSourceProperties.getUser());
         oneDataSource.setPassword(oneDataSourceProperties.getPassword());
-        DataSourceEntity entity = new DataSourceEntity();
-        BeanUtil.copyProperties(oneDataSourceProperties, entity);
-        entity.setName("one");
-        dataSourcesContainer.add(entity);
         return oneDataSource;
-    }
-
-    @Bean(name = "twoDataSource")
-    public HikariDataSource twoDataSource() {
-        HikariDataSource twoDataSource = new HikariDataSource();
-        twoDataSource.setJdbcUrl(twoDataSourceProperties.getUrl());
-        twoDataSource.setUsername(twoDataSourceProperties.getUser());
-        twoDataSource.setPassword(twoDataSourceProperties.getPassword());
-        DataSourceEntity entity = new DataSourceEntity();
-        BeanUtil.copyProperties(twoDataSourceProperties, entity);
-        entity.setName("two");
-        dataSourcesContainer.add(entity);
-        return twoDataSource;
-    }
-
-    @Bean(name = "threeDataSource")
-    public HikariDataSource threeDataSource() {
-        HikariDataSource threeDataSource = new HikariDataSource();
-        threeDataSource.setJdbcUrl(threeDataSourceProperties.getUrl());
-        threeDataSource.setUsername(threeDataSourceProperties.getUser());
-        threeDataSource.setPassword(threeDataSourceProperties.getPassword());
-        DataSourceEntity entity = new DataSourceEntity();
-        BeanUtil.copyProperties(threeDataSourceProperties, entity);
-        entity.setName("three");
-        dataSourcesContainer.add(entity);
-        return threeDataSource;
     }
 
 
@@ -108,23 +68,18 @@ public class DataSourceConfig {
     public MultiRouteDataSource multiRouteDataSource() {
         MultiRouteDataSource multiDataSource = new MultiRouteDataSource();
         Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put("one", oneDataSource());
-        targetDataSources.put("two", twoDataSource());
-        targetDataSources.put("three", threeDataSource());
+        targetDataSources.put("default", defaultDataSource());
         multiDataSource.setTargetDataSources(targetDataSources);
-        multiDataSource.setDefaultTargetDataSource(oneDataSource());
+        multiDataSource.setDefaultTargetDataSource(defaultDataSource());
         return multiDataSource;
     }
 
 
-    /**
-     *
-     */
-    @Bean
+    /*@Bean
     public SqlSessionFactory sqlSessionFactory(@Qualifier("multiDataSource") DataSource dynamicDataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dynamicDataSource);
-        Resource[] resources = new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml");
+        Resource[] resources = new PathMatchingResourcePatternResolver().getResources("classpath*:/mapper/**Mapper.xml");
         bean.setMapperLocations(resources);
         return bean.getObject();
     }
@@ -132,7 +87,7 @@ public class DataSourceConfig {
     @Bean(name = "sqlSessionTemplate")
     public SqlSessionTemplate sqlSessionTemplate(@Qualifier("sqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
-    }
+    }*/
 
     /**
      *

@@ -22,6 +22,7 @@
  */
 package com.skycloud.base.authentication.web.frontend;
 
+import com.skycloud.base.authentication.model.domain.Resource;
 import com.skycloud.base.authentication.model.dto.UserDto;
 import com.skycloud.base.authentication.service.ResourceService;
 import com.sky.framework.model.dto.MessageRes;
@@ -30,13 +31,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import com.skycloud.base.authentication.model.domain.Resource;
 
-import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -52,7 +55,7 @@ import javax.annotation.Resource;
 @Slf4j
 public class ResourceController extends BaseController {
 
-    @Resource
+    @Autowired
     private ResourceService resourcesService;
 
     @ApiOperation(httpMethod = "POST", value = "获取菜单")
@@ -63,5 +66,15 @@ public class ResourceController extends BaseController {
         userDto.setId(101L);
         String data = resourcesService.listMenuByUserId(userDto);
         return MessageRes.success(data);
+    }
+
+    @ApiOperation(httpMethod = "POST", value = "获取按钮")
+    @RequestMapping(method = RequestMethod.POST, value = "/getButton")
+    @ResponseBody
+    public MessageRes<Resource> getButton() {
+        UserDto userDto = new UserDto();
+        userDto.setId(101L);
+        List<Resource> resources = resourcesService.listButtonByUserId(userDto);
+        return MessageRes.success(resources);
     }
 }

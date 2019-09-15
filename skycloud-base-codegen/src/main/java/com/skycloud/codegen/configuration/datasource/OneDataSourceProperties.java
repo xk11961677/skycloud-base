@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.codegen.config.datasource;
+package com.skycloud.codegen.configuration.datasource;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -29,10 +29,10 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author
  */
-@ConfigurationProperties(prefix = "spring.datasource.three")
+@ConfigurationProperties(prefix = "spring.datasource.one")
 @Configuration
 @Data
-public class ThreeDataSourceProperties {
+public class OneDataSourceProperties {
 
     private String url;
 

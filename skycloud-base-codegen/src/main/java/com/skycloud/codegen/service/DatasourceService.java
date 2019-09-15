@@ -20,45 +20,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.codegen.entity;
+package com.skycloud.codegen.service;
 
-import lombok.Data;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.skycloud.codegen.model.domain.DataSourceEntity;
 
 /**
  * @author
- * 生成配置
  */
-@Data
-public class GenConfig {
-	/**
-	 * 包名
-	 */
-	private String packageName;
-	/**
-	 * 作者
-	 */
-	private String author;
-	/**
-	 * 模块名称
-	 */
-	private String moduleName;
-	/**
-	 * 表前缀
-	 */
-	private String tablePrefix;
+public interface DatasourceService extends IService<DataSourceEntity> {
 
-	/**
-	 * 表名称
-	 */
-	private String tableName;
 
-	/**
-	 * 表备注
-	 */
-	private String comments;
-
-    /**
-     * 数据源
-	 */
-	private String datasource;
 }

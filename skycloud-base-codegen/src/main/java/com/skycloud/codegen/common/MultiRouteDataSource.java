@@ -22,12 +22,32 @@
  */
 package com.skycloud.codegen.common;
 
+import com.skycloud.codegen.model.domain.DataSourceEntity;
+import com.skycloud.codegen.service.DatasourceService;
+import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author
  */
-public class MultiRouteDataSource extends AbstractRoutingDataSource {
+public class MultiRouteDataSource extends AbstractRoutingDataSource implements ApplicationListener<ApplicationEvent> {
+
+    @Autowired
+    private DatasourceService datasourceService;
+
+    @Autowired
+    @Qualifier("defaultDataSource")
+    private HikariDataSource defaultDataSource;
+
+    private Map<Object, Object> targetDataSources = new HashMap<>();
 
     @Override
     protected Object determineCurrentLookupKey() {
@@ -35,6 +55,51 @@ public class MultiRouteDataSource extends AbstractRoutingDataSource {
     }
 
 
+    public void dynamicInitDatasource() {
+        List<DataSourceEntity> list = datasourceService.list();
+        list.forEach(db -> {
+            if (targetDataSources.get(db.getName()) == null) {
+                targetDataSources.put(db.getName(), buildDatasource(db));
+            }
+        });
+        targetDataSources.put("default", defaultDataSource);
+        super.setTargetDataSources(targetDataSources);
+        super.setDefaultTargetDataSource(defaultDataSource);
+        super.afterPropertiesSet();
+    }
+
+    public void dynamicAddDatasource(DataSourceEntity db) {
+        targetDataSources.put(db.getName(), buildDatasource(db));
+        super.setTargetDataSources(targetDataSources);
+        super.afterPropertiesSet();
+    }
+
+    public void dynamicRemoveDatasource(List<DataSourceEntity> list) {
+        list.forEach(db -> targetDataSources.remove(db.getName()));
+        super.setTargetDataSources(targetDataSources);
+        super.afterPropertiesSet();
+    }
+
+    public void dynamicUpdateDatasource(DataSourceEntity db) {
+        targetDataSources.remove(db.getName());
+        targetDataSources.put(db.getName(), buildDatasource(db));
+        super.setTargetDataSources(targetDataSources);
+        super.afterPropertiesSet();
+    }
+
+    @Override
+    public void onApplicationEvent(ApplicationEvent event) {
+        dynamicInitDatasource();
+    }
+
+    private HikariDataSource buildDatasource(DataSourceEntity db) {
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setDriverClassName(db.getDriverClass());
+        dataSource.setJdbcUrl(db.getUrl());
+        dataSource.setUsername(db.getUsername());
+        dataSource.setPassword(db.getPassword());
+        return dataSource;
+    }
 
 
 }

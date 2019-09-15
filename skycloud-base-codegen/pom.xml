@@ -20,6 +20,12 @@
         <dependency>
             <groupId>com.sky.framework</groupId>
             <artifactId>framework-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>framework-dao-mybatis</artifactId>
+                    <groupId>com.sky.framework</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -83,7 +89,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.0.6</version>
+            <version>3.2.0</version>
         </dependency>
 
         <!--代码生成模板引擎-->
@@ -93,23 +99,6 @@
             <version>1.7</version>
         </dependency>
 
-        <!--web 模块-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <!--排除tomcat依赖-->
-                <exclusion>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                    <groupId>org.springframework.boot</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!--undertow容器-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

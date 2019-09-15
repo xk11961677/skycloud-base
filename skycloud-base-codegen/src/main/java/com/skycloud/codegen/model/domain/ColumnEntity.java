@@ -20,27 +20,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.codegen.config;
+package com.skycloud.codegen.model.domain;
 
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import lombok.Data;
 
 /**
  * @author
- * @date
  */
-@Configuration
-@MapperScan("com.skycloud.codegen.mapper")
-public class MybatisPlusConfigurer {
-	/**
-	 * 分页插件
-	 *
-	 * @return PaginationInterceptor
-	 */
-	@Bean
-	public PaginationInterceptor paginationInterceptor() {
-		return new PaginationInterceptor();
-	}
+@Data
+public class ColumnEntity {
+    /**
+     * 列表
+     */
+    private String columnName;
+    /**
+     * 数据类型
+     */
+    private String dataType;
+    /**
+     * 备注
+     */
+    private String comments;
+
+    /**
+     * 驼峰属性
+     */
+    private String caseAttrName;
+    /**
+     * 普通属性
+     */
+    private String lowerAttrName;
+    /**
+     * 属性类型
+     */
+    private String attrType;
+    /**
+     * 实体属性类型
+     */
+    private String entityAttrType;
+    /**
+     * 其他信息。
+     */
+    private String extra;
 }

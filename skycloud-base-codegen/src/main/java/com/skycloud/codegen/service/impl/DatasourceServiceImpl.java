@@ -20,23 +20,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.codegen.entity;
+package com.skycloud.codegen.service.impl;
 
-import lombok.Data;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.skycloud.codegen.mapper.DatasourceMapper;
+import com.skycloud.codegen.model.domain.DataSourceEntity;
+import com.skycloud.codegen.service.DatasourceService;
+import org.springframework.stereotype.Service;
 
 /**
+ * 代码生成器
+ *
  * @author
  */
-@Data
-public class DataSourceEntity {
-
-    private String name;
-
-    private String url;
-
-    private String user;
-
-    private String password;
-
+@Service
+public class DatasourceServiceImpl extends ServiceImpl<DatasourceMapper, DataSourceEntity> implements DatasourceService {
 
 }

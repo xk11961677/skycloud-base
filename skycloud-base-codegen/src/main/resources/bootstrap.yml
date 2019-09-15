@@ -17,22 +17,22 @@ spring:
         register: true
         serviceName: ${spring.application.name}
         tags: ${spring.application.name},management.context-path=/monitor
-      host: 127.0.0.1
+      host: 47.96.117.253
       port: 8500
   datasource:
     one:
       ## 默认数据源
       user: root
       password: 123456
-      url: jdbc:mysql://127.0.0.1:3306/cloud?useSSL=false&characterEncoding=utf8
+      url: jdbc:mysql://47.96.117.253:3306/cloud?useSSL=false&characterEncoding=utf8
     two:
       user: root
       password: 123456
-      url: jdbc:mysql://127.0.0.1:3306/cloud?useSSL=false&characterEncoding=utf8
+      url: jdbc:mysql://47.96.117.253:3306/cloud?useSSL=false&characterEncoding=utf8
     three:
       user: root
       password: 123456
-      url: jdbc:mysql://127.0.0.1:3306/cloud?useSSL=false&characterEncoding=utf8
+      url: jdbc:mysql://47.96.117.253:3306/cloud?useSSL=false&characterEncoding=utf8
 
 #    url: jdbc:mysql://127.0.0.1:3306/payment?useSSL=false&characterEncoding=utf8
 #    driver-class-name: com.mysql.jdbc.Driver

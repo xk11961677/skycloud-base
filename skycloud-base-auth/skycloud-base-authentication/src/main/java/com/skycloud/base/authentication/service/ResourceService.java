@@ -26,6 +26,8 @@ import com.skycloud.base.authentication.model.domain.Resource;
 import com.skycloud.base.authentication.model.dto.UserDto;
 import com.sky.framework.web.support.IService;
 
+import java.util.List;
+
 /**
  * 资源表
  *
@@ -41,5 +43,14 @@ public interface ResourceService extends IService<Resource> {
      * @return
      */
     String listMenuByUserId(UserDto userDto);
+
+
+    /**
+     * 根据用户获取按钮资源
+     *
+     * @param userDto
+     * @return
+     */
+    List<Resource> listButtonByUserId(UserDto userDto);
 
 }

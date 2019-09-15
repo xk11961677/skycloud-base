@@ -25,13 +25,12 @@ package com.skycloud.codegen.controller;
 import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.skycloud.codegen.common.DataSourceContext;
-import com.skycloud.codegen.config.datasource.DataSourceConfig;
-import com.skycloud.codegen.entity.DataSourceEntity;
-import com.skycloud.codegen.entity.GenConfig;
-import com.skycloud.codegen.service.SysGeneratorService;
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.model.dto.Pagination;
+import com.skycloud.codegen.common.DataSourceContext;
+import com.skycloud.codegen.model.domain.DataSourceEntity;
+import com.skycloud.codegen.model.domain.GenConfig;
+import com.skycloud.codegen.service.SysGeneratorService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -50,52 +49,47 @@ import java.util.Map;
 @AllArgsConstructor
 @RequestMapping("/generator")
 public class SysGeneratorController {
-	private final SysGeneratorService sysGeneratorService;
 
-	@GetMapping("/datasource")
-	public MessageRes<Pagination> datasource() {
-		Pagination<DataSourceEntity> pagination = new Pagination(Pagination.DEFAULT_PAGE_SIZE, 1,DataSourceConfig.dataSourcesContainer.size(), DataSourceConfig.dataSourcesContainer);
-		return MessageRes.success(pagination);
-	}
+    private final SysGeneratorService sysGeneratorService;
 
-	/**
-	 * 列表
-	 *
-	 * @param tableName 参数集
-	 * @return 数据库表
-	 */
-	@GetMapping("/page")
-	public MessageRes<Pagination> list(Page page, String tableName, @RequestParam(required = false) String datasource) {
-		if (!StringUtils.isEmpty(datasource)) {
-			DataSourceContext.setDataSource(datasource);
-		}
-		IPage<List<Map<String, Object>>> listIPage = sysGeneratorService.queryPage(page, tableName);
-		DataSourceContext.clearDataSource();
-		int pageSize = Integer.parseInt(listIPage.getSize() + "");
-		int pageNum = Integer.parseInt(listIPage.getCurrent() + "");
-		int totalCount = Integer.parseInt(listIPage.getTotal() + "");
-		List records = listIPage.getRecords();
-		Pagination<DataSourceEntity> pagination = new Pagination(pageSize, pageNum, totalCount, records);
-		return MessageRes.success(pagination);
-	}
+    /**
+     * 列表
+     *
+     * @param tableName 参数集
+     * @return 数据库表
+     */
+    @GetMapping("/page")
+    public MessageRes<Pagination> list(Page page, String tableName, @RequestParam(required = false) String datasource) {
+        if (!StringUtils.isEmpty(datasource)) {
+            DataSourceContext.setDataSource(datasource);
+        }
+        IPage<List<Map<String, Object>>> listIPage = sysGeneratorService.queryPage(page, tableName);
+        DataSourceContext.clearDataSource();
+        int pageSize = Integer.parseInt(listIPage.getSize() + "");
+        int pageNum = Integer.parseInt(listIPage.getCurrent() + "");
+        int totalCount = Integer.parseInt(listIPage.getTotal() + "");
+        List records = listIPage.getRecords();
+        Pagination<DataSourceEntity> pagination = new Pagination(pageSize, pageNum, totalCount, records);
+        return MessageRes.success(pagination);
+    }
 
-	/**
-	 * 生成代码
-	 */
-	@PostMapping("/code")
-	public void code(@RequestBody GenConfig genConfig, HttpServletResponse response) throws IOException {
-		String datasource = genConfig.getDatasource();
-		if (!StringUtils.isEmpty(datasource)) {
-			DataSourceContext.setDataSource(datasource);
-		}
-		byte[] data = sysGeneratorService.generatorCode(genConfig);
-		DataSourceContext.clearDataSource();
+    /**
+     * 生成代码
+     */
+    @PostMapping("/code")
+    public void code(@RequestBody GenConfig genConfig, HttpServletResponse response) throws IOException {
+        String datasource = genConfig.getDatasource();
+        if (!StringUtils.isEmpty(datasource)) {
+            DataSourceContext.setDataSource(datasource);
+        }
+        byte[] data = sysGeneratorService.generatorCode(genConfig);
+        DataSourceContext.clearDataSource();
 
-		response.reset();
-		response.setHeader("Content-Disposition", String.format("attachment; filename=%s.zip", genConfig.getTableName()));
-		response.addHeader("Content-Length", "" + data.length);
-		response.setContentType("application/octet-stream; charset=UTF-8");
+        response.reset();
+        response.setHeader("Content-Disposition", String.format("attachment; filename=%s.zip", genConfig.getTableName()));
+        response.addHeader("Content-Length", "" + data.length);
+        response.setContentType("application/octet-stream; charset=UTF-8");
 
-		IoUtil.write(response.getOutputStream(), Boolean.FALSE, data);
-	}
+        IoUtil.write(response.getOutputStream(), Boolean.FALSE, data);
+    }
 }

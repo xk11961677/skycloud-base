@@ -20,23 +20,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.codegen.config.datasource;
+package com.skycloud.codegen.mapper;
 
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.skycloud.codegen.model.domain.DataSourceEntity;
 
 /**
+ * 代码生成器
+ *
  * @author
  */
-@ConfigurationProperties(prefix = "spring.datasource.one")
-@Configuration
-@Data
-public class OneDataSourceProperties {
+public interface DatasourceMapper extends BaseMapper<DataSourceEntity> {
 
-    private String url;
-
-    private String user;
-
-    private String password;
 }

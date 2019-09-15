@@ -36,7 +36,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 资源表
@@ -59,5 +61,15 @@ public class ResourceServiceImpl extends BaseService<Resource> implements Resour
         Tree tree = new Tree(list);
         String data = JsonUtils.toJsonString(tree.getRoot(), "parent", "allChildren");
         return data;
+    }
+
+    @Override
+    public List<Resource> listButtonByUserId(UserDto userDto) {
+        userDto.setType(ResourceType.BUTTON.getKey() + "");
+        List<Resource> resources = resourceMapper.listResourceByUserId(userDto);
+        for (Resource resource : resources) {
+            resource.setCode(resource.getCode().replace(":", "_"));
+        }
+        return resources;
     }
 }
