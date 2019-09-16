@@ -20,9 +20,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.web.frontend;
+package com.skycloud.base.authentication.web.backend;
 
-import com.skycloud.base.authentication.service.RoleService;
+import com.skycloud.base.authentication.service.RoleResourceService;
 import com.sky.framework.web.support.BaseController;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -34,19 +34,19 @@ import javax.annotation.Resource;
 
 
 /**
- * 角色表
+ * 角色和资源关系表
  *
  * @author code generator
- * @date 2019-09-11 13:33:59
+ * @date 2019-09-11 13:34:12
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/role")
-@Api(value = "WEB - RoleController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class RoleController extends BaseController{
+@RequestMapping("/roleresources")
+@Api(value = "WEB - RoleResourcesController", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class RoleResourceController extends BaseController {
 
-  @Resource
-  private  RoleService roleService;
+    @Resource
+    private RoleResourceService roleResourcesService;
 
 
 }

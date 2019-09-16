@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.web.frontend;
+package com.skycloud.base.authentication.web.backend;
 
 import com.skycloud.base.authentication.model.domain.Resource;
 import com.skycloud.base.authentication.model.dto.UserDto;
@@ -37,7 +37,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.skycloud.base.authentication.model.domain.Resource;
 
 import java.util.List;
 
