@@ -188,7 +188,12 @@ docker-compose -f docs/docker/docker-compose.yml up -d
 ```
 
 ## 运维管理页面
-![platform](docs/image/platform.png)
+[vue address](https://github.com/xk11961677/skycloud-admin-vue)
+
+![platform](docs/image/platform_01.png)
+
+![platform](docs/image/platform_02.png)
+
 
 
 ## FAQ

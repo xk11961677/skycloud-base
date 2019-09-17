@@ -38,7 +38,7 @@
 
 ![数据源](../docs/image/grafana_04.png)
 
-4. 地址: http://121.40.79.96:3000
+4. 地址: http://127.0.0.1:3000
 
 #### alertmanager报警与prometheus报警规则
 
