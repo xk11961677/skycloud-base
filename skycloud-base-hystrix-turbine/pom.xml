@@ -86,7 +86,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.skycloud.base.turbine.SkyCloudTurbineApplication</mainClass>
+                    <mainClass>com.skycloud.base.turbine.TurbineApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

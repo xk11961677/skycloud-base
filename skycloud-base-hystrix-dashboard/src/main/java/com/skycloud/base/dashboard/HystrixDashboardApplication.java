@@ -20,15 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.api;
+package com.skycloud.base.dashboard;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 
 /**
  * @author
  */
-@Configuration
-@ComponentScan(basePackageClasses = SkyAuthcConfiguration.class)
-public class SkyAuthcConfiguration {
+@SpringBootApplication
+@EnableHystrixDashboard
+public class HystrixDashboardApplication {
+
+
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(HystrixDashboardApplication.class, args);
+    }
 }

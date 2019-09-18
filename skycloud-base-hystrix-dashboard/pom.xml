@@ -63,7 +63,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.skycloud.base.dashboard.SkyCloudHystrixApplication</mainClass>
+                    <mainClass>com.skycloud.base.dashboard.HystrixDashboardApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

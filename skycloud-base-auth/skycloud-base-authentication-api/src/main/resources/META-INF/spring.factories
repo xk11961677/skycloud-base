@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.skycloud.base.authentication.api.SkyAuthcConfiguration
+com.skycloud.base.authentication.api.SkyAuthenticationAutoConfiguration

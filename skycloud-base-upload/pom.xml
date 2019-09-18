@@ -116,7 +116,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.skycloud.base.upload.SkyCloudUploadApplication</mainClass>
+                    <mainClass>com.skycloud.base.upload.UploadApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

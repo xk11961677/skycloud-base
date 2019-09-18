@@ -20,24 +20,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.upload;
+package com.skycloud.base.monitor;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
+import com.hazelcast.config.Config;
+import com.hazelcast.config.EvictionPolicy;
+import com.hazelcast.config.InMemoryFormat;
+import com.hazelcast.config.MapConfig;
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Bean;
 
 /**
- * The class Doooly cloud order application.
- *
  * @author
  */
-@EnableFeignClients(basePackages = "com.skycloud")
-@ComponentScan(basePackages = "com.skycloud")
-@SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class, DataSourceAutoConfiguration.class})
-public class SkyCloudUploadApplication {
+@SpringBootApplication
+@EnableAdminServer
+public class MonitorApplication {
+
+    /**
+     * Hazelcast config config.
+     *
+     * @return the config
+     */
+//	@Bean
+//	public Config hazelcastConfig() {
+//		return new Config().setProperty("hazelcast.jmx", "true")
+//				.addMapConfig(new MapConfig("spring-boot-admin-application-store").setBackupCount(1)
+//						.setEvictionPolicy(EvictionPolicy.NONE))
+//				.addListConfig(new ListConfig("spring-boot-admin-event-store").setBackupCount(1)
+//						.setMaxSize(1000));
+//	}
+
+    @Bean
+    public Config hazelcastConfig() {
+        MapConfig mapConfig = new MapConfig("spring-boot-admin-event-store").setInMemoryFormat(InMemoryFormat.OBJECT)
+                .setBackupCount(1)
+                .setEvictionPolicy(EvictionPolicy.NONE);
+        return new Config().setProperty("hazelcast.jmx", "true").addMapConfig(mapConfig);
+    }
 
     /**
      * The entry point of application.
@@ -45,7 +66,6 @@ public class SkyCloudUploadApplication {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        SpringApplication.run(SkyCloudUploadApplication.class, args);
+        SpringApplication.run(MonitorApplication.class, args);
     }
-
 }

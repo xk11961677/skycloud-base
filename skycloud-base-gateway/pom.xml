@@ -175,7 +175,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.skycloud.base.geteway.SkyCloudGatewayApplication</mainClass>
+                    <mainClass>com.skycloud.base.geteway.GatewayApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

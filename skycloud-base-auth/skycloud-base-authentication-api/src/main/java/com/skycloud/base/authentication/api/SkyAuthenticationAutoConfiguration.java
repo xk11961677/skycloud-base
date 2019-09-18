@@ -20,29 +20,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.turbine;
+package com.skycloud.base.authentication.api;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
-import org.springframework.cloud.netflix.turbine.EnableTurbine;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 /**
- *
- *
  * @author
  */
-@SpringBootApplication
-@EnableTurbine
-@EnableHystrixDashboard
-public class SkyCloudTurbineApplication {
-
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        SpringApplication.run(SkyCloudTurbineApplication.class, args);
-    }
+@Configuration
+@ComponentScan(basePackageClasses = SkyAuthenticationAutoConfiguration.class)
+public class SkyAuthenticationAutoConfiguration {
 }

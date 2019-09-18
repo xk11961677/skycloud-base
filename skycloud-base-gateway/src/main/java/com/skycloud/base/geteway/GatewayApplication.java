@@ -48,7 +48,7 @@ import reactor.core.publisher.Mono;
 @ComponentScan(basePackages = "com.skycloud")
 @Slf4j
 @SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class, DataSourceAutoConfiguration.class})
-public class SkyCloudGatewayApplication {
+public class GatewayApplication {
 
 
     /**
@@ -57,7 +57,7 @@ public class SkyCloudGatewayApplication {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        SpringApplication.run(SkyCloudGatewayApplication.class, args);
+        SpringApplication.run(GatewayApplication.class, args);
     }
 
 

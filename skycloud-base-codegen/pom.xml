@@ -82,7 +82,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.skycloud.codegen.SkycloudCodeGenApplication</mainClass>
+                    <mainClass>com.skycloud.codegen.CodeGenApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

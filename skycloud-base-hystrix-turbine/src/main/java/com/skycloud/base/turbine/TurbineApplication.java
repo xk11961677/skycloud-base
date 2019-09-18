@@ -20,23 +20,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.codegen;
+package com.skycloud.base.turbine;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-
+import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
+import org.springframework.cloud.netflix.turbine.EnableTurbine;
 
 /**
+ *
+ *
  * @author
  */
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-@ComponentScan(basePackages = "com.skycloud")
-public class SkycloudCodeGenApplication {
+@SpringBootApplication
+@EnableTurbine
+@EnableHystrixDashboard
+public class TurbineApplication {
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
-        SpringApplication.run(SkycloudCodeGenApplication.class, args);
+        SpringApplication.run(TurbineApplication.class, args);
     }
-
 }

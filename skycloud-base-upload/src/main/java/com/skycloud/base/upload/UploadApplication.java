@@ -20,19 +20,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.dashboard;
+package com.skycloud.base.upload;
 
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
+ * The class Doooly cloud order application.
+ *
  * @author
  */
-@SpringBootApplication
-@EnableHystrixDashboard
-public class SkyCloudHystrixApplication {
-
+@EnableFeignClients(basePackages = "com.skycloud")
+@ComponentScan(basePackages = "com.skycloud")
+@SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class, DataSourceAutoConfiguration.class})
+public class UploadApplication {
 
     /**
      * The entry point of application.
@@ -40,6 +45,7 @@ public class SkyCloudHystrixApplication {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        SpringApplication.run(SkyCloudHystrixApplication.class, args);
+        SpringApplication.run(UploadApplication.class, args);
     }
+
 }
