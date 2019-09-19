@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright © 2019 <sky>
+ * Copyright © 2019 <reach>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the “Software”), to deal
@@ -20,22 +20,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authorization;
+package com.skycloud.base.authorization.mapper;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import com.sky.framework.mybatis.MyMapper;
+import com.skycloud.base.authorization.model.domain.User;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
- * 授权与认证
+ * 用户表
  *
- * @author
+ * @author code generator
+ * @date 2019-09-11 13:27:16
  */
-@SpringBootApplication
-@EnableFeignClients(basePackages = "com.skycloud")
-public class Oauth2AuthorizationApplication {
+@Mapper
+@Repository
+public interface UserMapper extends MyMapper<User> {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Oauth2AuthorizationApplication.class, args);
-    }
 }

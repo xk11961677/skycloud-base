@@ -121,6 +121,12 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * 手机验证码认证filter
+     *
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SmsCodeAuthenticationFilter smsCodeAuthenticationFilter() throws Exception {
         SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
@@ -130,6 +136,12 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
         return smsCodeAuthenticationFilter;
     }
 
+    /**
+     * 用户名密码认证filter
+     *
+     * @return
+     * @throws Exception
+     */
     @Bean
     public UserPasswordAuthenticationFilter userPasswordAuthenticationFilter() throws Exception {
         UserPasswordAuthenticationFilter userPasswordAuthenticationFilter = new UserPasswordAuthenticationFilter();
@@ -140,7 +152,7 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 创建自定义登录成功后处理流程
+     * 创建自定义filter登录成功后处理流程
      *
      * @return
      */

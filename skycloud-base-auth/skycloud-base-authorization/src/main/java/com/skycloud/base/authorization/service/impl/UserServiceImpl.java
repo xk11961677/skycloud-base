@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright © 2019 <sky>
+ * Copyright © 2019 <reach>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the “Software”), to deal
@@ -20,4 +20,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authorization.service;
+package com.skycloud.base.authorization.service.impl;
+
+import com.sky.framework.web.support.BaseService;
+import com.skycloud.base.authorization.model.domain.User;
+import com.skycloud.base.authorization.service.UserService;
+import org.springframework.stereotype.Service;
+
+/**
+ * 用户表
+ *
+ * @author code generator
+ * @date 2019-09-11 13:34:28
+ */
+@Service("userService")
+public class UserServiceImpl extends BaseService<User> implements UserService {
+
+    @Override
+    public User getByUsername(String username) {
+        return new User();
+    }
+}

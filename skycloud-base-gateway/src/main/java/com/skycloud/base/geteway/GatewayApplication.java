@@ -22,7 +22,6 @@
  */
 package com.skycloud.base.geteway;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.alibaba.fastjson.JSON;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.MessageRes;
@@ -31,10 +30,8 @@ import com.skycloud.base.geteway.common.RemoteAddrKeyResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,11 +40,10 @@ import reactor.core.publisher.Mono;
 /**
  * @author
  */
+@Slf4j
 @RestController
 @EnableFeignClients(basePackages = "com.skycloud")
-@ComponentScan(basePackages = "com.skycloud")
-@Slf4j
-@SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class, DataSourceAutoConfiguration.class})
+@SpringBootApplication
 public class GatewayApplication {
 
 

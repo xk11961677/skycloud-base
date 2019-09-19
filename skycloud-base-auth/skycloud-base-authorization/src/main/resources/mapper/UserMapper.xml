@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.skycloud.base.authorization.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.skycloud.base.authorization.model.domain.User">
+        <id property="id" javaType="java.lang.Long" column="id"/>
+        <result property="username" javaType="java.lang.String" column="username"/>
+        <result property="password" javaType="java.lang.String" column="password"/>
+        <result property="name" javaType="java.lang.String" column="name"/>
+        <result property="mobile" javaType="java.lang.String" column="mobile"/>
+        <result property="enabled" javaType="java.lang.Boolean" column="enabled"/>
+        <result property="accountNonExpired" javaType="java.lang.Boolean" column="account_non_expired"/>
+        <result property="credentialsNonExpired" javaType="java.lang.Boolean" column="credentials_non_expired"/>
+        <result property="accountNonLocked" javaType="java.lang.Boolean" column="account_non_locked"/>
+        <result property="createdTime" javaType="java.util.Date" column="created_time"/>
+        <result property="updatedTime" javaType="java.util.Date" column="updated_time"/>
+        <result property="createdBy" javaType="java.lang.String" column="created_by"/>
+        <result property="updatedBy" javaType="java.lang.String" column="updated_by"/>
+        <result property="disabled" javaType="java.lang.Integer" column="disabled"/>
+    </resultMap>
+
+    <sql id="BaseColumnList">
+        id,
+        username,
+        password,
+        name,
+        mobile,
+        enabled,
+        account_non_expired,
+        credentials_non_expired,
+        account_non_locked,
+        created_time,
+        updated_time,
+        created_by,
+        updated_by,
+        disabled
+    </sql>
+</mapper>

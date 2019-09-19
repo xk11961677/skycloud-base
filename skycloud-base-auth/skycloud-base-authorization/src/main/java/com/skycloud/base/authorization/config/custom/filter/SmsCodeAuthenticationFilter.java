@@ -29,7 +29,8 @@ import com.sky.framework.common.validation.ValidateUtils;
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.model.exception.BusinessException;
 import com.skycloud.base.authorization.common.Constants;
-import com.skycloud.base.authorization.config.custom.CustomResponse;
+import com.skycloud.base.authorization.config.custom.RequestUtils;
+import com.skycloud.base.authorization.config.custom.ResponseUtils;
 import com.skycloud.base.authorization.config.custom.token.SmsCodeAuthenticationToken;
 import com.skycloud.base.authorization.exception.AuthErrorType;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
@@ -42,8 +43,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 /**
  * @author
@@ -71,7 +70,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
             String channel = request.getHeader(Constants.CHANNEL);
             String clientIp = IpUtils.getClientIp(request);
 
-            MobileLoginDto mobileLoginDto = getParamFromApplicationJson(request);
+            MobileLoginDto mobileLoginDto = RequestUtils.getJsonParameters(request, MobileLoginDto.class);
             mobileLoginDto.setChannel(channel);
             mobileLoginDto.setLoginIp(clientIp);
 
@@ -90,34 +89,17 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
             this.setDetails(request, smsCodeAuthToken);
             return this.getAuthenticationManager().authenticate(smsCodeAuthToken);
         } catch (AuzBussinessException e) {
-            CustomResponse.response(response, e);
+            ResponseUtils.response(response, e);
             LogUtils.error(log, "mobile login AuzException:{}", e);
         } catch (BusinessException e) {
-            CustomResponse.response(response, e);
+            ResponseUtils.response(response, e);
             LogUtils.error(log, "mobile login AuzException:{}", e);
         } catch (Exception e) {
             MessageRes fail = MessageRes.fail(AuthErrorType.AUZ100026.getCode(), e.getMessage() == null ? AuthErrorType.AUZ100026.getMsg() : e.getMessage());
-            CustomResponse.response(response, JSON.toJSONString(fail));
+            ResponseUtils.response(response, JSON.toJSONString(fail));
             LogUtils.error(log, "mobile login exception:{}", e);
         }
         return null;
-    }
-
-    private MobileLoginDto getParamFromApplicationJson(HttpServletRequest request) {
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-            String line;
-            StringBuilder sb = new StringBuilder();
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            String body = sb.toString();
-            return JSON.parseObject(body, MobileLoginDto.class);
-        } catch (Exception e) {
-            LogUtils.error(log, "get param exception:{}", e);
-        }
-        return new MobileLoginDto();
-
     }
 
     private void setDetails(HttpServletRequest request, SmsCodeAuthenticationToken authRequest) {

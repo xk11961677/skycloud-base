@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-//package com.skycloud.base.authorization.swagger;
+//package com.skycloud.base.authorization.common.swagger;
 //
 //import com.fasterxml.classmate.TypeResolver;
 //import com.google.common.collect.Sets;

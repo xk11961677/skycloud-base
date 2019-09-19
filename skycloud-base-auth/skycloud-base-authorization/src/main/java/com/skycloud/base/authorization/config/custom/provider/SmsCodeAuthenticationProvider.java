@@ -58,15 +58,12 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
-        MobileLoginDto mobileLoginDTO = (MobileLoginDto) authenticationToken.getPrincipal();
-        //建行登录流程todo
-
-        //通用登录流程
-        CustomLoginDto dto = mapperFacade.map(mobileLoginDTO, CustomLoginDto.class);
-        dto.setLoginName(mobileLoginDTO.getMobile());
+        MobileLoginDto mobileLoginDto = (MobileLoginDto) authenticationToken.getPrincipal();
+        CustomLoginDto dto = mapperFacade.map(mobileLoginDto, CustomLoginDto.class);
+        dto.setLoginName(mobileLoginDto.getMobile());
         MessageRes<CustomLoginDto> login = adUserFeignApi.login(dto);
-        if(!login.isSuccess()) {
-            throw new AuzBussinessException(login.getCode(),login.getMsg());
+        if (!login.isSuccess()) {
+            throw new AuzBussinessException(login.getCode(), login.getMsg());
         }
         CustomLoginDto customLoginDto = login.getData();
         JSONObject data = new JSONObject();
