@@ -26,5 +26,13 @@ package com.skycloud.base.common.constant;
  * @author
  */
 public class BaseConstants {
+    /**
+     * 用户token
+     */
+    public static final String X_CLIENT_TOKEN_USER = "x-client-token-user";
 
+    /**
+     * 服务之间鉴权token
+     */
+    public static final String X_CLIENT_TOKEN = "x-client-token";
 }

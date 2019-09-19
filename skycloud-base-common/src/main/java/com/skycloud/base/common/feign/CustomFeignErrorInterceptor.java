@@ -38,6 +38,7 @@ import java.util.HashMap;
  * 1. 自定义异常不进入熔断
  * 2. 400 - 500(不包含) 不进入熔断
  * 3. sql错误等需要进入熔断
+ *
  * @author
  */
 @Slf4j
@@ -56,14 +57,14 @@ public class CustomFeignErrorInterceptor implements ErrorDecoder {
     public Exception decode(final String methodKey, final Response response) {
         if (response.status() >= HttpStatus.BAD_REQUEST.value() && response.status() < HttpStatus.INTERNAL_SERVER_ERROR.value()) {
             //todo 待优化返回详细信息
-            return new HystrixBadRequestException(" request exception status="+response.status());
+            return new HystrixBadRequestException(" request exception status:{}" + response.status());
         }
         try {
             HashMap map = JSON.parseObject(response.body().asInputStream(), HashMap.class);
             Integer code = (Integer) map.get("code");
             String message = (String) map.get("msg");
             if (code != null) {
-                throw new BusinessException(code , message);
+                throw new BusinessException(code, message);
             }
         } catch (IOException e) {
             System.out.println("Failed to process response body");
