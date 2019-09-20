@@ -176,7 +176,7 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
         }
 
         String path = request.getURI().getPath();
-        if (ignore(GW_SIGN_PLUGIN_CLOSE_URL, channel)) {
+        if (ignore(GW_SIGN_PLUGIN_CLOSE_URL, path)) {
             return chain.filter(exchange);
         }
         ServerRequest serverRequest = new DefaultServerRequest(exchange);
