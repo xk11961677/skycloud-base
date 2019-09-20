@@ -108,7 +108,6 @@ public class CustomLoginAuthSuccessHandler extends SavedRequestAwareAuthenticati
                 String token;
                 // 验证是否已存在token,如果存在则刷新
                 String userToken = ObjectUtils.toString(RedisUtils.getString(channel + ":" + String.format(Constants.TOKEN_KEY, customLoginDto.getLoginName())));
-                LogUtils.info(log, "====【userValidateLogin】用户已存在的token-userToken：" + userToken);
                 if (StringUtils.isNotEmpty(userToken)) {
                     // 删除原token用户ID
                     RedisUtils.deleteKey(userToken);
@@ -121,7 +120,6 @@ public class CustomLoginAuthSuccessHandler extends SavedRequestAwareAuthenticati
                     //将jwt生成的token替换成旧系统生成的token
                     jsonObject.put("value", token);
                 }
-                jsonObject.put("userInfo", customLoginDto);
             }
             LogUtils.info(log, "登录成功:{}" + authentication.getName());
             String resp = JSON.toJSONString(MessageRes.success(jsonObject));

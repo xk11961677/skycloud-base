@@ -22,8 +22,8 @@
  */
 package com.skycloud.base.authorization.config;
 
-import com.skycloud.base.authorization.exception.CustomWebResponseExceptionTranslator;
 import com.skycloud.base.authorization.config.custom.CustomTokenEnhancer;
+import com.skycloud.base.authorization.exception.CustomWebResponseExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,41 +50,69 @@ import javax.sql.DataSource;
 import java.util.Arrays;
 
 /**
+ * 授权服务器配置类
+ *
  * @author
  */
 @Configuration
 @EnableAuthorizationServer
 public class AuthenticationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+    /**
+     * 认证管理器
+     */
     @Autowired
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 
+    /**
+     * 数据源
+     */
     @Qualifier("dataSource")
     @Autowired
-    DataSource dataSource;
+    private DataSource dataSource;
 
+    /**
+     * 用户信息服务
+     */
     @Autowired
     @Qualifier("userDetailsService")
-    UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
+
     /**
      * jwt 对称加密密钥
      */
     @Value("${spring.security.oauth2.jwt.signingKey}")
     private String signingKey;
 
+    /**
+     * 配置安全信息
+     *
+     * @param oauthServer
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
         oauthServer.tokenKeyAccess("isAuthenticated()")
                 .checkTokenAccess("permitAll()");
     }
 
+    /**
+     * 配置客户端信息
+     *
+     * @param clients
+     * @throws Exception
+     */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         //配置客户端信息，从数据库中读取，对应oauth_client_details表
         clients.jdbc(dataSource);
     }
 
+    /**
+     * 配置endpoint接口等信息
+     *
+     * @param endpoints
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         //配置token的数据源、自定义的tokenServices等信息,配置身份认证器，配置认证方式，TokenStore，TokenGranter，OAuth2RequestFactory
@@ -96,11 +124,14 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
                 .exceptionTranslator(customExceptionTranslator())
                 .tokenEnhancer(tokenEnhancerChain())
                 .authenticationManager(authenticationManager)
-                .userDetailsService(userDetailsService);
+                .userDetailsService(userDetailsService)
+                .accessTokenConverter(accessTokenConverter())
+        ;
     }
 
     /**
      * 自定义OAuth2异常处理
+     *
      * @return CustomWebResponseExceptionTranslator
      */
     @Bean
@@ -110,6 +141,7 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
 
     /**
      * 授权信息持久化实现
+     *
      * @return JdbcApprovalStore
      */
     @Bean
@@ -152,6 +184,7 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
 
     /**
      * jwt token的生成配置
+     * new CustomJwtAccessTokenConverter();
      *
      * @return
      */
