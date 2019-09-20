@@ -23,10 +23,12 @@
 package com.skycloud.base.authorization.config.custom;
 
 import com.alibaba.fastjson.JSON;
+import com.sky.framework.common.LogUtils;
+import com.sky.framework.model.enums.FailureCodeEnum;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
 import com.skycloud.base.authorization.model.dto.CustomLoginDto;
-import com.sky.framework.model.enums.FailureCodeEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -55,14 +57,11 @@ public class RequestUtils {
                 sb.append(line);
             }
             String body = sb.toString();
-            return (T) JSON.parseObject(body, clazz);
+            T t = (T) (StringUtils.isEmpty(body) ? clazz.newInstance() : JSON.parseObject(body, clazz));
+            return t;
         } catch (Exception e) {
-            try {
-                return (T) clazz.newInstance();
-            } catch (Exception ex) {
-                throw new AuzBussinessException(FailureCodeEnum.GL990001.getCode(), FailureCodeEnum.GL990001.getMsg());
-            }
+            LogUtils.error(log, ":{}", e.getMessage());
+            throw new AuzBussinessException(FailureCodeEnum.GL990001.getCode(), FailureCodeEnum.GL990001.getMsg());
         }
-
     }
 }
