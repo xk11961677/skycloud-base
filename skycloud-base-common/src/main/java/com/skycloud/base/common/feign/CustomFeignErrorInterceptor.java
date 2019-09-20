@@ -67,7 +67,8 @@ public class CustomFeignErrorInterceptor implements ErrorDecoder {
                 throw new BusinessException(code, message);
             }
         } catch (IOException e) {
-            System.out.println("Failed to process response body");
+            //防御性容错
+            log.info("Failed to process response body", e.getMessage());
         }
         return defaultErrorDecoder.decode(methodKey, response);
     }

@@ -59,19 +59,15 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
      */
     @Override
     protected Map<String, Object> getErrorAttributes(ServerRequest request, boolean includeStackTrace) {
-        int errCode = FailureCodeEnum.GL999999.getCode();
         int code = HttpStatus.INTERNAL_SERVER_ERROR.value();
         Throwable error = super.getError(request);
         if (error instanceof NotFoundException || code == HttpStatus.NOT_FOUND.value()) {
-            errCode = FailureCodeEnum.GL990004.getCode();
             code = HttpStatus.NOT_FOUND.value();
         }
         if (error instanceof ResponseStatusException) {
             code = ((ResponseStatusException) error).getStatus().value();
         }
-        if (code == HttpStatus.BAD_REQUEST.value()) {
-            errCode = FailureCodeEnum.GL990003.getCode();
-        }
+        int errCode = this.errCodeConverter(code);
         return response(code, errCode, this.buildMessage(request, error));
     }
 
@@ -98,6 +94,23 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
             map.remove(STATUS);
         }
         return HttpStatus.valueOf(statusCode);
+    }
+
+    /**
+     * 自定义错误码转换
+     *
+     * @param code
+     * @return
+     */
+    private int errCodeConverter(int code) {
+        int errCode = FailureCodeEnum.GL999999.getCode();
+        if (code == HttpStatus.BAD_REQUEST.value()) {
+            errCode = FailureCodeEnum.GL990003.getCode();
+        }
+        if (code == HttpStatus.NOT_FOUND.value()) {
+            errCode = FailureCodeEnum.GL990004.getCode();
+        }
+        return errCode;
     }
 
     /**
