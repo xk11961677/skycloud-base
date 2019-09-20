@@ -22,9 +22,11 @@
  */
 package com.skycloud.base.authentication.api.client.hystrix;
 
-import com.skycloud.base.authentication.api.client.AuthFeignApi;
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.model.enums.FailureCodeEnum;
+import com.skycloud.base.authentication.api.client.AuthFeignApi;
+import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
+import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
 import org.springframework.stereotype.Component;
 
 /**
@@ -41,6 +43,11 @@ public class AuthFeignHystrix implements AuthFeignApi {
      */
     @Override
     public MessageRes auth(String authentication, String url, String method) {
+        return MessageRes.fail(FailureCodeEnum.GL990002.getCode(), FailureCodeEnum.GL990002.getMsg());
+    }
+
+    @Override
+    public MessageRes<UserLoginVo> login(UserLoginDto userLoginDto) {
         return MessageRes.fail(FailureCodeEnum.GL990002.getCode(), FailureCodeEnum.GL990002.getMsg());
     }
 }

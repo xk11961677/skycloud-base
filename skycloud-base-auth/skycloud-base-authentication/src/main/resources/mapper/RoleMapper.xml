@@ -16,14 +16,20 @@
     </resultMap>
 
     <sql id="BaseColumnList">
-                              id,
-                                        code,
-                                        name,
-                                        description,
-                                        created_time,
-                                        updated_time,
-                                        created_by,
-                                        updated_by,
-                                        disabled
-                      </sql>
+      id,
+      code,
+      name,
+      description,
+      created_time,
+      updated_time,
+      created_by,
+      updated_by,
+      disabled
+    </sql>
+
+    <select id="listByUser" resultMap="BaseResultMap"
+            parameterType="com.skycloud.base.authentication.model.domain.User">
+        select r.*  from t_role r join t_user_role ur on r.id=ur.role_id
+        where ur.user_id = #{id}
+    </select>
 </mapper>

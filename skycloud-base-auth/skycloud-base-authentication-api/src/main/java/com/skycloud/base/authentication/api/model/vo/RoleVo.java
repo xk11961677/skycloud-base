@@ -20,26 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.service;
+package com.skycloud.base.authentication.api.model.vo;
 
-import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
-import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
-import com.skycloud.base.authentication.model.domain.User;
-import com.sky.framework.web.support.IService;
+import lombok.Data;
 
 /**
- * 用户表
+ * 角色
  *
- * @author code generator
- * @date 2019-09-11 13:27:16
+ * @author
  */
-public interface UserService extends IService<User> {
+@Data
+public class RoleVo {
+
+    private Long id;
 
     /**
-     * 用户登录
-     *
-     * @param userLoginDto
-     * @return
+     * 角色code
      */
-    UserLoginVo login(UserLoginDto userLoginDto);
+    private String code;
+    /**
+     * 角色名称
+     */
+    private String name;
 }

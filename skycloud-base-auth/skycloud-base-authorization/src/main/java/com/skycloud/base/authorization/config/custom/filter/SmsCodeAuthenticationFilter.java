@@ -35,6 +35,7 @@ import com.skycloud.base.authorization.config.custom.token.SmsCodeAuthentication
 import com.skycloud.base.authorization.exception.AuthErrorType;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
 import com.skycloud.base.authorization.model.dto.MobileLoginDto;
+import com.skycloud.base.common.constant.BaseConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -67,7 +68,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
             if (!request.getMethod().equals(Constants.METHOD)) {
                 throw new AuzBussinessException(AuthErrorType.UNSUPPORTED_RESPONSE_TYPE.getCode(), AuthErrorType.UNSUPPORTED_RESPONSE_TYPE.getMsg());
             }
-            String channel = request.getHeader(Constants.CHANNEL);
+            String channel = request.getHeader(BaseConstants.CHANNEL);
             String clientIp = IpUtils.getClientIp(request);
 
             MobileLoginDto mobileLoginDto = RequestUtils.getJsonParameters(request, MobileLoginDto.class);

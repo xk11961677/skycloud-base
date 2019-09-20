@@ -28,11 +28,6 @@ package com.skycloud.base.authorization.common;
 public class Constants {
 
     /**
-     * 渠道
-     */
-    public static final String CHANNEL = "channel";
-
-    /**
      * 支持method方式
      */
     public static final String METHOD = "POST";

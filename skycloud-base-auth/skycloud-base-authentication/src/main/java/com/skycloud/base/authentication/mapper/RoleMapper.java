@@ -22,10 +22,13 @@
  */
 package com.skycloud.base.authentication.mapper;
 
-import com.skycloud.base.authentication.model.domain.Role;
 import com.sky.framework.mybatis.MyMapper;
+import com.skycloud.base.authentication.model.domain.Role;
+import com.skycloud.base.authentication.model.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * 角色表
@@ -36,5 +39,11 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface RoleMapper extends MyMapper<Role> {
-
+    /**
+     * 根据用户查询角色
+     *
+     * @param user
+     * @return
+     */
+    List<Role> listByUser(User user);
 }

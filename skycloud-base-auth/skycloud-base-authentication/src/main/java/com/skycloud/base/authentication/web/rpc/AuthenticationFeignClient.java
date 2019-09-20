@@ -24,14 +24,14 @@ package com.skycloud.base.authentication.web.rpc;
 
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.web.support.BaseController;
+import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
+import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
 import com.skycloud.base.authentication.service.AuthenticationService;
+import com.skycloud.base.authentication.service.UserService;
 import com.skycloud.base.authentication.web.HttpServletRequestAuthWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author
@@ -42,6 +42,9 @@ public class AuthenticationFeignClient extends BaseController {
 
     @Autowired
     private AuthenticationService authenticationService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * @param url
@@ -54,5 +57,18 @@ public class AuthenticationFeignClient extends BaseController {
         log.debug("authentication controller :{}");
         boolean decide = authenticationService.decide(new HttpServletRequestAuthWrapper(request, url, method));
         return MessageRes.success(decide);
+    }
+
+    /**
+     * 登录
+     *
+     * @param userLoginDto
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/auth/login")
+    @ResponseBody
+    public MessageRes<UserLoginVo> login(@RequestBody UserLoginDto userLoginDto) {
+        UserLoginVo loginVo = userService.login(userLoginDto);
+        return MessageRes.success(loginVo);
     }
 }

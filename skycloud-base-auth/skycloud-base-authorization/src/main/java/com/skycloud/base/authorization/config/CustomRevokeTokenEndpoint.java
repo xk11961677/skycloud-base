@@ -27,6 +27,7 @@ import com.sky.framework.model.enums.FailureCodeEnum;
 import com.sky.framework.redis.util.RedisUtils;
 import com.skycloud.base.authorization.common.Constants;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
+import com.skycloud.base.common.constant.BaseConstants;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ObjectUtils;
@@ -75,7 +76,7 @@ public class CustomRevokeTokenEndpoint {
     @ResponseBody
     public MessageRes revokeToken(HttpServletRequest request, HttpServletResponse response) {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-        String channel = request.getHeader(Constants.CHANNEL);
+        String channel = request.getHeader(BaseConstants.CHANNEL);
         if (StringUtils.isEmpty(token) || StringUtils.isEmpty(channel)) {
             throw new AuzBussinessException(FailureCodeEnum.GL990001.getCode(), FailureCodeEnum.GL990001.getMsg());
         }

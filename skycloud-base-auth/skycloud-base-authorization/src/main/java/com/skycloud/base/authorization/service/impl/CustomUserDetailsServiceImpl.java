@@ -25,9 +25,8 @@ package com.skycloud.base.authorization.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
 
 /**
  * @author
@@ -43,19 +42,20 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
+        throw new UsernameNotFoundException("Invalid username or password.");
 //        User user = userService.getByUsername(username);
 //        if(user == null){
 //            throw new UsernameNotFoundException("Invalid username or password.");
 //        }
         //password
-        return new org.springframework.security.core.userdetails.User(
-                username,
-                "$2a$10$aoPFu8shqiTcxJvrDA/.MeABbg/bhi8nEfahNYlsNfsBAAZ47cRYa",
-                true,
-                true,
-                true,
-                true,
-                new HashSet<>());
+//        return new org.springframework.security.core.userdetails.User(
+//                username,
+//                "$2a$10$aoPFu8shqiTcxJvrDA/.MeABbg/bhi8nEfahNYlsNfsBAAZ47cRYa",
+//                true,
+//                true,
+//                true,
+//                true,
+//                new HashSet<>());
 //        return new CustomUserDetail(0L, "admin", "password");
     }
 

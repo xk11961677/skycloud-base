@@ -20,26 +20,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.service;
+package com.skycloud.base.authorization.common.enums;
 
-import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
-import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
-import com.skycloud.base.authentication.model.domain.User;
-import com.sky.framework.web.support.IService;
+import lombok.Getter;
+
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
- * 用户表
+ * 登录渠道类型
  *
- * @author code generator
- * @date 2019-09-11 13:27:16
+ * @author
  */
-public interface UserService extends IService<User> {
+public enum ChannelTypeEnum {
+
+    BACKEND("sky-admin-vue");
+
+    @Getter
+    private final String key;
+
+    ChannelTypeEnum(final String key) {
+        this.key = key;
+    }
 
     /**
-     * 用户登录
-     *
-     * @param userLoginDto
+     * @param key
      * @return
      */
-    UserLoginVo login(UserLoginDto userLoginDto);
+    public static ChannelTypeEnum acquire(final String key) {
+        Optional<ChannelTypeEnum> serializeEnum =
+                Arrays.stream(ChannelTypeEnum.values())
+                        .filter(v -> Objects.equals(v.getKey(), key))
+                        .findFirst();
+        return serializeEnum.orElse(ChannelTypeEnum.BACKEND);
+    }
 }

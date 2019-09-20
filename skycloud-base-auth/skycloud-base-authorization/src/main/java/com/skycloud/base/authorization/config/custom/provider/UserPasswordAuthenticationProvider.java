@@ -24,8 +24,12 @@ package com.skycloud.base.authorization.config.custom.provider;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sky.framework.model.dto.MessageRes;
+import com.skycloud.base.authentication.api.client.AuthFeignApi;
+import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
+import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
 import com.skycloud.base.authorization.client.AdUserFeignApi;
 import com.skycloud.base.authorization.client.dto.CustomLoginDto;
+import com.skycloud.base.authorization.common.enums.ChannelTypeEnum;
 import com.skycloud.base.authorization.config.custom.CustomUserDetail;
 import com.skycloud.base.authorization.config.custom.token.UserPasswordAuthenticationToken;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
@@ -51,6 +55,9 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
     private AdUserFeignApi adUserFeignApi;
 
     @Autowired
+    private AuthFeignApi authFeignApi;
+
+    @Autowired
     private MapperFacade mapperFacade;
 
     @SuppressWarnings("all")
@@ -58,25 +65,55 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UserPasswordAuthenticationToken authenticationToken = (UserPasswordAuthenticationToken) authentication;
         UserPasswordLoginDto userPasswordLoginDto = (UserPasswordLoginDto) authenticationToken.getPrincipal();
-        CustomLoginDto dto = mapperFacade.map(userPasswordLoginDto, CustomLoginDto.class);
-        dto.setLoginName(userPasswordLoginDto.getUsername());
-        dto.setPassword(dto.getPassword().toLowerCase());
-
-        MessageRes<CustomLoginDto> login = adUserFeignApi.login(dto);
-        if(!login.isSuccess()) {
-            throw new AuzBussinessException(login.getCode(),login.getMsg());
+        /**
+         * 根据渠道类型调用不同策略feign接口登录//todo 待优化
+         */
+        UserPasswordAuthenticationToken token = null;
+        if (ChannelTypeEnum.BACKEND.getKey().equals(userPasswordLoginDto.getChannel())) {
+            //管理平台登录
+            UserLoginDto loginDto = new UserLoginDto();
+            loginDto.setUsername(userPasswordLoginDto.getUsername());
+            loginDto.setPassword(userPasswordLoginDto.getPassword());
+            MessageRes<UserLoginVo> login = authFeignApi.login(loginDto);
+            if (!login.isSuccess()) {
+                throw new AuzBussinessException(login.getCode(), login.getMsg());
+            }
+            UserLoginVo userLoginVo = login.getData();
+            token = buildAuthentication(userLoginVo, userLoginVo.getId(), userLoginVo.getName(), userLoginVo.getMobile());
+        } else {
+            CustomLoginDto dto = mapperFacade.map(userPasswordLoginDto, CustomLoginDto.class);
+            dto.setLoginName(userPasswordLoginDto.getUsername());
+            dto.setPassword(dto.getPassword().toLowerCase());
+            MessageRes<CustomLoginDto> login = adUserFeignApi.login(dto);
+            if (!login.isSuccess()) {
+                throw new AuzBussinessException(login.getCode(), login.getMsg());
+            }
+            CustomLoginDto adUserConnDto = login.getData();
+            token = buildAuthentication(adUserConnDto, Long.valueOf(adUserConnDto.getLoginName()), adUserConnDto.getLoginName(), adUserConnDto.getLoginName());
         }
-        CustomLoginDto customLoginDto = login.getData();
-        JSONObject data = new JSONObject();
-        data.put("userInfo", customLoginDto);
-        CustomUserDetail customUserDetail = new CustomUserDetail(Long.valueOf(customLoginDto.getLoginName()), customLoginDto.getLoginName(), customLoginDto.getLoginName());
-        UserPasswordAuthenticationToken result = new UserPasswordAuthenticationToken(customLoginDto.getLoginName(), data);
-        result.setDetails(customUserDetail);
-        return result;
+        return token;
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
         return UserPasswordAuthenticationToken.class.isAssignableFrom(authentication);
+    }
+
+    /**
+     * 创建认证TOKEN
+     *
+     * @param object
+     * @param userId
+     * @param name
+     * @param mobile
+     * @return
+     */
+    private UserPasswordAuthenticationToken buildAuthentication(Object object, Long userId, String name, String mobile) {
+        JSONObject data = new JSONObject();
+        data.put("userInfo", object);
+        CustomUserDetail customUserDetail = new CustomUserDetail(userId, name, mobile);
+        UserPasswordAuthenticationToken authenticationToken = new UserPasswordAuthenticationToken(name, data);
+        authenticationToken.setDetails(customUserDetail);
+        return authenticationToken;
     }
 }

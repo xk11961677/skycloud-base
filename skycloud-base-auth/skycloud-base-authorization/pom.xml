@@ -43,6 +43,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.sky.skycloud.auth</groupId>
+            <artifactId>skycloud-base-authentication-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.sky.skycloud</groupId>
             <artifactId>skycloud-base-consul</artifactId>
             <version>${project.parent.version}</version>

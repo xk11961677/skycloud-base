@@ -20,26 +20,66 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.service;
+package com.skycloud.base.authentication.api.exception;
 
-import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
-import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
-import com.skycloud.base.authentication.model.domain.User;
-import com.sky.framework.web.support.IService;
+import com.sky.framework.model.enums.ErrorCode;
 
 /**
- * 用户表
- *
- * @author code generator
- * @date 2019-09-11 13:27:16
+ * @author
  */
-public interface UserService extends IService<User> {
+public enum AucErrorCodeEnum implements ErrorCode {
+
+    AUC1000001(110001, "用户名或密码错误");
+
+    private int code;
+
+    private String msg;
 
     /**
-     * 用户登录
+     * Msg string.
      *
-     * @param userLoginDto
-     * @return
+     * @return the string
      */
-    UserLoginVo login(UserLoginDto userLoginDto);
+    public String msg() {
+        return msg;
+    }
+
+    /**
+     * Code int.
+     *
+     * @return the int
+     */
+    public int code() {
+        return code;
+    }
+
+    AucErrorCodeEnum(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    /**
+     * Gets enum.
+     *
+     * @param code the code
+     * @return the enum
+     */
+    public static AucErrorCodeEnum getEnum(int code) {
+        for (AucErrorCodeEnum ele : AucErrorCodeEnum.values()) {
+            if (ele.code() == code) {
+                return ele;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String getMsg() {
+        return msg;
+    }
+
+    @Override
+    public Integer getCode() {
+        return code;
+    }
 }

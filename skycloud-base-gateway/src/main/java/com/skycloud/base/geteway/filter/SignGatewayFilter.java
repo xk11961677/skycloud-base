@@ -27,6 +27,7 @@ import com.sky.framework.common.LogUtils;
 import com.sky.framework.common.encrypt.DefaultMd5Verifier;
 import com.sky.framework.model.dto.MessageReq;
 import com.sky.framework.model.enums.FailureCodeEnum;
+import com.skycloud.base.common.constant.BaseConstants;
 import com.skycloud.base.geteway.common.GatewayConstants;
 import com.skycloud.base.geteway.common.ValidationResult;
 import com.skycloud.base.geteway.common.ValidationUtils;
@@ -35,9 +36,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.support.BodyInserterContext;
 import org.springframework.cloud.gateway.support.CachedBodyOutputMessage;
 import org.springframework.cloud.gateway.support.DefaultServerRequest;
+import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
@@ -54,13 +57,13 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.net.URI;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -117,6 +120,12 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
     private boolean GW_SIGN_PLUGIN_OPEN;
 
     /**
+     * 某渠道忽略此插件
+     */
+    @Value("${gw_sign_plugin_close_channel:''}")
+    private String GW_SIGN_PLUGIN_IGNORE_CHANNEL;
+
+    /**
      * 签名秘钥
      */
     @Value("#{${gw_sign_plugin_secret}}")
@@ -127,6 +136,12 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
      */
     @Value("${gw_sign_plugin_close_url}")
     private String GW_SIGN_PLUGIN_CLOSE_URL;
+
+    /**
+     * 不需要网关签名的路由配置
+     */
+    @Value("${gw_sign_plugin_close_route:''}")
+    private String GW_SIGN_PLUGIN_IGNORE_ROUTES;
 
     /**
      * 默认签名验证器
@@ -150,11 +165,18 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
         if (!GW_SIGN_PLUGIN_OPEN) {
             return chain.filter(exchange);
         }
-
+        Route route = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
+        if (ignore(GW_SIGN_PLUGIN_IGNORE_ROUTES, route.getId())) {
+            return chain.filter(exchange);
+        }
         ServerHttpRequest request = exchange.getRequest();
-        URI requestUri = request.getURI();
-        if (StringUtils.isNotEmpty(GW_SIGN_PLUGIN_CLOSE_URL)
-                && GW_SIGN_PLUGIN_CLOSE_URL.indexOf(requestUri.getPath() + ",") != -1) {
+        String channel = request.getHeaders().getFirst(BaseConstants.CHANNEL);
+        if (ignore(GW_SIGN_PLUGIN_IGNORE_CHANNEL, channel)) {
+            return chain.filter(exchange);
+        }
+
+        String path = request.getURI().getPath();
+        if (ignore(GW_SIGN_PLUGIN_CLOSE_URL, channel)) {
             return chain.filter(exchange);
         }
         ServerRequest serverRequest = new DefaultServerRequest(exchange);
@@ -325,6 +347,17 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
         DataBuffer buffer = serverWebExchange.getResponse()
                 .bufferFactory().wrap(response(code, desc));
         return serverWebExchange.getResponse().writeWith(Flux.just(buffer));
+    }
+
+    /**
+     * 忽略
+     *
+     * @param ignores
+     * @param target
+     * @return
+     */
+    private boolean ignore(String ignores, String target) {
+        return Stream.of(ignores.split(",")).anyMatch(ignore -> ignore.equals(StringUtils.trim(target)));
     }
 
     /**

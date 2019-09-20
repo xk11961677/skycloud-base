@@ -26,6 +26,7 @@ import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.enums.FailureCodeEnum;
 import com.skycloud.base.authentication.api.client.AuthFeignApi;
 import com.skycloud.base.authentication.api.service.AuthService;
+import com.skycloud.base.common.constant.BaseConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -58,11 +59,8 @@ import java.util.stream.Stream;
 @SuppressWarnings("all")
 public class AccessGatewayFilter implements GlobalFilter, Ordered {
 
-    private static final String X_CLIENT_TOKEN_USER = "x-client-token-user";
-    private static final String X_CLIENT_TOKEN = "x-client-token";
     private static final String X_CLIENT_TOKEN_USER_ID = "user_id";
     private static final String BEARER = "bearer";
-    public static final String CHANNEL = "channel";
 
     @Resource
     private AuthService authService;
@@ -87,13 +85,13 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         Route route = (Route) exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
-        if(ignoreRouteAuthentication(route.getId())) {
+        if (ignoreRouteAuthentication(route.getId())) {
             return chain.filter(exchange);
         }
 
         ServerHttpRequest request = exchange.getRequest();
         String authentication = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-        String channel = request.getHeaders().getFirst(CHANNEL);
+        String channel = request.getHeaders().getFirst(BaseConstants.CHANNEL);
         String method = request.getMethodValue();
         String url = request.getPath().value();
         //不需要网关签权的url
@@ -115,12 +113,12 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
         if (!StringUtils.isEmpty(userId)) {
             ServerHttpRequest.Builder builder = request.mutate();
             builder.header(X_CLIENT_TOKEN_USER_ID, userId);
-            builder.header(CHANNEL, ObjectUtils.toString(channel));
+            builder.header(BaseConstants.CHANNEL, ObjectUtils.toString(channel));
             //TODO 转发的请求都加上服务间认证token
-            builder.header(X_CLIENT_TOKEN, "TODO 添加服务间简单认证");
+            builder.header(BaseConstants.X_CLIENT_TOKEN, "TODO 添加服务间简单认证");
             //将jwt token中的用户信息传给服务
             String claims = authService.getJwtOrNoOld(authentication);
-            builder.header(X_CLIENT_TOKEN_USER, claims);
+            builder.header(BaseConstants.X_CLIENT_TOKEN_USER, claims);
             return chain.filter(exchange.mutate().request(builder.build()).build());
         }
         return unpermission(exchange);

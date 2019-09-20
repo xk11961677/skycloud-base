@@ -32,7 +32,9 @@ import com.sky.framework.redis.util.RedisTokenUtils;
 import com.sky.framework.redis.util.RedisUtils;
 import com.skycloud.base.authorization.client.dto.CustomLoginDto;
 import com.skycloud.base.authorization.common.Constants;
+import com.skycloud.base.authorization.common.enums.ChannelTypeEnum;
 import com.skycloud.base.authorization.config.custom.token.CustomAuthenticationToken;
+import com.skycloud.base.common.constant.BaseConstants;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ObjectUtils;
@@ -92,49 +94,40 @@ public class CustomLoginAuthSuccessHandler extends SavedRequestAwareAuthenticati
 //        if (!StringUtils.equals(clientDetails.getClientSecret(), encode)) {
 //            throw new UnapprovedClientAuthenticationException("clientSecret不匹配" + clientId);
 //        }
-
             CustomAuthenticationToken customAuthenticationToken = (CustomAuthenticationToken) authentication;
-
             TokenRequest tokenRequest = new TokenRequest(Maps.newHashMap(), clientId, clientDetails.getScope(), "");
-
             OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
-
             OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
             OAuth2AccessToken oAuth2AccessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
-
-            CustomLoginDto customLoginDto = (CustomLoginDto) customAuthenticationToken.getData().get("userInfo");
-
-            // 终端渠道
-            String channel = request.getHeader(Constants.CHANNEL);
-
-            // 用户当前使用token
-            String token;
-            // 验证是否已存在token,如果存在则刷新
-            String userToken = ObjectUtils.toString(RedisUtils.getString(channel + ":" + String.format(Constants.TOKEN_KEY, customLoginDto.getLoginName())));
-            LogUtils.info(log, "====【userValidateLogin】用户已存在的token-userToken：" + userToken);
-            if (StringUtils.isNotEmpty(userToken)) {
-                // 删除原token用户ID
-                RedisUtils.deleteKey(userToken);
-                token = RedisTokenUtils.refreshUserToken(channel, customLoginDto.getLoginName() + "", oAuth2AccessToken.getValue());
-            } else {
-                //可能返回原来token
-                token = RedisTokenUtils.getUserToken(channel, customLoginDto.getLoginName() + "", oAuth2AccessToken.getValue());
-            }
-
-            //todo  重写 refresh token接口 ,兼容旧系统
             JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(oAuth2AccessToken));
-            if (!token.equals(oAuth2AccessToken.getValue())) {
-                //将jwt生成的token替换成旧系统生成的token
-                jsonObject.put("value", token);
+            // 终端渠道
+            String channel = request.getHeader(BaseConstants.CHANNEL);
+            if (!ChannelTypeEnum.BACKEND.getKey().equals(channel)) {
+                CustomLoginDto customLoginDto = (CustomLoginDto) customAuthenticationToken.getData().get("userInfo");
+                // 用户当前使用token
+                String token;
+                // 验证是否已存在token,如果存在则刷新
+                String userToken = ObjectUtils.toString(RedisUtils.getString(channel + ":" + String.format(Constants.TOKEN_KEY, customLoginDto.getLoginName())));
+                LogUtils.info(log, "====【userValidateLogin】用户已存在的token-userToken：" + userToken);
+                if (StringUtils.isNotEmpty(userToken)) {
+                    // 删除原token用户ID
+                    RedisUtils.deleteKey(userToken);
+                    token = RedisTokenUtils.refreshUserToken(channel, customLoginDto.getLoginName() + "", oAuth2AccessToken.getValue());
+                } else {
+                    //可能返回原来token
+                    token = RedisTokenUtils.getUserToken(channel, customLoginDto.getLoginName() + "", oAuth2AccessToken.getValue());
+                }
+                if (!token.equals(oAuth2AccessToken.getValue())) {
+                    //将jwt生成的token替换成旧系统生成的token
+                    jsonObject.put("value", token);
+                }
+                jsonObject.put("userInfo", customLoginDto);
             }
-
-            jsonObject.put("userInfo", customLoginDto);
-
             LogUtils.info(log, "登录成功:{}" + authentication.getName());
             String resp = JSON.toJSONString(MessageRes.success(jsonObject));
             response.getWriter().write(resp);
         } catch (Exception e) {
-            LogUtils.error(log, "手机验证码登录异常", e);
+            LogUtils.error(log, "登录异常", e);
             String result = JSON.toJSONString(MessageRes.fail(FailureCodeEnum.GL999999.getCode(), FailureCodeEnum.GL999999.getMsg()));
             response.getWriter().write(result);
         }

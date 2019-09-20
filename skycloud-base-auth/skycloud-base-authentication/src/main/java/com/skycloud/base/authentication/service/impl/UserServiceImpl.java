@@ -22,10 +22,21 @@
  */
 package com.skycloud.base.authentication.service.impl;
 
+import com.skycloud.base.authentication.api.exception.AucBussinessException;
+import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
+import com.skycloud.base.authentication.api.model.vo.RoleVo;
+import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
+import com.skycloud.base.authentication.mapper.RoleMapper;
+import com.skycloud.base.authentication.mapper.UserMapper;
+import com.skycloud.base.authentication.model.domain.Role;
 import com.skycloud.base.authentication.model.domain.User;
 import com.skycloud.base.authentication.service.UserService;
 import com.sky.framework.web.support.BaseService;
+import ma.glasnost.orika.MapperFacade;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 用户表
@@ -36,5 +47,29 @@ import org.springframework.stereotype.Service;
 @Service("userService")
 public class UserServiceImpl extends BaseService<User> implements UserService {
 
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private MapperFacade mapperFacade;
+
+    @Override
+    public UserLoginVo login(UserLoginDto userLoginDto) {
+        User userQuery = new User();
+        userQuery.setUsername(userLoginDto.getUsername());
+        userQuery.setDisabled(0);
+        User user = userMapper.selectOne(userQuery);
+        if (user == null) {
+            throw new AucBussinessException();
+        }
+        List<Role> roles = roleMapper.listByUser(userQuery);
+        UserLoginVo userLoginVo = mapperFacade.map(user, UserLoginVo.class);
+        List<RoleVo> roleVos = mapperFacade.mapAsList(roles, RoleVo.class);
+        userLoginVo.setRoles(roleVos);
+        return userLoginVo;
+    }
 
 }

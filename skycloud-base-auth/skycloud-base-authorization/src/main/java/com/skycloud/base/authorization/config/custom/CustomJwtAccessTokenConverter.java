@@ -29,6 +29,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 
 /**
  * 预留
+ * 与CustomTokenEnhancer区别: 此转换器时机是token转换成jwt类型时操作
  *
  * @author
  */

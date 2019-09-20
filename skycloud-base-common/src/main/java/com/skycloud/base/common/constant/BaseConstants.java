@@ -35,4 +35,9 @@ public class BaseConstants {
      * 服务之间鉴权token
      */
     public static final String X_CLIENT_TOKEN = "x-client-token";
+
+    /**
+     * 渠道
+     */
+    public static final String CHANNEL = "channel";
 }

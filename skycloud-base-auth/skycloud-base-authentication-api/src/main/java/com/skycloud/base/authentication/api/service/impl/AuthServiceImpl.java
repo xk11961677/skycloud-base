@@ -61,7 +61,7 @@ public class AuthServiceImpl implements AuthService {
     /**
      * jwt token 密钥，主要用于token解析，签名验证
      */
-    @Value("${spring.security.oauth2.jwt.signingKey}")
+    @Value("${spring.security.oauth2.jwt.signingKey:123456}")
     private String signingKey;
 
     /**

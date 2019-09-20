@@ -20,26 +20,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.service;
+package com.skycloud.base.authentication.api.exception;
 
-import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
-import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
-import com.skycloud.base.authentication.model.domain.User;
-import com.sky.framework.web.support.IService;
+import com.sky.framework.model.exception.BusinessException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * 用户表
+ * 异常业务类
  *
- * @author code generator
- * @date 2019-09-11 13:27:16
+ * @author sky
  */
-public interface UserService extends IService<User> {
+@Slf4j
+public class AucBussinessException extends BusinessException {
+
+
+    public AucBussinessException() {
+    }
 
     /**
-     * 用户登录
-     *
-     * @param userLoginDto
-     * @return
+     * @param code      the code
+     * @param msgFormat the msg format
+     * @param args      the args
      */
-    UserLoginVo login(UserLoginDto userLoginDto);
+    public AucBussinessException(int code, String msgFormat, Object... args) {
+        super(code, msgFormat, args);
+    }
+
+    /**
+     * @param code the code
+     * @param msg  the msg
+     */
+    public AucBussinessException(int code, String msg) {
+        super(code, msg);
+    }
+
 }

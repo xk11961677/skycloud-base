@@ -22,8 +22,8 @@
  */
 package com.skycloud.base.authorization.config.custom;
 
-import com.skycloud.base.authorization.config.custom.token.CustomAuthenticationToken;
 import com.google.common.collect.Maps;
+import com.skycloud.base.authorization.config.custom.token.CustomAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -34,6 +34,8 @@ import java.util.Map;
 
 /**
  * 自定义token携带内容
+ * 原有token增强
+ *
  * @author
  */
 public class CustomTokenEnhancer implements TokenEnhancer {
@@ -42,10 +44,9 @@ public class CustomTokenEnhancer implements TokenEnhancer {
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         Map<String, Object> additionalInfo = Maps.newHashMap();
         Authentication userAuthentication = authentication.getUserAuthentication();
-        if(userAuthentication != null && userAuthentication instanceof CustomAuthenticationToken) {
-            CustomAuthenticationToken token = (CustomAuthenticationToken)userAuthentication;
-            CustomUserDetail customUserDetail = (CustomUserDetail)token.getDetails();
-            additionalInfo.put("user_id", customUserDetail.getUserId());
+        if (userAuthentication != null && userAuthentication instanceof CustomAuthenticationToken) {
+            CustomAuthenticationToken token = (CustomAuthenticationToken) userAuthentication;
+            additionalInfo.put("user", token.getData());
         }
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;

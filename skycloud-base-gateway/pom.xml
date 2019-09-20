@@ -73,6 +73,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>com.sky.skycloud</groupId>
+            <artifactId>skycloud-base-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- sky end-->
 
 
@@ -81,7 +87,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
-
 
 
         <!-- monitor -->
