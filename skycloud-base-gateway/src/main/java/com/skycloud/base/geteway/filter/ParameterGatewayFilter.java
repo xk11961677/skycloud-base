@@ -25,15 +25,16 @@ package com.skycloud.base.geteway.filter;
 import com.alibaba.fastjson.JSON;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.LogHttpDto;
+import com.skycloud.base.geteway.common.CustomCachedBodyOutputMessage;
 import com.skycloud.base.geteway.common.GatewayConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.support.BodyInserterContext;
-import org.springframework.cloud.gateway.support.CachedBodyOutputMessage;
-import org.springframework.cloud.gateway.support.DefaultServerRequest;
+import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
@@ -43,6 +44,7 @@ import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.server.HandlerStrategies;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
@@ -55,16 +57,11 @@ import java.util.regex.Pattern;
 
 /**
  * 参数拦截
+ * todo
+ * 使用modify body方式修改或者获取请求体,对性能影响较大
+ * 考虑将使用 modify body 的filter合并 , 抽取自己的 FilterChain
  *
- * @author sky
- * @version V1.0.0
- * @package com.skycloud.base.geteway.filter
- * @class ParameterGatewayFilter
- * @date 2019-08-20 11:24:29
- * @upate-log name  date  reason/contents
- * ---------------------------------------
- * ***    ****  ****
- * @since
+ * @author
  */
 @Component
 @Slf4j
@@ -72,23 +69,25 @@ public class ParameterGatewayFilter implements GlobalFilter, Ordered {
 
     private static final Pattern pattern = Pattern.compile("\\s*|\t|\r|\n");
 
-    @Value("${gw_parameter_open:true}")
-    private boolean GW_PARAMETER_OPEN;
+    @Value("${gw_parameter_plugin_open:true}")
+    private boolean GW_PARAMETER_PLUGIN_OPEN;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        if (!GW_PARAMETER_OPEN) {
+        if (!GW_PARAMETER_PLUGIN_OPEN) {
             return chain.filter(exchange);
         }
+        Route route = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
+
         ServerHttpRequest request = exchange.getRequest();
         URI requestUri = request.getURI();
         String schema = requestUri.getScheme();
-        if ((!GatewayConstants.HTTP.equals(schema) && !GatewayConstants.HTTPS.equals(schema))) {
+        if (!GatewayConstants.HTTP.equals(schema) && !GatewayConstants.HTTPS.equals(schema)) {
             return chain.filter(exchange);
         }
 
         LogHttpDto logHttpDto = new LogHttpDto();
-        logHttpDto.setUrl(requestUri.getPath());
+        logHttpDto.setUrl(route.getId() + requestUri.getPath());
         logHttpDto.setQueryString(request.getQueryParams());
         exchange.getAttributes().put("startTime", System.currentTimeMillis());
 
@@ -97,7 +96,7 @@ public class ParameterGatewayFilter implements GlobalFilter, Ordered {
         if (GatewayConstants.METHOD_GET.equals(method)) {
             return returnMono(chain, exchange, logHttpDto);
         } else if (parameterByPost(method, contentType)) {
-            ServerRequest serverRequest = new DefaultServerRequest(exchange);
+            ServerRequest serverRequest = ServerRequest.create(exchange, HandlerStrategies.withDefaults().messageReaders());
             Mono<String> modifiedBody = serverRequest.bodyToMono(String.class).flatMap((body) -> {
                 logHttpDto.setBody(formatStr(body));
                 return Mono.just(body);
@@ -105,7 +104,7 @@ public class ParameterGatewayFilter implements GlobalFilter, Ordered {
             HttpHeaders headers = new HttpHeaders();
             BodyInserter bodyInserter = BodyInserters.fromPublisher(modifiedBody, String.class);
             headers.putAll(exchange.getRequest().getHeaders());
-            CachedBodyOutputMessage outputMessage = new CachedBodyOutputMessage(exchange, headers);
+            CustomCachedBodyOutputMessage outputMessage = new CustomCachedBodyOutputMessage(exchange, headers);
             return bodyInserter.insert(outputMessage, new BodyInserterContext()).then(Mono.defer(() -> {
                 ServerHttpRequestDecorator decorator = new ServerHttpRequestDecorator(exchange.getRequest()) {
                     @Override
@@ -136,7 +135,6 @@ public class ParameterGatewayFilter implements GlobalFilter, Ordered {
         return 10;
     }
 
-
     /**
      * 记录post请求参数验证条件
      *
@@ -149,7 +147,6 @@ public class ParameterGatewayFilter implements GlobalFilter, Ordered {
                 StringUtils.isEmpty(contentType) ||
                         !contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE));
     }
-
 
     /**
      * 去掉空格,换行和制表符

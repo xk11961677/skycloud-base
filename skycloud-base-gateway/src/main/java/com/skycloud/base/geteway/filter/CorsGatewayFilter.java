@@ -37,6 +37,8 @@ import reactor.core.publisher.Mono;
 import static org.springframework.web.cors.CorsConfiguration.ALL;
 
 /**
+ * 全局cors
+ *
  * @author
  */
 @Component
@@ -55,7 +57,8 @@ public class CorsGatewayFilter implements WebFilter {
         ServerHttpResponse response = ctx.getResponse();
         HttpMethod requestMethod = requestHeaders.getAccessControlRequestMethod();
         HttpHeaders headers = response.getHeaders();
-        headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, requestHeaders.getOrigin());
+        //requestHeaders.getOrigin()
+        headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, ALL);
         headers.addAll(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, requestHeaders.getAccessControlRequestHeaders());
         if (requestMethod != null) {
             headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, requestMethod.name());

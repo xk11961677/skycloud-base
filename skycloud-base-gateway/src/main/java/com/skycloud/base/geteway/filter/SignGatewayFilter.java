@@ -28,6 +28,7 @@ import com.sky.framework.common.encrypt.DefaultMd5Verifier;
 import com.sky.framework.model.dto.MessageReq;
 import com.sky.framework.model.enums.FailureCodeEnum;
 import com.skycloud.base.common.constant.BaseConstants;
+import com.skycloud.base.geteway.common.CustomCachedBodyOutputMessage;
 import com.skycloud.base.geteway.common.GatewayConstants;
 import com.skycloud.base.geteway.common.ValidationResult;
 import com.skycloud.base.geteway.common.ValidationUtils;
@@ -38,8 +39,6 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.support.BodyInserterContext;
-import org.springframework.cloud.gateway.support.CachedBodyOutputMessage;
-import org.springframework.cloud.gateway.support.DefaultServerRequest;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -52,6 +51,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.server.HandlerStrategies;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
@@ -83,6 +83,7 @@ import java.util.stream.Stream;
  */
 @Component
 @Slf4j
+@SuppressWarnings("all")
 public class SignGatewayFilter implements GlobalFilter, Ordered {
 
     private static final String GW_SIGN_STATUS = "gw_sign_status";
@@ -134,7 +135,7 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
     /**
      * 不执行此插件的URL 以逗号分割且结尾
      */
-    @Value("${gw_sign_plugin_close_url}")
+    @Value("${gw_sign_plugin_close_url:''}")
     private String GW_SIGN_PLUGIN_CLOSE_URL;
 
     /**
@@ -179,7 +180,7 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
         if (ignore(GW_SIGN_PLUGIN_CLOSE_URL, path)) {
             return chain.filter(exchange);
         }
-        ServerRequest serverRequest = new DefaultServerRequest(exchange);
+        ServerRequest serverRequest = ServerRequest.create(exchange, HandlerStrategies.withDefaults().messageReaders());
         HttpHeaders httpHeaders = exchange.getRequest().getHeaders();
         MediaType mediaType = httpHeaders.getContentType();
         String method = exchange.getRequest().getMethodValue();
@@ -194,7 +195,7 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
                     boolean verifyLimit = doCheckTimeLimit(headers, messageReq);
                     String info = "";
                     if (verifyLimit) {
-                        boolean verify = doCheckSign(headers, messageReq);
+                        boolean verify = this.verifySignature(headers, messageReq);
                         info = verify ? decodeParamters(messageReq) : "";
                     }
                     return Mono.just(info);
@@ -208,7 +209,7 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
             headers.putAll(exchange.getRequest().getHeaders());
             //删除原先内容长度
             headers.remove(GatewayConstants.CONTENT_LENGTH);
-            CachedBodyOutputMessage outputMessage = new CachedBodyOutputMessage(exchange, headers);
+            CustomCachedBodyOutputMessage outputMessage = new CustomCachedBodyOutputMessage(exchange, headers);
 
             return bodyInserter.insert(outputMessage, new BodyInserterContext()).then(Mono.defer(() -> {
                 ServerHttpRequestDecorator decorator = new ServerHttpRequestDecorator(exchange.getRequest()) {
@@ -275,7 +276,7 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
      * @param messageReq
      * @return
      */
-    private boolean doCheckSign(HttpHeaders headers, MessageReq messageReq) {
+    private boolean verifySignature(HttpHeaders headers, MessageReq messageReq) {
         headers.remove(GW_SIGN_STATUS);
         String clientId = messageReq.getClientId();
         headers.set(CLIENT_ID, clientId);
@@ -352,8 +353,7 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
     /**
      * 忽略
      *
-     * @param ignores
-     * @param target
+     * @param route
      * @return
      */
     private boolean ignore(String ignores, String target) {
@@ -379,3 +379,5 @@ public class SignGatewayFilter implements GlobalFilter, Ordered {
     }
 
 }
+
+
