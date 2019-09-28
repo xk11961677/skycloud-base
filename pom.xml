@@ -65,6 +65,7 @@
         <module>skycloud-base-common</module>
         <module>skycloud-base-auth</module>
         <module>skycloud-base-gateway</module>
+        <module>skycloud-base-nacos</module>
         <module>skycloud-base-consul</module>
         <module>skycloud-base-config</module>
         <module>skycloud-base-monitor</module>
