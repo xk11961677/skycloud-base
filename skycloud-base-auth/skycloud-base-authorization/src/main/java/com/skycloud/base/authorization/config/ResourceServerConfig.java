@@ -72,18 +72,21 @@
 //     */
 //    private List<String> excludePatterns = new ArrayList() {
 //        {
-//            add("/doc.html");
+//            add("/favicon.ico");
+//            add("/");
+//            add("/*.html");
+//            add("/favicon.ico");
+//            add("/**/*.html");
+//            add("/**/*.css");
+//            add("/**/*.js");
 //            add("/swagger-resources/**");
-//            add("/images/**");
-//            add("/webjars/**");
 //            add("/v2/api-docs");
-//            add("/configuration/ui");
-//            add("/configuration/security");
+//
+//            add("/actuator/**");
+//            add("/oauth/**");
 //            add("/consulhealth/**");
 //            add("/monitor/**");
-//            add("/actuator/**");
 //            add("/login/**");
-//            add("/oauth/**");
 //        }
 //    };
 //}
