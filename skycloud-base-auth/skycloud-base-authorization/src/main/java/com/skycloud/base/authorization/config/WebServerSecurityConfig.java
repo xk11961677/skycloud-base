@@ -30,6 +30,7 @@ import com.skycloud.base.authorization.config.custom.provider.SmsCodeAuthenticat
 import com.skycloud.base.authorization.config.custom.provider.UserPasswordAuthenticationProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,7 +45,13 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 /**
+ * secuirty 安全配置
+ *
  * @author
  */
 @Configuration
@@ -54,6 +61,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    @Qualifier("customUserDetailsService")
     private UserDetailsService userDetailsService;
 
     @Autowired
@@ -75,18 +83,12 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(userPasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(smsCodeAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/doc.html").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/images/**").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
-                .antMatchers("/configuration/ui").permitAll()
-                .antMatchers("/configuration/security").permitAll()
-                .antMatchers("/consulhealth/**").permitAll()
-                .antMatchers("/monitor/**").permitAll()
+                .antMatchers(excludePatterns.toArray(new String[excludePatterns.size()])).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().permitAll();
+                .formLogin()
+//                .loginPage("")
+                .permitAll();
     }
 
     /**
@@ -104,7 +106,6 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationManagerBuilder.authenticationProvider(smsCodeAuthenticationProvider);
         //自定义用户名密码登录
         authenticationManagerBuilder.authenticationProvider(userPasswordAuthenticationProvider);
-
     }
 
     /**
@@ -164,5 +165,21 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
         return customLoginAuthSuccessHandler;
     }
 
-
+    /**
+     * 排除路径
+     */
+    private List<String> excludePatterns = new ArrayList() {
+        {
+            add("/doc.html");
+            add("/swagger-resources/**");
+            add("/images/**");
+            add("/webjars/**");
+            add("/v2/api-docs");
+            add("/configuration/ui");
+            add("/configuration/security");
+            add("/consulhealth/**");
+            add("/monitor/**");
+            add("/actuator/**");
+        }
+    };
 }

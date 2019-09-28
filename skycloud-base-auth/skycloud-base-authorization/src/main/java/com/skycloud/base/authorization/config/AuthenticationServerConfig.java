@@ -76,7 +76,7 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
      * 用户信息服务
      */
     @Autowired
-    @Qualifier("userDetailsService")
+    @Qualifier("customUserDetailsService")
     private UserDetailsService userDetailsService;
 
     /**

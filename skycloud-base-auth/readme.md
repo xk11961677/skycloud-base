@@ -11,9 +11,9 @@
 
 | 服务名                     |   简介         |  默认地址                |
 |---------------------------|----------------|-------------------------|
-| authorization-server      | 授权服务        |    |
-| authentication-server     | 签权服务        |    |
-| authentication-client     | 签权客户端      |  jar包，简化调用签权服务   |
+| skycloud-base-authorization      | 认证与授权服务        |    |
+| skycloud-base-authentication     | 签权与资源服务        |    |
+| skycloud-base-authentication-api     | 签权与资源客户端      |  jar包   |
 | db                        | 授权与签权DB脚本 |  ddl与dml               |
 
 ## 架构

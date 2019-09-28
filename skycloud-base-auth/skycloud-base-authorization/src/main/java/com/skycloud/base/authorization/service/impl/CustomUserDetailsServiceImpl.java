@@ -22,32 +22,47 @@
  */
 package com.skycloud.base.authorization.service.impl;
 
+import com.skycloud.base.authorization.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+
 /**
+ * 扩展security 用户认证
+ *
  * @author
  */
-@Service("userDetailsService")
+@Service("customUserDetailsService")
 @Slf4j
 public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
-//    @Autowired
-//    private UserService userService;
+    @Autowired
+    private UserService userService;
+
 //    @Autowired
 //    private RoleService roleService;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        throw new UsernameNotFoundException("Invalid username or password.");
+        return new org.springframework.security.core.userdetails.User(
+                username,
+                "$2a$10$aoPFu8shqiTcxJvrDA/.MeABbg/bhi8nEfahNYlsNfsBAAZ47cRYa",
+                true,
+                true,
+                true,
+                true,
+                new HashSet<>());
+//        throw new UsernameNotFoundException("Invalid username or password.");
+//        LogUtils.info(log, "origin oauth interface :{}", username);
 //        User user = userService.getByUsername(username);
 //        if(user == null){
 //            throw new UsernameNotFoundException("Invalid username or password.");
 //        }
-        //password
+//        //password
 //        return new org.springframework.security.core.userdetails.User(
 //                username,
 //                "$2a$10$aoPFu8shqiTcxJvrDA/.MeABbg/bhi8nEfahNYlsNfsBAAZ47cRYa",
