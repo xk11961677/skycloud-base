@@ -65,6 +65,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         if (user == null) {
             throw new AucBussinessException();
         }
+        userQuery.setId(user.getId());
         List<Role> roles = roleMapper.listByUser(userQuery);
         UserLoginVo userLoginVo = mapperFacade.map(user, UserLoginVo.class);
         List<RoleVo> roleVos = mapperFacade.mapAsList(roles, RoleVo.class);

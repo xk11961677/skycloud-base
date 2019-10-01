@@ -169,7 +169,6 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     private List<String> excludePatterns = new ArrayList() {
         {
-            add("/favicon.ico");
             add("/");
             add("/*.html");
             add("/favicon.ico");
@@ -179,8 +178,6 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
             add("/swagger-resources/**");
             add("/v2/api-docs");
             add("/actuator/**");
-            add("/monitor/**");
-            add("/consulhealth/**");
         }
     };
 }

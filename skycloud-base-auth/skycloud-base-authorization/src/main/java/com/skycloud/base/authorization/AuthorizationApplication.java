@@ -20,24 +20,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.config;
+package com.skycloud.base.authorization;
 
-import com.sky.framework.web.common.registry.SecurityRegistry;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
+ * 授权与认证
+ *
  * @author
  */
-@Configuration
-public class GlobalWebAppConfig implements WebMvcConfigurer {
+@SpringBootApplication
+@EnableFeignClients(basePackages = "com.skycloud")
+public class AuthorizationApplication {
 
-    @Bean
-    public SecurityRegistry secureRegistry() {
-        SecurityRegistry registry = new SecurityRegistry();
-        registry.excludePathPatterns("/auth/**");
-        return registry;
+    public static void main(String[] args) {
+        SpringApplication.run(AuthorizationApplication.class, args);
     }
 }
-

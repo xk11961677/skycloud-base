@@ -204,7 +204,7 @@ docker-compose -f docs/docker/docker-compose.yml up -d
   改用EFK 或 flume+kafka+es 或 filebeat+kafka+elk 或logback appender --> MQ 等
 
 ## 开发计划
-1.0.0 增加详细权限控制、优化gateway
+1.0.0 增加详细权限控制、优化gateway 、优化if else等代码
 1.0.1 替换hystrix --> sentinel 、consul、apollo --> nacos 
 
 

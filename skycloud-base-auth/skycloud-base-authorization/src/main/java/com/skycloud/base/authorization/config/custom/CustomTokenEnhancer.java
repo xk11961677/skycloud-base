@@ -46,7 +46,8 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         Authentication userAuthentication = authentication.getUserAuthentication();
         if (userAuthentication != null && userAuthentication instanceof CustomAuthenticationToken) {
             CustomAuthenticationToken token = (CustomAuthenticationToken) userAuthentication;
-            additionalInfo.put("user", token.getData());
+            CustomUserDetail customUserDetail = (CustomUserDetail) token.getDetails();
+            additionalInfo.put("user_id", customUserDetail.getUserId());
         }
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;

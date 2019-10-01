@@ -22,10 +22,11 @@
  */
 package com.skycloud.base.authentication.mapper;
 
+import com.sky.framework.mybatis.MyMapper;
 import com.skycloud.base.authentication.model.domain.Resource;
 import com.skycloud.base.authentication.model.dto.UserDto;
-import com.sky.framework.mybatis.MyMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -46,4 +47,22 @@ public interface ResourceMapper extends MyMapper<Resource> {
      * @return
      */
     List<Resource> listResourceByUserId(UserDto userDto);
+
+    /**
+     * 根据角色code获取资源信息
+     *
+     * @param codes
+     * @param types
+     * @return
+     */
+    List<Resource> listResourceByRoleCodes(@Param("codes") String[] codes,@Param("types") Integer[] types);
+
+    /**
+     * 获取所有API URL
+     *
+     * @param resource
+     * @param types
+     * @return
+     */
+    List<Resource> listApiURL(Resource resource, @Param("types") Integer[] types);
 }

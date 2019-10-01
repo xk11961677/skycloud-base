@@ -22,23 +22,23 @@
  */
 package com.skycloud.base.authentication.service.impl;
 
-import com.skycloud.base.authentication.enums.ResourceType;
+import com.sky.framework.common.json.JsonUtils;
+import com.sky.framework.common.tree.ITreeNode;
+import com.sky.framework.common.tree.Tree;
+import com.sky.framework.web.support.BaseService;
+import com.skycloud.base.authentication.enums.ResourceTypeEnums;
 import com.skycloud.base.authentication.mapper.ResourceMapper;
 import com.skycloud.base.authentication.model.bo.ResourceTreeNodeBo;
 import com.skycloud.base.authentication.model.domain.Resource;
 import com.skycloud.base.authentication.model.dto.UserDto;
 import com.skycloud.base.authentication.service.ResourceService;
-import com.sky.framework.common.json.JsonUtils;
-import com.sky.framework.common.tree.ITreeNode;
-import com.sky.framework.common.tree.Tree;
-import com.sky.framework.web.support.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 /**
  * 资源表
@@ -54,7 +54,7 @@ public class ResourceServiceImpl extends BaseService<Resource> implements Resour
 
     @Override
     public String listMenuByUserId(UserDto userDto) {
-        userDto.setType(ResourceType.MENU.getKey() + "");
+        userDto.setType(ResourceTypeEnums.MENU.getKey() + "");
         List<Resource> resources = resourceMapper.listResourceByUserId(userDto);
         List<ITreeNode> list = new ArrayList<>();
         resources.forEach(resource -> list.add(new ResourceTreeNodeBo(resource)));
@@ -65,11 +65,23 @@ public class ResourceServiceImpl extends BaseService<Resource> implements Resour
 
     @Override
     public List<Resource> listButtonByUserId(UserDto userDto) {
-        userDto.setType(ResourceType.BUTTON.getKey() + "");
+        userDto.setType(ResourceTypeEnums.BUTTON.getKey() + "");
         List<Resource> resources = resourceMapper.listResourceByUserId(userDto);
         for (Resource resource : resources) {
             resource.setCode(resource.getCode().replace(":", "_"));
         }
+        return resources;
+    }
+
+    @Override
+    public Set<Resource> listByRoleCodes(String[] codes,Integer[] types) {
+        List<Resource> resources = resourceMapper.listResourceByRoleCodes(codes,types);
+        return new HashSet<>(resources);
+    }
+
+    @Override
+    public List<Resource> listApiURL(Resource resource,Integer[] types) {
+        List<Resource> resources = resourceMapper.listApiURL(resource, types);
         return resources;
     }
 }

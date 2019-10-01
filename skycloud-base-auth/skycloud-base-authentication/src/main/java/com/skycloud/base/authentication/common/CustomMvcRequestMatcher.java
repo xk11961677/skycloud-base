@@ -20,24 +20,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.config;
+package com.skycloud.base.authentication.common;
 
-import com.sky.framework.web.common.registry.SecurityRegistry;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import com.google.common.base.Objects;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 /**
  * @author
  */
-@Configuration
-public class GlobalWebAppConfig implements WebMvcConfigurer {
+public class CustomMvcRequestMatcher extends MvcRequestMatcher {
 
-    @Bean
-    public SecurityRegistry secureRegistry() {
-        SecurityRegistry registry = new SecurityRegistry();
-        registry.excludePathPatterns("/auth/**");
-        return registry;
+    private String pattern;
+    private String method;
+
+    public CustomMvcRequestMatcher(HandlerMappingIntrospector introspector, String pattern, String method) {
+        super(introspector, pattern);
+        this.setMethod(HttpMethod.resolve(method));
+        this.pattern = pattern;
+        this.method = method;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CustomMvcRequestMatcher that = (CustomMvcRequestMatcher) o;
+        return Objects.equal(pattern, that.pattern) &&
+                Objects.equal(method, that.method);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(pattern, method);
     }
 }
-

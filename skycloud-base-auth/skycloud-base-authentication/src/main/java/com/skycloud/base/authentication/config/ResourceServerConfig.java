@@ -33,6 +33,9 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author
  */
@@ -53,16 +56,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .antMatchers("/doc.html").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/images/**").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
-                .antMatchers("/configuration/ui").permitAll()
-                .antMatchers("/configuration/security").permitAll()
-                .antMatchers("/consulhealth/**").permitAll()
-                .antMatchers("/monitor/**").permitAll()
+                .antMatchers(excludePatterns.toArray(new String[excludePatterns.size()])).permitAll()
                 .anyRequest().authenticated();
     }
 
@@ -77,4 +71,23 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         converter.setSigningKey(signingKey);
         return converter;
     }
+
+
+    /**
+     * 排除路径
+     */
+    private List<String> excludePatterns = new ArrayList() {
+        {
+            add("/");
+            add("/*.html");
+            add("/favicon.ico");
+            add("/**/*.html");
+            add("/**/*.css");
+            add("/**/*.js");
+            add("/swagger-resources/**");
+            add("/v2/api-docs");
+            add("/actuator/**");
+            add("/auth/login");
+        }
+    };
 }

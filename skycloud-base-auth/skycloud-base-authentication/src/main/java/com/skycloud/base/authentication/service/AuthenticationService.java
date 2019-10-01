@@ -22,6 +22,8 @@
  */
 package com.skycloud.base.authentication.service;
 
+import com.skycloud.base.authentication.model.domain.Resource;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -35,5 +37,31 @@ public interface AuthenticationService {
      * @return 是否有权限
      */
     boolean decide(HttpServletRequest authRequest);
+
+    /**
+     * 加载所有资源到内存
+     */
+    void loadResource();
+
+    /**
+     * 增加权限信息到内存
+     *
+     * @param resource
+     */
+    void addResourceConfigAttributes(Resource resource);
+
+    /**
+     * 删除权限信息到内存
+     *
+     * @param resource
+     */
+    void removeResourceConfigAttributes(Resource resource);
+
+    /**
+     * 更新权限信息到内存
+     *
+     * @param resource
+     */
+    void updateResourceConfigAttributes(Resource resource);
 
 }

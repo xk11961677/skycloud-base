@@ -152,7 +152,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.skycloud.base.authorization.Oauth2AuthorizationApplication</mainClass>
+                    <mainClass>com.skycloud.base.authorization.AuthorizationApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

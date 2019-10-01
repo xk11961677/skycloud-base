@@ -26,21 +26,28 @@ import com.alibaba.fastjson.JSONObject;
 import com.sky.framework.model.dto.MessageRes;
 import com.skycloud.base.authentication.api.client.AuthFeignApi;
 import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
+import com.skycloud.base.authentication.api.model.vo.RoleVo;
 import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
 import com.skycloud.base.authorization.client.AdUserFeignApi;
 import com.skycloud.base.authorization.client.dto.CustomLoginDto;
-import com.skycloud.base.authorization.common.enums.ChannelTypeEnum;
 import com.skycloud.base.authorization.config.custom.CustomUserDetail;
 import com.skycloud.base.authorization.config.custom.token.UserPasswordAuthenticationToken;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
 import com.skycloud.base.authorization.model.dto.UserPasswordLoginDto;
+import com.skycloud.base.common.enums.ChannelTypeEnums;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 短信验证码登录provider
@@ -69,7 +76,7 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
          * 根据渠道类型调用不同策略feign接口登录//todo 待优化
          */
         UserPasswordAuthenticationToken token = null;
-        if (ChannelTypeEnum.BACKEND.getKey().equals(userPasswordLoginDto.getChannel())) {
+        if (ChannelTypeEnums.BACKEND.getKey().equals(userPasswordLoginDto.getChannel())) {
             //管理平台登录
             UserLoginDto loginDto = new UserLoginDto();
             loginDto.setUsername(userPasswordLoginDto.getUsername());
@@ -79,7 +86,7 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
                 throw new AuzBussinessException(login.getCode(), login.getMsg());
             }
             UserLoginVo userLoginVo = login.getData();
-            token = buildAuthentication(userLoginVo, userLoginVo.getId(), userLoginVo.getName(), userLoginVo.getMobile());
+            token = buildAuthentication(userLoginVo, userLoginVo.getId(), userLoginVo.getName(), userLoginVo.getMobile(), userLoginVo.getRoles());
         } else {
             CustomLoginDto dto = mapperFacade.map(userPasswordLoginDto, CustomLoginDto.class);
             dto.setLoginName(userPasswordLoginDto.getUsername());
@@ -89,7 +96,7 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
                 throw new AuzBussinessException(login.getCode(), login.getMsg());
             }
             CustomLoginDto adUserConnDto = login.getData();
-            token = buildAuthentication(adUserConnDto, Long.valueOf(adUserConnDto.getLoginName()), adUserConnDto.getLoginName(), adUserConnDto.getLoginName());
+            token = buildAuthentication(adUserConnDto, Long.valueOf(adUserConnDto.getLoginName()), adUserConnDto.getLoginName(), adUserConnDto.getLoginName(), null);
         }
         return token;
     }
@@ -108,11 +115,15 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
      * @param mobile
      * @return
      */
-    private UserPasswordAuthenticationToken buildAuthentication(Object object, Long userId, String name, String mobile) {
+    private UserPasswordAuthenticationToken buildAuthentication(Object object, Long userId, String name, String mobile, List<RoleVo> roles) {
         JSONObject data = new JSONObject();
         data.put("userInfo", object);
-        CustomUserDetail customUserDetail = new CustomUserDetail(userId, name, mobile);
-        UserPasswordAuthenticationToken authenticationToken = new UserPasswordAuthenticationToken(name, data);
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(roles)) {
+            roles.stream().forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getCode())));
+        }
+        CustomUserDetail customUserDetail = new CustomUserDetail(userId, name, mobile,authorities);
+        UserPasswordAuthenticationToken authenticationToken = new UserPasswordAuthenticationToken(name,authorities, data);
         authenticationToken.setDetails(customUserDetail);
         return authenticationToken;
     }

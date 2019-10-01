@@ -22,8 +22,13 @@
  */
 package com.skycloud.base.authentication.service.impl;
 
+import com.sky.framework.common.LogUtils;
+import com.skycloud.base.authentication.common.ResourceMatcherContainer;
+import com.skycloud.base.authentication.enums.ResourceTypeEnums;
 import com.skycloud.base.authentication.model.domain.Resource;
 import com.skycloud.base.authentication.service.AuthenticationService;
+import com.skycloud.base.authentication.common.CustomMvcRequestMatcher;
+import com.skycloud.base.authentication.service.ResourceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -31,13 +36,15 @@ import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -47,28 +54,43 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+    @Autowired
+    private HandlerMappingIntrospector mvcHandlerMappingIntrospector;
+
     /**
      * 未在资源库中的URL默认标识
      */
     public static final String NONEXISTENT_URL = "NONEXISTENT_URL";
 
     @Autowired
-    private ResourceServiceImpl resourceService;
+    private ResourceService resourceService;
 
-    /**
-     * 系统中所有权限集合
-     */
-    Map<RequestMatcher, ConfigAttribute> resourceConfigAttributes;
-
-    /**
-     * 从数据库中加载注入
-     *
-     * @param resourceConfigAttributes
-     */
-    @Autowired
-    public AuthenticationServiceImpl(Map<RequestMatcher, ConfigAttribute> resourceConfigAttributes) {
-        this.resourceConfigAttributes = resourceConfigAttributes;
+    @Override
+    public void loadResource() {
+        Integer[] types = {ResourceTypeEnums.INTERFACE_URL.getKey()};
+        List<Resource> resources = resourceService.listApiURL(null, types);
+        resources.stream().forEach(r -> addResourceConfigAttributes(r));
+        LogUtils.debug(log, "resourceConfigAttributes:{}", () -> ResourceMatcherContainer.getInstance());
     }
+
+    @Override
+    public void addResourceConfigAttributes(Resource resource) {
+        CustomMvcRequestMatcher matcher = new CustomMvcRequestMatcher(mvcHandlerMappingIntrospector, resource.getUrl(), resource.getMethod());
+        ResourceMatcherContainer.getInstance().put(matcher, new SecurityConfig(resource.getCode()));
+    }
+
+    @Override
+    public void removeResourceConfigAttributes(Resource resource) {
+        CustomMvcRequestMatcher matcher = new CustomMvcRequestMatcher(mvcHandlerMappingIntrospector, resource.getUrl(), resource.getMethod());
+        ResourceMatcherContainer.getInstance().remove(matcher);
+    }
+
+    @Override
+    public void updateResourceConfigAttributes(Resource resource) {
+        removeResourceConfigAttributes(resource);
+        addResourceConfigAttributes(resource);
+    }
+
 
     /**
      * @param authRequest 访问的url,method
@@ -108,9 +130,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @return
      */
     public ConfigAttribute findConfigAttributesByUrl(HttpServletRequest authRequest) {
-        return this.resourceConfigAttributes.keySet().stream()
+        return ResourceMatcherContainer.getInstance().keySet().stream()
                 .filter(requestMatcher -> requestMatcher.matches(authRequest))
-                .map(requestMatcher -> this.resourceConfigAttributes.get(requestMatcher))
+                .map(requestMatcher -> ResourceMatcherContainer.getInstance().get(requestMatcher))
                 .peek(urlConfigAttribute -> log.debug("url在资源池中配置：{}", urlConfigAttribute.getAttribute()))
                 .findFirst()
                 .orElse(new SecurityConfig(NONEXISTENT_URL));
@@ -127,12 +149,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         log.debug("用户的授权角色集合信息为:{}", authorityRoles);
         String[] authorityRoleCodes = authorityRoles.stream()
                 .map(GrantedAuthority::getAuthority)
+                .map(code -> code.replace("ROLE_", ""))
                 .collect(Collectors.toList())
                 .toArray(new String[authorityRoles.size()]);
-        Set<Resource> resources = null;//resourceService.queryByRoleCodes(authorityRoleCodes);
-        if (log.isDebugEnabled()) {
-            log.debug("用户被授予角色的资源数量是:{}, 资源集合信息为:{}", resources.size(), resources);
+        Set<Resource> resources = new HashSet<>();
+        if (authorityRoleCodes.length != 0) {
+            Integer[] types = {ResourceTypeEnums.INTERFACE_URL.getKey()};
+            resources = resourceService.listByRoleCodes(authorityRoleCodes, types);
         }
+        Set<Resource> finalResources = resources;
+        LogUtils.debug(log, "用户被授予角色的资源数量是:{}, 资源集合信息为:{}", (Supplier) () -> new Object[]{finalResources.size(), finalResources});
         return resources;
     }
 }

@@ -32,7 +32,7 @@ import com.sky.framework.redis.util.RedisTokenUtils;
 import com.sky.framework.redis.util.RedisUtils;
 import com.skycloud.base.authorization.client.dto.CustomLoginDto;
 import com.skycloud.base.authorization.common.Constants;
-import com.skycloud.base.authorization.common.enums.ChannelTypeEnum;
+import com.skycloud.base.common.enums.ChannelTypeEnums;
 import com.skycloud.base.authorization.config.custom.token.CustomAuthenticationToken;
 import com.skycloud.base.common.constant.BaseConstants;
 import lombok.Data;
@@ -102,7 +102,7 @@ public class CustomLoginAuthSuccessHandler extends SavedRequestAwareAuthenticati
             JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(oAuth2AccessToken));
             // 终端渠道
             String channel = request.getHeader(BaseConstants.CHANNEL);
-            if (!ChannelTypeEnum.BACKEND.getKey().equals(channel)) {
+            if (!ChannelTypeEnums.BACKEND.getKey().equals(channel)) {
                 CustomLoginDto customLoginDto = (CustomLoginDto) customAuthenticationToken.getData().get("userInfo");
                 // 用户当前使用token
                 String token;

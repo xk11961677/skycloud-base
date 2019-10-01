@@ -27,6 +27,7 @@ import com.sky.framework.model.enums.FailureCodeEnum;
 import com.skycloud.base.authentication.api.client.AuthFeignApi;
 import com.skycloud.base.authentication.api.service.AuthService;
 import com.skycloud.base.common.constant.BaseConstants;
+import com.skycloud.base.common.enums.ChannelTypeEnums;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -104,27 +105,27 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
             LogUtils.debug(log, "url:{},method:{}, 请求未携带token信息", url, method);
             return unauthorized(exchange);
         }
-
-        /**
-         *
-         * 仅验证 token 是否正确与是否过期
-         */
-        String userId = authService.checkJwtRedis(authentication);
-
-//        boolean hasPermission = authService.hasPermission(authentication, url, method);
-
-        if (!StringUtils.isEmpty(userId)) {
-            ServerHttpRequest.Builder builder = request.mutate();
-            builder.header(X_CLIENT_TOKEN_USER_ID, userId);
-            builder.header(CHANNEL, channel);
-            //TODO 转发的请求都加上服务间认证token
-            builder.header(BaseConstants.X_CLIENT_TOKEN, "TODO 添加服务间简单认证");
-            //将jwt token中的用户信息传给服务
-            String claims = authService.getJwtOrNoOld(authentication);
-            builder.header(BaseConstants.X_CLIENT_TOKEN_USER, claims);
-            return chain.filter(exchange.mutate().request(builder.build()).build());
+        String userId = "";
+        if (ChannelTypeEnums.BACKEND.getKey().equals(channel)) {
+            boolean permission = authService.hasPermission(authentication, url, method);
+            if (!permission) {
+                return unpermission(exchange, FailureCodeEnum.AUZ100003);
+            }
+        } else {
+            userId = authService.checkJwtRedis(authentication);
+            if (StringUtils.isEmpty(userId)) {
+                return unpermission(exchange, FailureCodeEnum.AUZ100016);
+            }
         }
-        return unpermission(exchange);
+        ServerHttpRequest.Builder builder = request.mutate();
+        builder.header(X_CLIENT_TOKEN_USER_ID, userId);
+        builder.header(CHANNEL, channel);
+        //TODO 转发的请求都加上服务间认证token
+        builder.header(BaseConstants.X_CLIENT_TOKEN, "TODO 添加服务间简单认证");
+        //将jwt token中的用户信息传给服务
+        String claims = authService.getJwtOrNoOld(authentication);
+        builder.header(BaseConstants.X_CLIENT_TOKEN_USER, claims);
+        return chain.filter(exchange.mutate().request(builder.build()).build());
     }
 
     /**
@@ -148,12 +149,12 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
      *
      * @param HttpStatus.FORBIDDEN.getReasonPhrase().getBytes()
      */
-    private Mono<Void> unpermission(ServerWebExchange serverWebExchange) {
+    private Mono<Void> unpermission(ServerWebExchange serverWebExchange, FailureCodeEnum failureCodeEnum) {
         serverWebExchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
         HttpHeaders headers = serverWebExchange.getResponse().getHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         DataBuffer buffer = serverWebExchange.getResponse()
-                .bufferFactory().wrap(response(FailureCodeEnum.AUZ100016.getCode(), FailureCodeEnum.AUZ100016.getMsg()));
+                .bufferFactory().wrap(response(failureCodeEnum.getCode(), failureCodeEnum.getMsg()));
         return serverWebExchange.getResponse().writeWith(Flux.just(buffer));
     }
 

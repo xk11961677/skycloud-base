@@ -29,10 +29,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author
  */
 @SpringBootApplication
-public class Oauth2AuthenticationApplication {
+public class AuthenticationApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Oauth2AuthenticationApplication.class, args);
+        SpringApplication.run(AuthenticationApplication.class, args);
     }
+
 }
 

@@ -94,7 +94,6 @@
 //     */
 //    private List<String> excludePatterns = new ArrayList() {
 //        {
-//            add("/favicon.ico");
 //            add("/");
 //            add("/*.html");
 //            add("/favicon.ico");
@@ -106,8 +105,6 @@
 //
 //            add("/actuator/**");
 //            add("/oauth/**");
-//            add("/consulhealth/**");
-//            add("/monitor/**");
 //            add("/login/**");
 //        }
 //    };

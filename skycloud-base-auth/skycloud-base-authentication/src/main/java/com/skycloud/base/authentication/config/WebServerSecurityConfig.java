@@ -29,6 +29,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author
  */
@@ -39,26 +42,34 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-
 //        web.ignoring().antMatchers("/assets/**","/images/**","/**/*.jsp");
     }
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        log.debug("HttpSecurity configure method");
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .antMatchers("/doc.html").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/images/**").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
-                .antMatchers("/configuration/ui").permitAll()
-                .antMatchers("/configuration/security").permitAll()
-                .antMatchers("/consulhealth/**").permitAll()
-                .antMatchers("/monitor/**").permitAll()
+                .antMatchers().permitAll()
+                .antMatchers(excludePatterns.toArray(new String[excludePatterns.size()])).permitAll()
                 .anyRequest().authenticated();
     }
+
+    /**
+     * 排除路径
+     */
+    private List<String> excludePatterns = new ArrayList() {
+        {
+            add("/");
+            add("/*.html");
+            add("/favicon.ico");
+            add("/**/*.html");
+            add("/**/*.css");
+            add("/**/*.js");
+            add("/swagger-resources/**");
+            add("/v2/api-docs");
+            add("/actuator/**");
+            add("/auth/login");
+        }
+    };
 }

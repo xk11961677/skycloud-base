@@ -88,7 +88,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.skycloud.base.authentication.Oauth2AuthenticationApplication</mainClass>
+                    <mainClass>com.skycloud.base.authentication.AuthenticationApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

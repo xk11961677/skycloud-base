@@ -20,39 +20,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authorization.common.enums;
+package com.skycloud.base.authentication.common;
 
-import lombok.Getter;
-
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
+import com.sky.framework.common.LogUtils;
+import com.skycloud.base.authentication.service.AuthenticationService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
 
 /**
- * 登录渠道类型
- *
  * @author
  */
-public enum ChannelTypeEnum {
+@Component
+@Slf4j
+public class LoadResourceListener implements ApplicationListener<ApplicationReadyEvent> {
 
-    BACKEND("sky-admin-vue");
+    @Autowired
+    private AuthenticationService authenticationService;
 
-    @Getter
-    private final String key;
-
-    ChannelTypeEnum(final String key) {
-        this.key = key;
-    }
-
-    /**
-     * @param key
-     * @return
-     */
-    public static ChannelTypeEnum acquire(final String key) {
-        Optional<ChannelTypeEnum> serializeEnum =
-                Arrays.stream(ChannelTypeEnum.values())
-                        .filter(v -> Objects.equals(v.getKey(), key))
-                        .findFirst();
-        return serializeEnum.orElse(ChannelTypeEnum.BACKEND);
+    @Override
+    public void onApplicationEvent(ApplicationReadyEvent event) {
+        try {
+            authenticationService.loadResource();
+            LogUtils.info(log, "load resource successfully:{}");
+        } catch (Exception e) {
+            LogUtils.error(log, "load resource failed:{}", e);
+        }
     }
 }

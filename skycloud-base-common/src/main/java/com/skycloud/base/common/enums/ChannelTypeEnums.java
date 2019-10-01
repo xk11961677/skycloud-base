@@ -20,22 +20,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authorization;
+package com.skycloud.base.common.enums;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import lombok.Getter;
+
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
- * 授权与认证
+ * 登录渠道类型
  *
  * @author
  */
-@SpringBootApplication
-@EnableFeignClients(basePackages = "com.skycloud")
-public class Oauth2AuthorizationApplication {
+public enum ChannelTypeEnums {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Oauth2AuthorizationApplication.class, args);
+    BACKEND("sky-admin-vue");
+
+    @Getter
+    private final String key;
+
+    ChannelTypeEnums(final String key) {
+        this.key = key;
+    }
+
+    /**
+     * @param key
+     * @return
+     */
+    public static ChannelTypeEnums acquire(final String key) {
+        Optional<ChannelTypeEnums> serializeEnum =
+                Arrays.stream(ChannelTypeEnums.values())
+                        .filter(v -> Objects.equals(v.getKey(), key))
+                        .findFirst();
+        return serializeEnum.orElse(ChannelTypeEnums.BACKEND);
     }
 }

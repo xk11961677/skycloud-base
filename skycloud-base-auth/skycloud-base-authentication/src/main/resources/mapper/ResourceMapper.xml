@@ -58,10 +58,38 @@
 
     <select id="listResourceByUserId" parameterType="com.skycloud.base.authentication.model.dto.UserDto"
             resultMap="BaseResultMap">
-        select <include refid="AliasBaseColumnList"/> from t_user_role ur
+        select
+        <include refid="AliasBaseColumnList"/>
+        from t_user_role ur
         inner join t_role_resource rr on ur.role_id=rr.role_id
         left join t_resource r on rr.resource_id=r.id
         where ur.user_id=#{id} and ur.disabled=0
         and r.type=#{type}
+    </select>
+
+
+    <select id="listResourceByRoleCodes" resultMap="BaseResultMap">
+        select
+        <include refid="AliasBaseColumnList"/>
+        from t_role rl join t_role_resource rr on rl.id=rr.role_id
+        join t_resource r on r.id=rr.resource_id
+        where rl.`code` in
+        <foreach collection="codes" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and r.type in
+        <foreach collection="types" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="listApiURL" resultType="com.skycloud.base.authentication.model.domain.Resource">
+        select
+        <include refid="BaseColumnList"/>
+        from t_resource where `type` in
+        <foreach collection="types" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and disabled=0
     </select>
 </mapper>

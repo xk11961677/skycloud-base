@@ -22,11 +22,12 @@
  */
 package com.skycloud.base.authentication.service;
 
+import com.sky.framework.web.support.IService;
 import com.skycloud.base.authentication.model.domain.Resource;
 import com.skycloud.base.authentication.model.dto.UserDto;
-import com.sky.framework.web.support.IService;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 资源表
@@ -52,5 +53,24 @@ public interface ResourceService extends IService<Resource> {
      * @return
      */
     List<Resource> listButtonByUserId(UserDto userDto);
+
+
+    /**
+     * 根据用户获取按钮资源
+     *
+     * @param codes
+     * @param types
+     * @return
+     */
+    Set<Resource> listByRoleCodes(String[] codes, Integer[] types);
+
+    /**
+     * 获取所有API URL
+     *
+     * @param resource
+     * @param types
+     * @return
+     */
+    List<Resource> listApiURL(Resource resource, Integer[] types);
 
 }
