@@ -178,6 +178,8 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
             add("/swagger-resources/**");
             add("/v2/api-docs");
             add("/actuator/**");
+
+            add("/open/test");
         }
     };
 }

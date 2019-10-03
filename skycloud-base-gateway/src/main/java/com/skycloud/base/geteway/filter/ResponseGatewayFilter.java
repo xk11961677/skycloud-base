@@ -22,8 +22,10 @@
  */
 package com.skycloud.base.geteway.filter;
 
-import com.skycloud.base.geteway.common.CustomCachedBodyOutputMessage;
-import com.skycloud.base.geteway.common.CustomDefaultClientResponse;
+import com.sky.framework.common.LogUtils;
+import com.skycloud.base.geteway.common.custom.CustomCachedBodyOutputMessage;
+import com.skycloud.base.geteway.common.custom.CustomDefaultClientResponse;
+import com.skycloud.base.geteway.common.custom.ResponseAdapter;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -34,13 +36,9 @@ import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ReactiveHttpOutputMessage;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.client.reactive.ClientHttpResponse;
 import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
@@ -71,14 +69,18 @@ public class ResponseGatewayFilter implements GlobalFilter, Ordered {
     }
 
     private Mono<Void> processResponse(ServerWebExchange exchange, GatewayFilterChain chain) {
-        ServerHttpResponseDecorator responseDecorator = new ServerHttpResponseDecorator(exchange.getResponse()) {
+        ServerHttpResponseDecorator responseDecorator = responseDecorator(exchange);
+        return chain.filter(exchange.mutate().response(responseDecorator).build());
+    }
+
+    ServerHttpResponseDecorator responseDecorator(ServerWebExchange exchange) {
+        return new ServerHttpResponseDecorator(exchange.getResponse()) {
             @Override
             public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
                 String originalResponseContentType = exchange.getAttribute(ORIGINAL_RESPONSE_CONTENT_TYPE_ATTR);
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.add(HttpHeaders.CONTENT_TYPE, originalResponseContentType);
                 ResponseAdapter responseAdapter = new ResponseAdapter(body, httpHeaders);
-
                 CustomDefaultClientResponse clientResponse = new CustomDefaultClientResponse(responseAdapter, ExchangeStrategies.withDefaults(), "");
                 Mono<String> rawBody = clientResponse.bodyToMono(String.class).map(s -> s);
                 BodyInserter<Mono<String>, ReactiveHttpOutputMessage> bodyInserter = BodyInserters.fromPublisher(rawBody, String.class);
@@ -91,7 +93,7 @@ public class ResponseGatewayFilter implements GlobalFilter, Ordered {
                                 DataBufferUtils.release(buffer);
                                 // 将响应信息转化为字符串
                                 String responseStr = charBuffer.toString();
-                                log.info("response info :{} ", responseStr);
+                                LogUtils.info(log, "response parameters :{} ", responseStr);
                                 return getDelegate().bufferFactory().wrap(responseStr.getBytes(StandardCharsets.UTF_8));
                             });
                             HttpHeaders headers = getDelegate().getHeaders();
@@ -101,47 +103,7 @@ public class ResponseGatewayFilter implements GlobalFilter, Ordered {
                         }));
             }
         };
-        return chain.filter(exchange.mutate().response(responseDecorator).build());
+
     }
 
-    private class ResponseAdapter implements ClientHttpResponse {
-
-        private final Flux<DataBuffer> flux;
-        private final HttpHeaders headers;
-
-        @SuppressWarnings("unchecked")
-        private ResponseAdapter(Publisher<? extends DataBuffer> body, HttpHeaders headers) {
-            this.headers = headers;
-            if (body instanceof Flux) {
-                flux = (Flux) body;
-            } else {
-                flux = ((Mono) body).flux();
-            }
-        }
-
-        @Override
-        public Flux<DataBuffer> getBody() {
-            return flux;
-        }
-
-        @Override
-        public HttpHeaders getHeaders() {
-            return headers;
-        }
-
-        @Override
-        public HttpStatus getStatusCode() {
-            return null;
-        }
-
-        @Override
-        public int getRawStatusCode() {
-            return 0;
-        }
-
-        @Override
-        public MultiValueMap<String, ResponseCookie> getCookies() {
-            return null;
-        }
-    }
 }

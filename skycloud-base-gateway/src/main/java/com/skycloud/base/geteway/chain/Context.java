@@ -20,27 +20,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.geteway.common;
-
-import lombok.Data;
-
-import java.util.List;
-import java.util.Map;
+package com.skycloud.base.geteway.chain;
 
 /**
  * @author
  */
-@Data
-public class ValidationResult {
-    /**
-     * 校验结果是否有错
-     */
-    private boolean hasErrors;
-
-    /**
-     * 校验错误信息
-     */
-    private List<String> errorMsg;
-
+public interface Context {
 
 }

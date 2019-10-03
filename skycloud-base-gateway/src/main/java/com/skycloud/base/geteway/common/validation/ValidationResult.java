@@ -20,45 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.geteway.common;
+package com.skycloud.base.geteway.common.validation;
 
-import java.util.*;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.groups.Default;
+import lombok.Data;
 
-import org.hibernate.validator.HibernateValidator;
-import org.springframework.util.CollectionUtils;
+import java.util.List;
 
 /**
  * @author
  */
-public class ValidationUtils {
+@Data
+public class ValidationResult {
+    /**
+     * 校验结果是否有错
+     */
+    private boolean hasErrors;
 
     /**
-     * 使用hibernate的注解来进行验证
+     * 校验错误信息
      */
-    private static Validator validator = Validation.byProvider(HibernateValidator.class).configure().failFast(true).buildValidatorFactory().getValidator();
+    private List<String> errorMsg;
 
-    /**
-     * 功能描述: <br>
-     * 〈注解验证参数〉
-     *
-     * @param obj
-     */
-    public static <T> ValidationResult validate(T obj) {
-        ValidationResult result = new ValidationResult();
-        Set<ConstraintViolation<T>> set = validator.validate(obj, Default.class);
-        if (!CollectionUtils.isEmpty(set)) {
-            result.setHasErrors(true);
-            List<String> list = new ArrayList<>();
-            for (ConstraintViolation<T> cv : set) {
-                list.add(cv.getMessage());
-            }
-            result.setErrorMsg(list);
-        }
-        return result;
 
-    }
 }

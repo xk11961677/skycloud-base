@@ -30,11 +30,12 @@ import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.model.enums.FailureCodeEnum;
 import com.sky.framework.redis.util.RedisTokenUtils;
 import com.sky.framework.redis.util.RedisUtils;
+import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
 import com.skycloud.base.authorization.client.dto.CustomLoginDto;
 import com.skycloud.base.authorization.common.Constants;
-import com.skycloud.base.common.enums.ChannelTypeEnums;
 import com.skycloud.base.authorization.config.custom.token.CustomAuthenticationToken;
 import com.skycloud.base.common.constant.BaseConstants;
+import com.skycloud.base.common.enums.ChannelTypeEnums;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ObjectUtils;
@@ -102,7 +103,10 @@ public class CustomLoginAuthSuccessHandler extends SavedRequestAwareAuthenticati
             JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(oAuth2AccessToken));
             // 终端渠道
             String channel = request.getHeader(BaseConstants.CHANNEL);
-            if (!ChannelTypeEnums.BACKEND.getKey().equals(channel)) {
+            if (ChannelTypeEnums.BACKEND.getKey().equals(channel)) {
+                UserLoginVo userLoginVo = (UserLoginVo) customAuthenticationToken.getData().get("userInfo");
+                jsonObject.put("userInfo", userLoginVo);
+            } else {
                 CustomLoginDto customLoginDto = (CustomLoginDto) customAuthenticationToken.getData().get("userInfo");
                 // 用户当前使用token
                 String token;

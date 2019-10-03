@@ -30,6 +30,7 @@ import com.skycloud.base.geteway.common.RemoteAddrKeyResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
@@ -44,6 +45,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @EnableFeignClients(basePackages = "com.skycloud")
 @SpringBootApplication
+@EnableConfigurationProperties(value = GatewayProperties.class)
 public class GatewayApplication {
 
 
@@ -57,9 +59,9 @@ public class GatewayApplication {
     }
 
 
-    @RequestMapping(value = "/defalutFallback", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Mono<String> fallBackController() {
-        LogUtils.info(log, "gateway default hystrix");
+    @RequestMapping(value = "/defaultFallback", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Mono<String> defaultFallback() {
+        LogUtils.info(log, "gateway default hystrix:{}");
         MessageRes fail = MessageRes.fail(FailureCodeEnum.GL990002.getCode(), FailureCodeEnum.GL990002.getMsg());
         return Mono.just(JSON.toJSONString(fail));
     }
@@ -69,6 +71,5 @@ public class GatewayApplication {
     public RemoteAddrKeyResolver remoteAddrKeyResolver() {
         return new RemoteAddrKeyResolver();
     }
-
 
 }
