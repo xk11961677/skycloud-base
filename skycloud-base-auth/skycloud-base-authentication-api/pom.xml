@@ -27,6 +27,12 @@
             <artifactId>framework-integrate-redis</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.sky.skycloud</groupId>
+            <artifactId>skycloud-base-common</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
         <!-- sky end -->
 
         <dependency>
@@ -77,6 +83,7 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-jwt</artifactId>
         </dependency>
+
 
     </dependencies>
 </project>

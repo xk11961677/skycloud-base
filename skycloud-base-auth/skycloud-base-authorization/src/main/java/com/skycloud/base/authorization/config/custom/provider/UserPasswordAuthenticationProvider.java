@@ -34,7 +34,7 @@ import com.skycloud.base.authorization.config.custom.CustomUserDetail;
 import com.skycloud.base.authorization.config.custom.token.UserPasswordAuthenticationToken;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
 import com.skycloud.base.authorization.model.dto.UserPasswordLoginDto;
-import com.skycloud.base.common.enums.ChannelTypeEnums;
+import com.skycloud.base.common.enums.ChannelTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +76,7 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
          * 根据渠道类型调用不同策略feign接口登录//todo 待优化
          */
         UserPasswordAuthenticationToken token = null;
-        if (ChannelTypeEnums.BACKEND.getKey().equals(userPasswordLoginDto.getChannel())) {
+        if (ChannelTypeEnum.BACKEND.getKey().equals(userPasswordLoginDto.getChannel())) {
             //管理平台登录
             UserLoginDto loginDto = new UserLoginDto();
             loginDto.setUsername(userPasswordLoginDto.getUsername());

@@ -23,11 +23,12 @@
 package com.skycloud.base.geteway.filter;
 
 import com.sky.framework.common.LogUtils;
+import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.model.enums.FailureCodeEnum;
 import com.skycloud.base.authentication.api.client.AuthFeignApi;
 import com.skycloud.base.authentication.api.service.AuthService;
+import com.skycloud.base.authentication.api.service.impl.AuthStrategyManager;
 import com.skycloud.base.common.constant.BaseConstants;
-import com.skycloud.base.common.enums.ChannelTypeEnums;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,6 +48,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -65,6 +67,9 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
 
     @Resource
     private AuthService authService;
+
+    @Resource
+    private AuthStrategyManager authStrategyManager;
 
     @Resource
     private AuthFeignApi authFeignApi;
@@ -92,7 +97,7 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
         }
 
         ServerHttpRequest request = exchange.getRequest();
-        String authentication = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        String authorization = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         String channel = request.getHeaders().getFirst(CHANNEL);
         String method = request.getMethodValue();
         String url = request.getPath().value();
@@ -101,29 +106,21 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
         // 如果请求未携带token信息, 直接跳出
-        if (StringUtils.isBlank(authentication) || !authentication.contains(BEARER)) {
+        if (StringUtils.isBlank(authorization) || !authorization.contains(BEARER)) {
             LogUtils.debug(log, "url:{},method:{}, 请求未携带token信息", url, method);
             return unauthorized(exchange);
         }
-        String userId = "";
-        if (ChannelTypeEnums.BACKEND.getKey().equals(channel)) {
-            boolean permission = authService.hasPermission(authentication, url, method);
-            if (!permission) {
-                return unpermission(exchange, FailureCodeEnum.AUZ100003);
-            }
-        } else {
-            userId = authService.checkJwtRedis(authentication);
-            if (StringUtils.isEmpty(userId)) {
-                return unpermission(exchange, FailureCodeEnum.AUZ100016);
-            }
+        MessageRes<String> result = authStrategyManager.auth(authorization, url, method, channel);
+        if (!result.isSuccess()) {
+            return unpermission(exchange, result.getCode(), result.getMsg());
         }
         ServerHttpRequest.Builder builder = request.mutate();
-        builder.header(X_CLIENT_TOKEN_USER_ID, userId);
+        builder.header(X_CLIENT_TOKEN_USER_ID, Optional.ofNullable(result.getData()).orElse("-1"));
         builder.header(CHANNEL, channel);
         //TODO 转发的请求都加上服务间认证token
         builder.header(BaseConstants.X_CLIENT_TOKEN, "TODO 添加服务间简单认证");
         //将jwt token中的用户信息传给服务
-        String claims = authService.getJwtOrNoOld(authentication);
+        String claims = authService.getJwtOrNoOld(authorization);
         builder.header(BaseConstants.X_CLIENT_TOKEN_USER, claims);
         return chain.filter(exchange.mutate().request(builder.build()).build());
     }
@@ -149,12 +146,12 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
      *
      * @param HttpStatus.FORBIDDEN.getReasonPhrase().getBytes()
      */
-    private Mono<Void> unpermission(ServerWebExchange serverWebExchange, FailureCodeEnum failureCodeEnum) {
+    private Mono<Void> unpermission(ServerWebExchange serverWebExchange, Integer code, String msg) {
         serverWebExchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
         HttpHeaders headers = serverWebExchange.getResponse().getHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         DataBuffer buffer = serverWebExchange.getResponse()
-                .bufferFactory().wrap(response(failureCodeEnum.getCode(), failureCodeEnum.getMsg()));
+                .bufferFactory().wrap(response(code, msg));
         return serverWebExchange.getResponse().writeWith(Flux.just(buffer));
     }
 

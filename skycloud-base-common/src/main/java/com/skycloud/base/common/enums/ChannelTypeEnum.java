@@ -33,14 +33,14 @@ import java.util.Optional;
  *
  * @author
  */
-public enum ChannelTypeEnums {
+public enum ChannelTypeEnum {
 
     BACKEND("sky-admin-vue");
 
     @Getter
     private final String key;
 
-    ChannelTypeEnums(final String key) {
+    ChannelTypeEnum(final String key) {
         this.key = key;
     }
 
@@ -48,11 +48,11 @@ public enum ChannelTypeEnums {
      * @param key
      * @return
      */
-    public static ChannelTypeEnums acquire(final String key) {
-        Optional<ChannelTypeEnums> serializeEnum =
-                Arrays.stream(ChannelTypeEnums.values())
+    public static ChannelTypeEnum acquire(final String key) {
+        Optional<ChannelTypeEnum> serializeEnum =
+                Arrays.stream(ChannelTypeEnum.values())
                         .filter(v -> Objects.equals(v.getKey(), key))
                         .findFirst();
-        return serializeEnum.orElse(ChannelTypeEnums.BACKEND);
+        return serializeEnum.orElse(ChannelTypeEnum.BACKEND);
     }
 }
