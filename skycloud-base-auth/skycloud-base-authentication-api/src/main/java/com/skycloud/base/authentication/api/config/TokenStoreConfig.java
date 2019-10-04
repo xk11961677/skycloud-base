@@ -66,7 +66,7 @@ public class TokenStoreConfig {
     @Autowired(required = false)
     private RedisConnectionFactory redisConnectionFactory;
 
-    @Value("${" + AuthConstants.TOKEN_STORE_TYPE + "}")
+    @Value("${" + AuthConstants.TOKEN_STORE_TYPE + ":jwt}")
     private String tokenStoreType;
 
     /**
