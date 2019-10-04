@@ -30,7 +30,7 @@ public class Constants {
     /**
      * 支持method方式
      */
-    public static final String METHOD = "POST";
+    public static final String POST_METHOD = "POST";
 
     /**
      * 会员登录token

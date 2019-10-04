@@ -120,7 +120,7 @@ Cache-Control: no-cache
 
 1. 用户跳转至平台
 
-`http://localhost:8902/oauth/authorize?response_type=code&client_id=test_client&scope=read&state=test&redirect_uri=http://baidu.com`
+`http://localhost:8902/oauth/authorize?response_type=code&client_id=test_client&state=test&redirect_uri=http://www.baidu.com`
 
 ```
 client_id： 商户申请的client_id(oauth_client_details表中的记录)

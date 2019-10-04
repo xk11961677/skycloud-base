@@ -42,7 +42,7 @@ public class FilterChainContext implements Context {
 
     private LogHttpDto logHttpDto = new LogHttpDto();
 
-    private MessageRes result = MessageRes.success(null);
+    private MessageRes result = MessageRes.success();
 
     public void setBody(String body) {
         this.body = body;

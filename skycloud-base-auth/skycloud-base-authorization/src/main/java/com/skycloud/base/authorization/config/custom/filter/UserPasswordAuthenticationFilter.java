@@ -29,13 +29,16 @@ import com.sky.framework.common.validation.ValidateUtils;
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.model.exception.BusinessException;
 import com.skycloud.base.authorization.common.Constants;
+import com.skycloud.base.authorization.config.custom.CustomClientDetailService;
 import com.skycloud.base.authorization.config.custom.RequestUtils;
 import com.skycloud.base.authorization.config.custom.ResponseUtils;
 import com.skycloud.base.authorization.config.custom.token.UserPasswordAuthenticationToken;
 import com.skycloud.base.authorization.exception.AuthErrorType;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
+import com.skycloud.base.authorization.model.bo.ClientDetailsBo;
 import com.skycloud.base.authorization.model.dto.UserPasswordLoginDto;
 import com.skycloud.base.common.constant.BaseConstants;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -49,6 +52,7 @@ import javax.servlet.http.HttpServletResponse;
  * 自定义用户名密码登录
  *
  * @author
+ * @see org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
  */
 @Slf4j
 public class UserPasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
@@ -63,37 +67,40 @@ public class UserPasswordAuthenticationFilter extends AbstractAuthenticationProc
      */
     private boolean postOnly = true;
 
+    @Setter
+    private CustomClientDetailService customClientDetailService;
+
 
     public UserPasswordAuthenticationFilter() {
-        super(new AntPathRequestMatcher(MATCHER_URL, Constants.METHOD));
+        super(new AntPathRequestMatcher(MATCHER_URL, Constants.POST_METHOD));
     }
 
     @SuppressWarnings("all")
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            if (this.postOnly && !request.getMethod().equals(Constants.METHOD)) {
+            if (this.postOnly && !request.getMethod().equals(Constants.POST_METHOD)) {
                 throw new AuzBussinessException(AuthErrorType.UNSUPPORTED_RESPONSE_TYPE.getCode(), AuthErrorType.UNSUPPORTED_RESPONSE_TYPE.getMsg());
             }
 
             String channel = request.getHeader(BaseConstants.CHANNEL);
             String clientIp = IpUtils.getClientIp(request);
-
             UserPasswordLoginDto userPasswordLoginDto = RequestUtils.getJsonParameters(request, UserPasswordLoginDto.class);
             userPasswordLoginDto.setChannel(channel);
             userPasswordLoginDto.setLoginIp(clientIp);
-
             ValidateUtils.validThrowFailFast(userPasswordLoginDto);
 
-            UserPasswordAuthenticationToken token = new UserPasswordAuthenticationToken(userPasswordLoginDto);
-            this.setDetails(request, token);
-            return this.getAuthenticationManager().authenticate(token);
+            ClientDetailsBo clientDetailsBo = customClientDetailService.verifyClient(request, "password");
+            userPasswordLoginDto.setClientDetailsBo(clientDetailsBo);
+            UserPasswordAuthenticationToken authRequest = new UserPasswordAuthenticationToken(userPasswordLoginDto);
+            setDetails(request, authRequest);
+            return this.getAuthenticationManager().authenticate(authRequest);
         } catch (AuzBussinessException e) {
             ResponseUtils.response(response, e);
             LogUtils.error(log, "username password login AuzException:{}", e);
         } catch (BusinessException e) {
             ResponseUtils.response(response, e);
-            LogUtils.error(log, "mobile login AuzException:{}", e);
+            LogUtils.error(log, "username password login AuzException:{}", e);
         } catch (Exception e) {
             MessageRes fail = MessageRes.fail(AuthErrorType.AUZ100026.getCode(), e.getMessage() == null ? AuthErrorType.AUZ100026.getMsg() : e.getMessage());
             ResponseUtils.response(response, JSON.toJSONString(fail));
@@ -104,6 +111,6 @@ public class UserPasswordAuthenticationFilter extends AbstractAuthenticationProc
 
 
     private void setDetails(HttpServletRequest request, UserPasswordAuthenticationToken authRequest) {
-        authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
+        authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
     }
 }

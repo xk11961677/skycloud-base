@@ -29,13 +29,16 @@ import com.sky.framework.common.validation.ValidateUtils;
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.model.exception.BusinessException;
 import com.skycloud.base.authorization.common.Constants;
+import com.skycloud.base.authorization.config.custom.CustomClientDetailService;
 import com.skycloud.base.authorization.config.custom.RequestUtils;
 import com.skycloud.base.authorization.config.custom.ResponseUtils;
 import com.skycloud.base.authorization.config.custom.token.SmsCodeAuthenticationToken;
 import com.skycloud.base.authorization.exception.AuthErrorType;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
+import com.skycloud.base.authorization.model.bo.ClientDetailsBo;
 import com.skycloud.base.authorization.model.dto.MobileLoginDto;
 import com.skycloud.base.common.constant.BaseConstants;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -46,6 +49,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 短信验证码登录方式过滤器
+ * 短信验证码与clientId验证,可以继承org.springframework.web.filter.OncePerRequestFilter类,代码移动到此处
+ *
  * @author
  */
 @Slf4j
@@ -56,16 +62,18 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
      */
     private static final String MATCHER_URL = "/oauth/mobile";
 
+    @Setter
+    private CustomClientDetailService customClientDetailService;
 
     public SmsCodeAuthenticationFilter() {
-        super(new AntPathRequestMatcher(MATCHER_URL, Constants.METHOD));
+        super(new AntPathRequestMatcher(MATCHER_URL, Constants.POST_METHOD));
     }
 
     @SuppressWarnings("all")
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            if (!request.getMethod().equals(Constants.METHOD)) {
+            if (!request.getMethod().equals(Constants.POST_METHOD)) {
                 throw new AuzBussinessException(AuthErrorType.UNSUPPORTED_RESPONSE_TYPE.getCode(), AuthErrorType.UNSUPPORTED_RESPONSE_TYPE.getMsg());
             }
             String channel = request.getHeader(BaseConstants.CHANNEL);
@@ -86,9 +94,12 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 //                throw new AuzBussinessException(res.getCode(), res.getMsg());
 //            }
 
-            SmsCodeAuthenticationToken smsCodeAuthToken = new SmsCodeAuthenticationToken(mobileLoginDto);
-            this.setDetails(request, smsCodeAuthToken);
-            return this.getAuthenticationManager().authenticate(smsCodeAuthToken);
+            ClientDetailsBo clientDetailsBo = customClientDetailService.verifyClient(request, "mobile");
+            mobileLoginDto.setClientDetailsBo(clientDetailsBo);
+
+            SmsCodeAuthenticationToken authRequest = new SmsCodeAuthenticationToken(mobileLoginDto);
+            setDetails(request, authRequest);
+            return this.getAuthenticationManager().authenticate(authRequest);
         } catch (AuzBussinessException e) {
             ResponseUtils.response(response, e);
             LogUtils.error(log, "mobile login AuzException:{}", e);
@@ -104,7 +115,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
     }
 
     private void setDetails(HttpServletRequest request, SmsCodeAuthenticationToken authRequest) {
-        authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
+        authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
     }
 
 }

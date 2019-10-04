@@ -23,10 +23,12 @@
 package com.skycloud.base.authorization.config.custom.token;
 
 import com.alibaba.fastjson.JSONObject;
-import com.skycloud.base.authorization.model.dto.MobileLoginDto;
+import com.skycloud.base.authorization.model.dto.CustomLoginDto;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 
 import java.util.Collection;
 
@@ -35,14 +37,18 @@ import java.util.Collection;
  */
 public class CustomAuthenticationToken extends AbstractAuthenticationToken {
 
-    private Object principal;
+    private final Object principal;
 
     @Getter
     private JSONObject data;
 
-    public CustomAuthenticationToken(MobileLoginDto mobileLoginDTO) {
+    @Getter
+    @Setter
+    private OAuth2AccessToken oAuth2AccessToken;
+
+    public CustomAuthenticationToken(CustomLoginDto customLoginDto) {
         super(null);
-        this.principal = mobileLoginDTO;
+        this.principal = customLoginDto;
         this.setAuthenticated(false);
     }
 
@@ -67,10 +73,6 @@ public class CustomAuthenticationToken extends AbstractAuthenticationToken {
     @Override
     public Object getPrincipal() {
         return this.principal;
-    }
-
-    public void setPrincipal(Object principal) {
-        this.principal = principal;
     }
 
     @Override

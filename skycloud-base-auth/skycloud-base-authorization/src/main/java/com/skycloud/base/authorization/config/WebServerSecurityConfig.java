@@ -22,6 +22,7 @@
  */
 package com.skycloud.base.authorization.config;
 
+import com.skycloud.base.authorization.config.custom.CustomClientDetailService;
 import com.skycloud.base.authorization.config.custom.filter.SmsCodeAuthenticationFilter;
 import com.skycloud.base.authorization.config.custom.filter.UserPasswordAuthenticationFilter;
 import com.skycloud.base.authorization.config.custom.handler.CustomLoginAuthSuccessHandler;
@@ -75,6 +76,9 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
+
+    @Autowired
+    private CustomClientDetailService customClientDetailService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -130,9 +134,10 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public SmsCodeAuthenticationFilter smsCodeAuthenticationFilter() throws Exception {
         SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
+        smsCodeAuthenticationFilter.setCustomClientDetailService(customClientDetailService);
         smsCodeAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
         smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(customLoginAuthSuccessHandler());
-        smsCodeAuthenticationFilter.setAuthenticationFailureHandler(new CustomLoginFailHandler());
+        smsCodeAuthenticationFilter.setAuthenticationFailureHandler(customLoginFailHandler());
         return smsCodeAuthenticationFilter;
     }
 
@@ -145,9 +150,10 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserPasswordAuthenticationFilter userPasswordAuthenticationFilter() throws Exception {
         UserPasswordAuthenticationFilter userPasswordAuthenticationFilter = new UserPasswordAuthenticationFilter();
+        userPasswordAuthenticationFilter.setCustomClientDetailService(customClientDetailService);
         userPasswordAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
         userPasswordAuthenticationFilter.setAuthenticationSuccessHandler(customLoginAuthSuccessHandler());
-        userPasswordAuthenticationFilter.setAuthenticationFailureHandler(new CustomLoginFailHandler());
+        userPasswordAuthenticationFilter.setAuthenticationFailureHandler(customLoginFailHandler());
         return userPasswordAuthenticationFilter;
     }
 
@@ -156,12 +162,19 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
      *
      * @return
      */
-    private CustomLoginAuthSuccessHandler customLoginAuthSuccessHandler() {
-        CustomLoginAuthSuccessHandler customLoginAuthSuccessHandler = new CustomLoginAuthSuccessHandler();
-        customLoginAuthSuccessHandler.setClientDetailsService(clientDetailsService);
-        customLoginAuthSuccessHandler.setAuthorizationServerTokenServices(authorizationServerTokenServices);
-        customLoginAuthSuccessHandler.setPasswordEncoder(passwordEncoder());
-        return customLoginAuthSuccessHandler;
+    @Bean
+    public CustomLoginAuthSuccessHandler customLoginAuthSuccessHandler() {
+        return new CustomLoginAuthSuccessHandler();
+    }
+
+    /**
+     * 创建自定义filter登录失败后处理流程
+     *
+     * @return
+     */
+    @Bean
+    public CustomLoginFailHandler customLoginFailHandler() {
+        return new CustomLoginFailHandler();
     }
 
     /**

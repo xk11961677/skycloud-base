@@ -24,7 +24,6 @@ package com.skycloud.base.authorization.config.custom.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Maps;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.model.enums.FailureCodeEnum;
@@ -40,20 +39,15 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
-import org.springframework.security.oauth2.provider.*;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Base64;
+import java.io.PrintWriter;
 
 /**
  * @author
@@ -62,46 +56,14 @@ import java.util.Base64;
 @Data
 public class CustomLoginAuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    private static final String HTTP_BASIC = "Basic ";
-
-    private ClientDetailsService clientDetailsService;
-
-    private AuthorizationServerTokenServices authorizationServerTokenServices;
-
-    private PasswordEncoder passwordEncoder;
-
-    private static final String TOKEN_SALT = "12321321324243";
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
+        PrintWriter writer = response.getWriter();
         try {
-            //todo 需要转移代码
-//            String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-//            if (header == null || !header.startsWith(HTTP_BASIC)) {
-//                throw new UnapprovedClientAuthenticationException("请求头中无client信息");
-//            }
-//            String[] tokens = extractAndDecodeHeader(header, request);
-//            assert tokens.length == 2;
-//            String clientId = tokens[0];
-//            String clientSecret = tokens[1];
-            String clientId = "test_client";
-            ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
-            if (clientDetails == null) {
-                throw new UnapprovedClientAuthenticationException("clientId对应的配置信息不存在" + clientId);
-            }
-
-//        String encode = passwordEncoder.encode(clientSecret);
-//        if (!StringUtils.equals(clientDetails.getClientSecret(), encode)) {
-//            throw new UnapprovedClientAuthenticationException("clientSecret不匹配" + clientId);
-//        }
             CustomAuthenticationToken customAuthenticationToken = (CustomAuthenticationToken) authentication;
-            TokenRequest tokenRequest = new TokenRequest(Maps.newHashMap(), clientId, clientDetails.getScope(), "");
-            OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
-            OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
-            OAuth2AccessToken oAuth2AccessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
-            JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(oAuth2AccessToken));
-            // 终端渠道
+            OAuth2AccessToken oAuth2AccessToken = customAuthenticationToken.getOAuth2AccessToken();
+            JSONObject jsonObject = (JSONObject) JSON.toJSON(oAuth2AccessToken);
             String channel = request.getHeader(BaseConstants.CHANNEL);
             if (ChannelTypeEnum.BACKEND.getKey().equals(channel)) {
                 UserLoginVo userLoginVo = (UserLoginVo) customAuthenticationToken.getData().get("userInfo");
@@ -124,46 +86,19 @@ public class CustomLoginAuthSuccessHandler extends SavedRequestAwareAuthenticati
                     //将jwt生成的token替换成旧系统生成的token
                     jsonObject.put("value", token);
                 }
+                jsonObject.put("userInfo", customLoginDto);
             }
             LogUtils.info(log, "登录成功:{}" + authentication.getName());
             String resp = JSON.toJSONString(MessageRes.success(jsonObject));
-            response.getWriter().write(resp);
+            writer.write(resp);
         } catch (Exception e) {
             LogUtils.error(log, "登录异常", e);
             String result = JSON.toJSONString(MessageRes.fail(FailureCodeEnum.GL999999.getCode(), FailureCodeEnum.GL999999.getMsg()));
-            response.getWriter().write(result);
+            writer.write(result);
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
         }
     }
-
-
-    /**
-     * 获取头部信息
-     *
-     * @param header
-     * @param request
-     * @return
-     * @throws IOException
-     */
-    private String[] extractAndDecodeHeader(String header, HttpServletRequest request)
-            throws IOException {
-
-        byte[] base64Token = header.substring(6).getBytes("UTF-8");
-        byte[] decoded;
-        try {
-            decoded = Base64.getDecoder().decode(base64Token);
-        } catch (IllegalArgumentException e) {
-            throw new BadCredentialsException(
-                    "Failed to decode basic authentication token");
-        }
-
-        String token = new String(decoded, "UTF-8");
-
-        int delim = token.indexOf(":");
-
-        if (delim == -1) {
-            throw new BadCredentialsException("Invalid basic authentication token");
-        }
-        return new String[]{token.substring(0, delim), token.substring(delim + 1)};
-    }
-
 }

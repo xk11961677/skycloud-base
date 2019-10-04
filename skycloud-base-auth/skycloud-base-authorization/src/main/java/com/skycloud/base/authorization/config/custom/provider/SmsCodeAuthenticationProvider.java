@@ -23,12 +23,14 @@
 package com.skycloud.base.authorization.config.custom.provider;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.sky.framework.model.dto.MessageRes;
 import com.skycloud.base.authorization.client.AdUserFeignApi;
 import com.skycloud.base.authorization.client.dto.CustomLoginDto;
 import com.skycloud.base.authorization.config.custom.CustomUserDetail;
 import com.skycloud.base.authorization.config.custom.token.SmsCodeAuthenticationToken;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
+import com.skycloud.base.authorization.model.bo.ClientDetailsBo;
 import com.skycloud.base.authorization.model.dto.MobileLoginDto;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -36,6 +38,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Request;
+import org.springframework.security.oauth2.provider.TokenRequest;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.stereotype.Component;
 
 /**
@@ -47,6 +55,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
+    @Autowired
+    private AuthorizationServerTokenServices authorizationServerTokenServices;
 
     @Autowired
     private AdUserFeignApi adUserFeignApi;
@@ -69,9 +79,13 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         JSONObject data = new JSONObject();
         data.put("userInfo", customLoginDto);
         CustomUserDetail customUserDetail = new CustomUserDetail(Long.valueOf(customLoginDto.getLoginName()), customLoginDto.getLoginName(), customLoginDto.getLoginName());
-        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(customLoginDto.getLoginName(), data);
-        result.setDetails(customUserDetail);
-        return result;
+        SmsCodeAuthenticationToken authenticationResult = new SmsCodeAuthenticationToken(customLoginDto.getLoginName(), data);
+        authenticationResult.setDetails(customUserDetail);
+
+        //创建oauth2
+        OAuth2AccessToken oauth2Token = this.createOauth2Token(authenticationResult, mobileLoginDto);
+        authenticationResult.setOAuth2AccessToken(oauth2Token);
+        return authenticationResult;
     }
 
     @Override
@@ -79,5 +93,21 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         return SmsCodeAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
+    /**
+     * 创建oauth2
+     *
+     * @param authentication
+     * @param mobileLoginDto
+     * @return
+     */
+    private OAuth2AccessToken createOauth2Token(Authentication authentication, MobileLoginDto mobileLoginDto) {
+        ClientDetailsBo clientDetailsBo = mobileLoginDto.getClientDetailsBo();
+        ClientDetails clientDetails = clientDetailsBo.getClientDetails();
+        TokenRequest tokenRequest = new TokenRequest(Maps.newHashMap(), clientDetailsBo.getClientId(), clientDetails.getScope(), clientDetailsBo.getGrantType());
+        OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
+        OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
+        OAuth2AccessToken oAuth2AccessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
+        return oAuth2AccessToken;
+    }
 
 }

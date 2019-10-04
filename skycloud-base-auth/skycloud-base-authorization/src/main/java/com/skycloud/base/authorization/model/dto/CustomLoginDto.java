@@ -22,9 +22,12 @@
  */
 package com.skycloud.base.authorization.model.dto;
 
+import com.skycloud.base.authorization.model.bo.ClientDetailsBo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.security.oauth2.provider.ClientDetails;
+
+import javax.validation.constraints.NotEmpty;
 
 /**
  * @author
@@ -61,4 +64,6 @@ public class CustomLoginDto {
     @ApiModelProperty(value = "来源", hidden = true)
     private String appChannel;
 
+
+    private ClientDetailsBo clientDetailsBo;
 }
