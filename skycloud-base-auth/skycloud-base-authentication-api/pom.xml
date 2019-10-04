@@ -50,10 +50,17 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <!--oauth2认证-->
+        <!--oauth2认证 jwt -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-jwt</artifactId>
+        </dependency>
+
+        <!-- security oauth2 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

@@ -20,50 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authorization.model.dto;
+package com.skycloud.base.authentication.api.model.dto;
 
-import com.skycloud.base.authorization.model.bo.ClientDetailsBo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.security.oauth2.provider.ClientDetails;
 
 import javax.validation.constraints.NotEmpty;
 
 /**
+ * 手机号验证码登录
+ *
  * @author
  */
 @Data
-public class CustomLoginDto {
+public class MobileLoginDto extends CustomLoginDto {
 
-    @ApiModelProperty(value = "渠道", hidden = true)
-    @NotEmpty(message = "渠道不能为空!")
-    private String channel;
+    @ApiModelProperty(value = "手机号码", required = true)
+    @NotEmpty(message = "手机号码不能为空!")
+    private String mobile;
 
-
-    /**
-     * 手机号或用户名
-     */
-    @ApiModelProperty(value = "手机号或用户名", hidden = true)
-    private String loginName;
-
-    /**
-     *
-     */
-    @ApiModelProperty(value = "密码", hidden = true)
-    private String password;
-
-    /**
-     *
-     */
-    @ApiModelProperty(value = "登录IP", hidden = true)
-    private String loginIp;
-
-    @ApiModelProperty(value = "设备号", hidden = true)
-    private String deviceId;
-
-    @ApiModelProperty(value = "来源", hidden = true)
-    private String appChannel;
-
-
-    private ClientDetailsBo clientDetailsBo;
+    @ApiModelProperty(value = "验证码", required = true)
+    @NotEmpty(message = "验证码不能为空!")
+    private String code;
 }

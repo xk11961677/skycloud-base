@@ -25,7 +25,7 @@ package com.skycloud.base.authorization.config.custom;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.exception.BusinessException;
 import com.skycloud.base.authorization.exception.AuthErrorType;
-import com.skycloud.base.authorization.model.bo.ClientDetailsBo;
+import com.skycloud.base.authentication.api.model.bo.ClientDetailsBo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

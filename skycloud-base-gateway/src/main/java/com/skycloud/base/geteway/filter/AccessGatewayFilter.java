@@ -119,7 +119,7 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
         builder.header(CHANNEL, channel);
         //TODO 转发的请求都加上服务间认证token
         builder.header(BaseConstants.X_CLIENT_TOKEN, "TODO 添加服务间简单认证");
-        //将jwt token中的用户信息传给服务
+        //将jwt token中的用户信息传给服务(此处非jwt需要修改)
         String claims = authService.getJwtOrNoOld(authorization);
         builder.header(BaseConstants.X_CLIENT_TOKEN_USER, claims);
         return chain.filter(exchange.mutate().request(builder.build()).build());

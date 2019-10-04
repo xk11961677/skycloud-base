@@ -26,7 +26,6 @@ import com.skycloud.base.authorization.config.custom.CustomTokenEnhancer;
 import com.skycloud.base.authorization.exception.CustomWebResponseExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,13 +40,14 @@ import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 授权服务器配置类
@@ -57,21 +57,18 @@ import java.util.Arrays;
 @Configuration
 @EnableAuthorizationServer
 public class AuthenticationServerConfig extends AuthorizationServerConfigurerAdapter {
-
     /**
      * 认证管理器
      */
     @Autowired
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
-
     /**
      * 数据源
      */
     @Qualifier("dataSource")
     @Autowired
     private DataSource dataSource;
-
     /**
      * 用户信息服务
      */
@@ -79,11 +76,12 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
     @Qualifier("customUserDetailsService")
     private UserDetailsService userDetailsService;
 
-    /**
-     * jwt 对称加密密钥
-     */
-    @Value("${spring.security.oauth2.jwt.signingKey}")
-    private String signingKey;
+    @Autowired
+    private TokenStore tokenStore;
+
+    @Autowired(required = false)
+    @Qualifier("jwtAccessTokenConverter")
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
 
     /**
      * 配置安全信息
@@ -116,17 +114,17 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         //配置token的数据源、自定义的tokenServices等信息,配置身份认证器，配置认证方式，TokenStore，TokenGranter，OAuth2RequestFactory
-        //.tokenServices()
         endpoints
-                .tokenStore(tokenStore())
+                .tokenStore(tokenStore)
                 .authorizationCodeServices(authorizationCodeServices())
                 .approvalStore(approvalStore())
                 .exceptionTranslator(customExceptionTranslator())
                 .tokenEnhancer(tokenEnhancerChain())
                 .authenticationManager(authenticationManager)
-                .userDetailsService(userDetailsService)
-                .accessTokenConverter(accessTokenConverter())
-        ;
+                .userDetailsService(userDetailsService);
+        if (jwtAccessTokenConverter != null) {
+            endpoints.accessTokenConverter(jwtAccessTokenConverter);
+        }
     }
 
     /**
@@ -160,15 +158,6 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
         return new JdbcAuthorizationCodeServices(dataSource);
     }
 
-    /**
-     * token的持久化
-     *
-     * @return JwtTokenStore
-     */
-    @Bean
-    public TokenStore tokenStore() {
-        return new JwtTokenStore(accessTokenConverter());
-    }
 
     /**
      * 自定义token
@@ -178,20 +167,12 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
     @Bean
     public TokenEnhancerChain tokenEnhancerChain() {
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(new CustomTokenEnhancer(), accessTokenConverter()));
+        List<TokenEnhancer> list = new ArrayList<>();
+        list.add(new CustomTokenEnhancer());
+        if (jwtAccessTokenConverter != null) {
+            list.add(jwtAccessTokenConverter);
+        }
+        tokenEnhancerChain.setTokenEnhancers(list);
         return tokenEnhancerChain;
-    }
-
-    /**
-     * jwt token的生成配置
-     * new CustomJwtAccessTokenConverter();
-     *
-     * @return
-     */
-    @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey(signingKey);
-        return converter;
     }
 }

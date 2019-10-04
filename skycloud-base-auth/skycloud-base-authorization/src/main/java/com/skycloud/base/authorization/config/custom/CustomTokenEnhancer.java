@@ -23,7 +23,8 @@
 package com.skycloud.base.authorization.config.custom;
 
 import com.google.common.collect.Maps;
-import com.skycloud.base.authorization.config.custom.token.CustomAuthenticationToken;
+import com.skycloud.base.authentication.api.model.bo.CustomUserDetail;
+import com.skycloud.base.authentication.api.model.token.CustomAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;

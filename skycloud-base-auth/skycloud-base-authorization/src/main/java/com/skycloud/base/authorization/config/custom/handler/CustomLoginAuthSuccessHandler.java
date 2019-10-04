@@ -32,7 +32,7 @@ import com.sky.framework.redis.util.RedisUtils;
 import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
 import com.skycloud.base.authorization.client.dto.CustomLoginDto;
 import com.skycloud.base.authorization.common.Constants;
-import com.skycloud.base.authorization.config.custom.token.CustomAuthenticationToken;
+import com.skycloud.base.authentication.api.model.token.CustomAuthenticationToken;
 import com.skycloud.base.common.constant.BaseConstants;
 import com.skycloud.base.common.enums.ChannelTypeEnum;
 import lombok.Data;

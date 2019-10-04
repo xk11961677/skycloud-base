@@ -27,6 +27,7 @@ import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.redis.util.RedisUtils;
 import com.skycloud.base.authentication.api.client.AuthFeignApi;
+import com.skycloud.base.authentication.api.constant.AuthConstants;
 import com.skycloud.base.authentication.api.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ObjectUtils;
@@ -61,7 +62,7 @@ public class AuthServiceImpl implements AuthService {
     /**
      * jwt token 密钥，主要用于token解析，签名验证
      */
-    @Value("${spring.security.oauth2.jwt.signingKey:123456}")
+    @Value(AuthConstants.JWT_SIGNING_KEY_VALUE)
     private String signingKey;
 
     /**
@@ -93,7 +94,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean hasPermission(String authentication, String url, String method) {
-        //token是否有效
+        //token是否有效(此处非jwt需要修改)
         if (invalidJwtAccessToken(authentication)) {
             return Boolean.FALSE;
         }

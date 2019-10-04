@@ -24,6 +24,7 @@ package com.skycloud.base.authentication.api.model.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -32,7 +33,9 @@ import java.util.List;
  * @author
  */
 @Data
-public class UserLoginVo {
+public class UserLoginVo implements Serializable {
+
+    private static final long serialVersionUID = 311279508573008378L;
 
     private Long id;
 

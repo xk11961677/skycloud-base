@@ -20,27 +20,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authorization.config.custom.token;
-
-import com.alibaba.fastjson.JSONObject;
-import com.skycloud.base.authorization.model.dto.MobileLoginDto;
-
-import java.util.HashSet;
+package com.skycloud.base.authentication.api.constant;
 
 /**
- * 短信验证码token
- *
  * @author
  */
-public class SmsCodeAuthenticationToken extends CustomAuthenticationToken {
+public class AuthConstants {
+
+    private static final String JWT_SIGNING_KEY = "spring.security.oauth2.jwt.signingKey";
+
+    /**
+     * JWT signingKey Value or default Value
+     */
+    public static final String JWT_SIGNING_KEY_VALUE = "${" + AuthConstants.JWT_SIGNING_KEY + ":123456}";
 
 
-    public SmsCodeAuthenticationToken(MobileLoginDto mobileLoginDto) {
-        super(mobileLoginDto);
-    }
-
-    public SmsCodeAuthenticationToken(Object principal, JSONObject data) {
-        super(principal, new HashSet<>(), data);
-    }
-
+    public static final String TOKEN_STORE_TYPE = "spring.security.oauth2.tokenStoreType";
 }

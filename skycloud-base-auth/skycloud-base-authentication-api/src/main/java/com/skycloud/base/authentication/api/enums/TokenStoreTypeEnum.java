@@ -20,25 +20,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authorization.model.dto;
+package com.skycloud.base.authentication.api.enums;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
+import lombok.Getter;
+
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
- * 手机号验证码登录
  * @author
  */
-@Data
-public class MobileLoginDto extends CustomLoginDto {
+public enum TokenStoreTypeEnum {
+    MEMORY("memory"), REDIS("redis"), JWT("jwt"), JDBC("jdbc");
+    @Getter
+    private final String key;
 
-    @ApiModelProperty(value = "手机号码",required = true)
-    @NotEmpty(message = "手机号码不能为空!")
-    private String mobile;
+    TokenStoreTypeEnum(final String key) {
+        this.key = key;
+    }
 
-    @ApiModelProperty(value = "验证码",required = true)
-    @NotEmpty(message = "验证码不能为空!")
-    private String code;
+    /**
+     * @param key
+     * @return
+     */
+    public static TokenStoreTypeEnum acquire(final String key) {
+        Optional<TokenStoreTypeEnum> serializeEnum =
+                Arrays.stream(TokenStoreTypeEnum.values())
+                        .filter(v -> Objects.equals(v.getKey(), key))
+                        .findFirst();
+        return serializeEnum.orElse(TokenStoreTypeEnum.MEMORY);
 
+    }
 }

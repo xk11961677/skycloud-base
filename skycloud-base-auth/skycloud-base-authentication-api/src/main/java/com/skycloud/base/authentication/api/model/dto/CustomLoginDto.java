@@ -20,11 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authorization.model.dto;
+package com.skycloud.base.authentication.api.model.dto;
 
-import io.swagger.annotations.ApiModel;
+import com.skycloud.base.authentication.api.model.bo.ClientDetailsBo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.data.annotation.Transient;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -32,14 +33,22 @@ import javax.validation.constraints.NotEmpty;
  * @author
  */
 @Data
-@ApiModel("UserPasswordLoginDto")
-public class UserPasswordLoginDto extends CustomLoginDto {
+public class CustomLoginDto {
 
-    @ApiModelProperty(value = "用户名不能为空",required = true)
-    @NotEmpty(message = "用户名不能为空!")
-    private String username;
+    @ApiModelProperty(value = "渠道", hidden = true)
+    @NotEmpty(message = "渠道不能为空!")
+    private String channel;
 
-    @ApiModelProperty(value = "密码不能为空",required = true)
-    @NotEmpty(message = "密码不能为空!")
+    @ApiModelProperty(value = "手机号或用户名", hidden = true)
+    private String loginName;
+
+    @ApiModelProperty(value = "密码", hidden = true)
     private String password;
+
+    @ApiModelProperty(value = "登录IP", hidden = true)
+    private String loginIp;
+
+    @Transient
+    @ApiModelProperty(hidden = true)
+    private ClientDetailsBo clientDetailsBo;
 }

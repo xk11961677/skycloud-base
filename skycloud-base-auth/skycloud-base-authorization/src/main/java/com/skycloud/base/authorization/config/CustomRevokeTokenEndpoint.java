@@ -84,6 +84,8 @@ public class CustomRevokeTokenEndpoint {
             token = token.substring(7);
         }
 
+        consumerTokenServices.revokeToken(token);
+
         String userId = ObjectUtils.toString(RedisUtils.getString(token));
 
         RedisUtils.deleteKey(String.format(channel + ":" + Constants.TOKEN_KEY, userId));

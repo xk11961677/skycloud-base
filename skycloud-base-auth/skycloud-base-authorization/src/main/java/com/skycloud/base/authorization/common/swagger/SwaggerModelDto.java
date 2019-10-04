@@ -22,8 +22,8 @@
  */
 package com.skycloud.base.authorization.common.swagger;
 
-import com.skycloud.base.authorization.model.dto.MobileLoginDto;
-import com.skycloud.base.authorization.model.dto.UserPasswordLoginDto;
+import com.skycloud.base.authentication.api.model.dto.MobileLoginDto;
+import com.skycloud.base.authentication.api.model.dto.UserPasswordLoginDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;

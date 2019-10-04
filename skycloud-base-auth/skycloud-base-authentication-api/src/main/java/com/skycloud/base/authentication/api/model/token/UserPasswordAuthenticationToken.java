@@ -20,30 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.api.model.vo;
+package com.skycloud.base.authentication.api.model.token;
 
-import lombok.Data;
+import com.alibaba.fastjson.JSONObject;
+import com.skycloud.base.authentication.api.model.dto.UserPasswordLoginDto;
+import org.springframework.security.core.GrantedAuthority;
 
-import java.io.Serializable;
+import java.util.Collection;
 
 /**
- * 角色
+ * 用户名密码token
  *
  * @author
  */
-@Data
-public class RoleVo implements Serializable {
+public class UserPasswordAuthenticationToken extends CustomAuthenticationToken {
 
-    private static final long serialVersionUID = -1196566026068489147L;
+    public UserPasswordAuthenticationToken(UserPasswordLoginDto userPasswordLoginDto) {
+        super(userPasswordLoginDto);
+    }
 
-    private Long id;
-
-    /**
-     * 角色code
-     */
-    private String code;
-    /**
-     * 角色名称
-     */
-    private String name;
+    public UserPasswordAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities, JSONObject data) {
+        super(principal, authorities, data);
+    }
 }

@@ -20,30 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.api.model.vo;
+package com.skycloud.base.authentication.api.model.token;
 
-import lombok.Data;
+import com.alibaba.fastjson.JSONObject;
+import com.skycloud.base.authentication.api.model.dto.MobileLoginDto;
 
-import java.io.Serializable;
+import java.util.HashSet;
 
 /**
- * 角色
+ * 短信验证码token
  *
  * @author
  */
-@Data
-public class RoleVo implements Serializable {
+public class SmsCodeAuthenticationToken extends CustomAuthenticationToken {
 
-    private static final long serialVersionUID = -1196566026068489147L;
 
-    private Long id;
+    public SmsCodeAuthenticationToken(MobileLoginDto mobileLoginDto) {
+        super(mobileLoginDto);
+    }
 
-    /**
-     * 角色code
-     */
-    private String code;
-    /**
-     * 角色名称
-     */
-    private String name;
+    public SmsCodeAuthenticationToken(Object principal, JSONObject data) {
+        super(principal, new HashSet<>(), data);
+    }
+
 }

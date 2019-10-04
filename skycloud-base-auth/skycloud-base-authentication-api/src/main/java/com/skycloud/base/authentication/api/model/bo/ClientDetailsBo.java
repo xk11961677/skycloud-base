@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authorization.model.bo;
+package com.skycloud.base.authentication.api.model.bo;
 
 import lombok.Data;
 import org.springframework.security.oauth2.provider.ClientDetails;

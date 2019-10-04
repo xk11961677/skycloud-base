@@ -20,10 +20,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authorization.config.custom.token;
+package com.skycloud.base.authentication.api.model.token;
 
 import com.alibaba.fastjson.JSONObject;
-import com.skycloud.base.authorization.model.dto.CustomLoginDto;
+import com.skycloud.base.authentication.api.model.dto.CustomLoginDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;

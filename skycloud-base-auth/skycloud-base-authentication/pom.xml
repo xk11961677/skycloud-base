@@ -17,18 +17,6 @@
         <!-- sky -->
 
         <dependency>
-            <groupId>com.sky.skycloud.auth</groupId>
-            <artifactId>skycloud-base-authentication-api</artifactId>
-            <version>${project.parent.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>framework-integrate-redis</artifactId>
-                    <groupId>com.sky.framework</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
             <groupId>com.sky.framework</groupId>
             <artifactId>framework-web</artifactId>
         </dependency>
@@ -42,6 +30,12 @@
         <dependency>
             <groupId>com.sky.skycloud</groupId>
             <artifactId>skycloud-base-config</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sky.skycloud.auth</groupId>
+            <artifactId>skycloud-base-authentication-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 

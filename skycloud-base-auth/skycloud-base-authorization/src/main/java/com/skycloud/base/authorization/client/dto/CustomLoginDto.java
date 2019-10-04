@@ -26,13 +26,16 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author
  */
 @Data
 @ApiModel("会员登录CustomLoginDto")
-public class CustomLoginDto {
+public class CustomLoginDto implements Serializable {
 
+    private static final long serialVersionUID = -1516605271422590944L;
     /**
      * 手机号或用户名
      */

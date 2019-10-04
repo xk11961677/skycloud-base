@@ -22,7 +22,7 @@
  */
 package com.skycloud.base.authorization.common.swagger;
 
-import com.skycloud.base.authorization.model.dto.UserPasswordLoginDto;
+import com.skycloud.base.authentication.api.model.dto.UserPasswordLoginDto;
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Sets;
 import org.springframework.http.HttpMethod;
@@ -65,42 +65,6 @@ public class SwaggerLogin {
                                                         .parameterType("header")
                                                         .parameterAccess("access")
                                                         .required(true)
-                                                        .modelRef(new ModelRef("string"))
-                                                        .build(),
-                                                new ParameterBuilder()
-                                                        .description("第三方渠道")
-                                                        .type(new TypeResolver().resolve(String.class))
-                                                        .name("thirdPartyChannel")
-                                                        .parameterType("header")
-                                                        .parameterAccess("access")
-                                                        .required(false)
-                                                        .modelRef(new ModelRef("string"))
-                                                        .build(),
-                                                new ParameterBuilder()
-                                                        .description("appSource")
-                                                        .type(new TypeResolver().resolve(String.class))
-                                                        .name("appSource")
-                                                        .parameterType("header")
-                                                        .parameterAccess("access")
-                                                        .required(false)
-                                                        .modelRef(new ModelRef("string"))
-                                                        .build(),
-                                                new ParameterBuilder()
-                                                        .description("设备号deviceNo")
-                                                        .type(new TypeResolver().resolve(String.class))
-                                                        .name("deviceNo")
-                                                        .parameterType("header")
-                                                        .parameterAccess("access")
-                                                        .required(false)
-                                                        .modelRef(new ModelRef("string"))
-                                                        .build(),
-                                                new ParameterBuilder()
-                                                        .description("设备号deviceId")
-                                                        .type(new TypeResolver().resolve(String.class))
-                                                        .name("deviceId")
-                                                        .parameterType("header")
-                                                        .parameterAccess("access")
-                                                        .required(false)
                                                         .modelRef(new ModelRef("string"))
                                                         .build(),
                                                 new ParameterBuilder()
