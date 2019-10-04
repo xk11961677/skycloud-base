@@ -115,7 +115,7 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
             return unpermission(exchange, result.getCode(), result.getMsg());
         }
         ServerHttpRequest.Builder builder = request.mutate();
-        builder.header(X_CLIENT_TOKEN_USER_ID, Optional.ofNullable(result.getData()).orElse("-1"));
+        builder.header(X_CLIENT_TOKEN_USER_ID, Optional.ofNullable(result.getData()).orElse(""));
         builder.header(CHANNEL, channel);
         //TODO 转发的请求都加上服务间认证token
         builder.header(BaseConstants.X_CLIENT_TOKEN, "TODO 添加服务间简单认证");
