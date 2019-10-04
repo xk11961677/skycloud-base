@@ -47,7 +47,7 @@ import javax.sql.DataSource;
  * @author
  */
 @Configuration
-@ConditionalOnClass(name="org.springframework.security.oauth2.provider.token.TokenStore")
+@ConditionalOnClass(name = "org.springframework.security.oauth2.provider.token.TokenStore")
 public class TokenStoreConfig {
 
     /**
@@ -66,7 +66,7 @@ public class TokenStoreConfig {
     @Autowired(required = false)
     private RedisConnectionFactory redisConnectionFactory;
 
-    @Value("${" + AuthConstants.TOKEN_STORE_TYPE + ":jwt}")
+    @Value(AuthConstants.TOKEN_STORE_TYPE_VALUE)
     private String tokenStoreType;
 
     /**
@@ -104,7 +104,7 @@ public class TokenStoreConfig {
      */
     @Bean
     @Primary
-    @ConditionalOnExpression("'${" + AuthConstants.TOKEN_STORE_TYPE + "}'.equals('jwt')")
+    @ConditionalOnExpression("'" + AuthConstants.TOKEN_STORE_TYPE_VALUE + "}'.equals('jwt')")
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey(signingKey);

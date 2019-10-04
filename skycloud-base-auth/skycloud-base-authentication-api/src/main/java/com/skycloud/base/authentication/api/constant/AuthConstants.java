@@ -30,10 +30,16 @@ public class AuthConstants {
     private static final String JWT_SIGNING_KEY = "spring.security.oauth2.jwt.signingKey";
 
     /**
-     * JWT signingKey Value or default Value
+     * jwt signingKey value , default 123456
      */
     public static final String JWT_SIGNING_KEY_VALUE = "${" + AuthConstants.JWT_SIGNING_KEY + ":123456}";
 
 
     public static final String TOKEN_STORE_TYPE = "spring.security.oauth2.tokenStoreType";
+
+    /**
+     * token store value , default jwt
+     */
+    public static final String TOKEN_STORE_TYPE_VALUE = "${" + AuthConstants.TOKEN_STORE_TYPE + ":jwt}";
+
 }
