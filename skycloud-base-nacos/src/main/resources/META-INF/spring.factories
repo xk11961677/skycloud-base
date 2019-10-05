@@ -1,2 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.skycloud.base.nacos.NacosAutoConfiguration
+org.springframework.context.ApplicationContextInitializer=\
+com.skycloud.base.nacos.initializer.NacosApplicationContextInitializer

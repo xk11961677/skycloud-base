@@ -20,24 +20,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.nacos;
-
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.annotation.Configuration;
+package com.skycloud.base.nacos.property;
 
 /**
  * @author
  */
-@Configuration
-@EnableDiscoveryClient
-@Slf4j
-public class NacosAutoConfiguration implements CommandLineRunner {
+public class CustomNacosProperties {
 
+    public static final String REPLACE = "nacos.custom.replace";
 
-    @Override
-    public void run(String... args) {
-        log.info("skycloud base nacos startup successfully ! ");
-    }
 }
