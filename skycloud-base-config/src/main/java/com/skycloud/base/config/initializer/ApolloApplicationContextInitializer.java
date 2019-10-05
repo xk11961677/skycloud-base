@@ -85,8 +85,8 @@ public class ApolloApplicationContextInitializer implements ApplicationContextIn
                 BASE_AOPLLO_PATH = file.getAbsolutePath();
                 String[] list = file.list();
                 ConfigUtil configUtil = ApolloInjector.getInstance(ConfigUtil.class);
-                Map<String, Object> props = new HashMap<>();
                 String[] names = properties.split(",");
+                Map<String, Object> props = new HashMap<>(names.length);
                 if (names != null && names.length != 0 && list.length != 0) {
                     for (String name : names) {
                         String[] split = name.split("=");
