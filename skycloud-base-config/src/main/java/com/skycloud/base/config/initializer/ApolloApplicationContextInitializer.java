@@ -62,14 +62,13 @@ public class ApolloApplicationContextInitializer implements ApplicationContextIn
 
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
-        this.initValidator(applicationContext);
+        this.init(applicationContext);
     }
 
     /**
      * @param applicationContext
-     * @see org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration
      */
-    public void initValidator(ConfigurableApplicationContext applicationContext) {
+    public void init(ConfigurableApplicationContext applicationContext) {
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
         //todo 此处应该再加判断 第一次查看是否使用apollo , 然后再次判断ApolloBootstrapPropertySources
         boolean flag = environment.getPropertySources().contains("ApolloBootstrapPropertySources");
@@ -86,25 +85,25 @@ public class ApolloApplicationContextInitializer implements ApplicationContextIn
                 BASE_AOPLLO_PATH = file.getAbsolutePath();
                 String[] list = file.list();
                 ConfigUtil configUtil = ApolloInjector.getInstance(ConfigUtil.class);
-                Map<String, Object> props = new HashMap<>();
                 String[] names = properties.split(",");
+                Map<String, Object> props = new HashMap<>(names.length);
                 if (names != null && names.length != 0 && list.length != 0) {
                     for (String name : names) {
                         String[] split = name.split("=");
                         String value = environment.getProperty(split[0]);
                         for (String apolloName : list) {
                             if (apolloName.endsWith(configUtil.getCluster() + "+" + split[1])) {
-                                String path = split[2].contains("yml")?writeYml(BASE_AOPLLO_PATH + "/" + apolloName): (BASE_AOPLLO_PATH + "/" + apolloName);
+                                String path = split[2].contains("yml") ? writeYml(BASE_AOPLLO_PATH + "/" + apolloName) : (BASE_AOPLLO_PATH + "/" + apolloName);
                                 String newValue = "file:" + path;
                                 props.put(split[0], newValue);
-                                log.info("custom replace property name:{} oldValue:{} newValue:{}", split[0], value, newValue);
+                                log.info("extend apollo replace property name:{} oldValue:{} newValue:{}", split[0], value, newValue);
                             }
                         }
                     }
                 }
                 this.replaceProperty(applicationContext, props);
             } catch (Exception e) {
-                log.error("custom load apollo file has error:{}", e);
+                log.error("extend apollo init exception:{}", e);
             }
         }
     }
@@ -120,10 +119,10 @@ public class ApolloApplicationContextInitializer implements ApplicationContextIn
     private String writeYml(String path) {
         try {
             String yamlPath = path.replaceAll("properties", "yml");
-            TransferUtils.properties2Yaml(path,yamlPath);
+            TransferUtils.properties2Yaml(path, yamlPath);
             return yamlPath;
         } catch (Exception e) {
-            log.error("custom load apollo file has error , path:{}", path, e);
+            log.error("extend apollo load file has error , path:{} :{}", path, e);
         }
         return null;
     }
