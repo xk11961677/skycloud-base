@@ -22,7 +22,10 @@
  */
 package com.skycloud.base.authentication.api.model.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import javax.validation.constraints.NotEmpty;
 
 /**
  * 用户登录DTO
@@ -32,9 +35,15 @@ import lombok.Data;
 @Data
 public class UserLoginDto {
 
+    @ApiModelProperty(value = "用户名", required = true)
+    @NotEmpty(message = "用户名不能为空!")
     public String username;
 
+    @ApiModelProperty(value = "密码", required = true)
+    @NotEmpty(message = "密码不能为空!")
     public String password;
 
+    @ApiModelProperty(value = "租户ID", required = true)
+    @NotEmpty(message = "租户ID不能为空!")
     public String tenantId;
 }
