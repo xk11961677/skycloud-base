@@ -27,6 +27,7 @@ import com.sky.framework.common.spi.SpiLoader;
 import com.skycloud.base.geteway.GatewayProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -43,6 +44,9 @@ public class LoadFilterChainListener implements ApplicationListener<ApplicationR
     @Autowired
     private GatewayProperties gatewayProperties;
 
+    @Value("${spring.application.name}")
+    private String name;
+
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
@@ -50,9 +54,9 @@ public class LoadFilterChainListener implements ApplicationListener<ApplicationR
             AbstractFilter.gatewayProperties = gatewayProperties;
             ServiceLoader<FilterChain> filterChains = SpiLoader.loadAll(FilterChain.class);
             filterChains.forEach(f -> FilterChainManager.getInstance().add(f));
-            LogUtils.info(log, "load filter chain successfully:{}");
+            LogUtils.info(log, name + " load filter chain successfully:{}");
         } catch (Exception e) {
-            LogUtils.error(log, "load filter chain failed:{}", e);
+            LogUtils.error(log, name + " load filter chain failed:{}", e);
         }
     }
 }
