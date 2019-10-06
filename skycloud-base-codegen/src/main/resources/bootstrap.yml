@@ -1,0 +1,46 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: skycloud-base-codegen
+  cloud:
+    nacos:
+      config:
+        enabled: true
+        server-addr: 47.96.117.253:8070
+  main:
+    allow-bean-definition-overriding: true
+
+---
+spring:
+  profiles: dev
+  cloud:
+    nacos:
+      config:
+        namespace: 3fb8559f-a7b0-423e-bb29-c74f9a6ac4cd
+
+---
+spring:
+  profiles: fat
+  cloud:
+    nacos:
+      config:
+        namespace: 88ea6483-d3ea-4b45-8876-745721dca2e9
+
+---
+spring:
+  profiles: uat
+  cloud:
+    nacos:
+      config:
+        namespace: e0a2cb05-3044-40c9-9541-0770dd6f19e8
+
+---
+spring:
+  profiles: prod
+  cloud:
+    nacos:
+      config:
+        namespace: c6d42467-b389-40e5-8cac-538a56e7a2a4
+
+
