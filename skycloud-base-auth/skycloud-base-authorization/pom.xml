@@ -56,13 +56,7 @@
 
         <dependency>
             <groupId>com.sky.skycloud</groupId>
-            <artifactId>skycloud-base-consul</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sky.skycloud</groupId>
-            <artifactId>skycloud-base-config</artifactId>
+            <artifactId>skycloud-base-nacos</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
