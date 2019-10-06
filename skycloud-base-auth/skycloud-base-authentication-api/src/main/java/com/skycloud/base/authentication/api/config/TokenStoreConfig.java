@@ -104,7 +104,7 @@ public class TokenStoreConfig {
      */
     @Bean
     @Primary
-    @ConditionalOnExpression("'" + AuthConstants.TOKEN_STORE_TYPE_VALUE + "}'.equals('jwt')")
+    @ConditionalOnExpression("'" + AuthConstants.TOKEN_STORE_TYPE_VALUE + "'.equals('jwt')")
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey(signingKey);
