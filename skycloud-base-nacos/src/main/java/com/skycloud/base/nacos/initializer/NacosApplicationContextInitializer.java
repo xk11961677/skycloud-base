@@ -28,6 +28,7 @@ import com.alibaba.nacos.api.config.ConfigService;
 import com.sky.framework.common.nacos.NacosContainer;
 import com.skycloud.base.nacos.property.CustomNacosProperties;
 import com.skycloud.base.nacos.util.ConvertStreamUtils;
+import com.skycloud.base.nacos.util.NacosUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.BeanFactoryUtils;
@@ -75,8 +76,8 @@ public class NacosApplicationContextInitializer implements ApplicationContextIni
                     PropertySource<?> next = iterator.next();
                     if (next.getName().equals(NACOS_PROPERTY_SOURCE_NAME)) {
                         flag = true;
-                        NacosConfigProperties bean = nacosConfigProperties(context);
-                        ConfigService configService = bean.configServiceInstance();
+                        NacosConfigProperties bean = NacosUtils.nacosConfigProperties(context);
+                        ConfigService configService = NacosUtils.getConfigService(context);
                         Collection<PropertySource<?>> composite = ((CompositePropertySource) next).getPropertySources();
                         Iterator<PropertySource<?>> iter = composite.iterator();
                         while (iter.hasNext()) {
