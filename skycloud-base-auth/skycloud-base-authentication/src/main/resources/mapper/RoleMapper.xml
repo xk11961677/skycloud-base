@@ -3,7 +3,7 @@
 
 <mapper namespace="com.skycloud.base.authentication.mapper.RoleMapper">
 
-    <resultMap id="BaseResultMap" type="com.skycloud.base.authentication.model.domain.Role">
+    <resultMap id="BaseResultMap" type="com.skycloud.base.authentication.model.po.Role">
         <id property="id" javaType="java.lang.Long" column="id"/>
         <result property="code" javaType="java.lang.String" column="code"/>
         <result property="name" javaType="java.lang.String" column="name"/>
@@ -28,7 +28,7 @@
     </sql>
 
     <select id="listByUser" resultMap="BaseResultMap"
-            parameterType="com.skycloud.base.authentication.model.domain.User">
+            parameterType="com.skycloud.base.authentication.model.po.User">
         select r.*  from t_role r join t_user_role ur on r.id=ur.role_id
         where ur.user_id = #{id}
     </select>

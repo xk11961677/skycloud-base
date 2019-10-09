@@ -22,7 +22,7 @@
  */
 package com.skycloud.base.authentication.mapper;
 
-import com.skycloud.base.authentication.model.domain.User;
+import com.skycloud.base.authentication.model.po.User;
 import com.sky.framework.mybatis.MyMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;

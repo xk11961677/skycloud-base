@@ -27,7 +27,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.sky.framework.model.dto.MessageRes;
 import com.skycloud.codegen.common.MultiRouteDataSource;
-import com.skycloud.codegen.model.domain.DataSourceEntity;
+import com.skycloud.codegen.model.po.DataSourceEntity;
 import com.skycloud.codegen.model.form.BaseForm;
 import com.skycloud.codegen.service.DatasourceService;
 import com.skycloud.codegen.util.PageUtils;

@@ -24,7 +24,7 @@ package com.skycloud.base.authentication.service;
 
 import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
 import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
-import com.skycloud.base.authentication.model.domain.User;
+import com.skycloud.base.authentication.model.po.User;
 import com.sky.framework.web.support.IService;
 
 /**

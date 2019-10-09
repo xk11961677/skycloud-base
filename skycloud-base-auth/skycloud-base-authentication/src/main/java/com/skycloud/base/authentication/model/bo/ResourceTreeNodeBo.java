@@ -22,7 +22,7 @@
  */
 package com.skycloud.base.authentication.model.bo;
 
-import com.skycloud.base.authentication.model.domain.Resource;
+import com.skycloud.base.authentication.model.po.Resource;
 import com.sky.framework.common.tree.ITreeNode;
 import org.apache.commons.lang.StringUtils;
 

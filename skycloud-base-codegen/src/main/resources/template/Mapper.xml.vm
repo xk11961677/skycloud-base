@@ -3,7 +3,7 @@
 
 <mapper namespace="${package}.${moduleName}.mapper.${className}Mapper">
 
-  <resultMap id="BaseResultMap" type="${package}.${moduleName}.model.domain.${className}">
+  <resultMap id="BaseResultMap" type="${package}.${moduleName}.model.po.${className}">
     #foreach($column in $columns)
       #if($column.lowerAttrName==$pk.lowerAttrName)
         <id property="${pk.lowerAttrName}" javaType="${pk.attrType}" column="${pk.columnName}"/>

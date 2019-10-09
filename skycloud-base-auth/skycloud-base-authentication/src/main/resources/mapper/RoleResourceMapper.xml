@@ -3,7 +3,7 @@
 
 <mapper namespace="com.skycloud.base.authentication.mapper.RoleResourceMapper">
 
-    <resultMap id="BaseResultMap" type="com.skycloud.base.authentication.model.domain.RoleResource">
+    <resultMap id="BaseResultMap" type="com.skycloud.base.authentication.model.po.RoleResource">
         <id property="id" javaType="java.lang.Long" column="id"/>
         <result property="resourceId" javaType="java.lang.Integer" column="resource_id"/>
         <result property="roleId" javaType="java.lang.Integer" column="role_id"/>

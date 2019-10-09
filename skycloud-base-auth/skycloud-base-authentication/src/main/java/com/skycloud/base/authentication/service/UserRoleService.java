@@ -22,7 +22,7 @@
  */
 package com.skycloud.base.authentication.service;
 
-import com.skycloud.base.authentication.model.domain.UserRole;
+import com.skycloud.base.authentication.model.po.UserRole;
 import com.sky.framework.web.support.IService;
 
 /**

@@ -26,7 +26,7 @@ import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sky.framework.model.exception.BusinessException;
-import com.skycloud.codegen.model.domain.GenConfig;
+import com.skycloud.codegen.model.po.GenConfig;
 import com.skycloud.codegen.util.GenUtils;
 import com.skycloud.codegen.mapper.SysGeneratorMapper;
 import com.skycloud.codegen.service.SysGeneratorService;

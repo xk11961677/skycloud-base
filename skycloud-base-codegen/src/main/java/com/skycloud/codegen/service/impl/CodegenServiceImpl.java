@@ -24,7 +24,7 @@ package com.skycloud.codegen.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.skycloud.codegen.mapper.CodegenMapper;
-import com.skycloud.codegen.model.domain.GenConfig;
+import com.skycloud.codegen.model.po.GenConfig;
 import com.skycloud.codegen.service.CodegenService;
 import org.springframework.stereotype.Service;
 

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.skycloud.base.authentication.mapper.UserMapper">
 
-    <resultMap id="BaseResultMap" type="com.skycloud.base.authentication.model.domain.User">
+    <resultMap id="BaseResultMap" type="com.skycloud.base.authentication.model.po.User">
         <id property="id" javaType="java.lang.Long" column="id"/>
         <result property="username" javaType="java.lang.String" column="username"/>
         <result property="password" javaType="java.lang.String" column="password"/>

@@ -23,7 +23,7 @@
 package com.skycloud.base.authentication.service;
 
 import com.sky.framework.web.support.IService;
-import com.skycloud.base.authentication.model.domain.Resource;
+import com.skycloud.base.authentication.model.po.Resource;
 import com.skycloud.base.authentication.model.dto.UserDto;
 
 import java.util.List;

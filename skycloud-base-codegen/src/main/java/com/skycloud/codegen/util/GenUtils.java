@@ -26,9 +26,9 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
-import com.skycloud.codegen.model.domain.ColumnEntity;
-import com.skycloud.codegen.model.domain.GenConfig;
-import com.skycloud.codegen.model.domain.TableEntity;
+import com.skycloud.codegen.model.po.ColumnEntity;
+import com.skycloud.codegen.model.po.GenConfig;
+import com.skycloud.codegen.model.po.TableEntity;
 import com.skycloud.codegen.common.CommonConstants;
 import com.skycloud.codegen.exception.CheckedException;
 import lombok.extern.slf4j.Slf4j;
@@ -274,7 +274,7 @@ public class GenUtils {
         }
 
         if (template.contains(ENTITY_JAVA_VM)) {
-            return packagePath + "model" + File.separator + "domain" + File.separator + className + ".java";
+            return packagePath + "model" + File.separator + "po" + File.separator + className + ".java";
         }
 
         if (template.contains(MAPPER_JAVA_VM)) {

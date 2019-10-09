@@ -22,7 +22,7 @@
  */
 package com.skycloud.base.authentication.service.impl;
 
-import com.skycloud.base.authentication.model.domain.UserRole;
+import com.skycloud.base.authentication.model.po.UserRole;
 import com.skycloud.base.authentication.service.UserRoleService;
 import com.sky.framework.web.support.BaseService;
 import org.springframework.stereotype.Service;

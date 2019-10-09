@@ -24,7 +24,7 @@ package com.skycloud.codegen.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.skycloud.codegen.model.domain.GenConfig;
+import com.skycloud.codegen.model.po.GenConfig;
 
 import java.util.List;
 import java.util.Map;

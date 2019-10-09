@@ -24,7 +24,7 @@ package com.skycloud.base.authentication.web.backend;
 
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.web.support.BaseController;
-import com.skycloud.base.authentication.model.domain.Resource;
+import com.skycloud.base.authentication.model.po.Resource;
 import com.skycloud.base.authentication.model.dto.UserDto;
 import com.skycloud.base.authentication.service.ResourceService;
 import io.swagger.annotations.Api;

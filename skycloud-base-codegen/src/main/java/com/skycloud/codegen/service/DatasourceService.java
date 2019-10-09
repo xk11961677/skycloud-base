@@ -23,7 +23,7 @@
 package com.skycloud.codegen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.skycloud.codegen.model.domain.DataSourceEntity;
+import com.skycloud.codegen.model.po.DataSourceEntity;
 
 /**
  * @author

@@ -1,6 +1,6 @@
 package ${package}.${moduleName}.controller;
 
-import ${package}.${moduleName}.model.domain.${className};
+import ${package}.${moduleName}.model.po.${className};
 import ${package}.${moduleName}.service.${className}Service;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

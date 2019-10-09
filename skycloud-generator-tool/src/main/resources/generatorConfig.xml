@@ -30,7 +30,7 @@
         <!-- 请开发人员修改 targetPackage targetProject -->
 
         <!-- 生成模型的包名和位置 -->
-        <javaModelGenerator targetPackage="com.skycloud.service.omc.model.domain" targetProject="/Users/sky/develop/workspace_sky/skycloud-service/skycloud-generator-tool/src/main/java">
+        <javaModelGenerator targetPackage="com.skycloud.service.omc.model.po" targetProject="/Users/sky/develop/workspace_sky/skycloud-service/skycloud-generator-tool/src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
             <property name="rootClass" value="${domain.rootClass}"/>

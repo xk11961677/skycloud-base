@@ -3,7 +3,7 @@
 
 <mapper namespace="com.skycloud.codegen.mapper.CodegenMapper">
 
-    <resultMap id="BaseResultMap" type="com.skycloud.codegen.model.domain.GenConfig">
+    <resultMap id="BaseResultMap" type="com.skycloud.codegen.model.po.GenConfig">
         <id property="id" javaType="java.lang.Long" column="id"/>
         <result property="packageName" javaType="java.lang.String" column="package_name"/>
         <result property="moduleName" javaType="java.lang.String" column="module_name"/>
