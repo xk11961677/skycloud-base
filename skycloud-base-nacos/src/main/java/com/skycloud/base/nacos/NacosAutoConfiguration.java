@@ -32,7 +32,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @EnableDiscoveryClient
 @Configuration
-@EnableDiscoveryClient
 @Slf4j
 public class NacosAutoConfiguration implements CommandLineRunner {
 

@@ -31,8 +31,6 @@ import com.skycloud.base.nacos.util.ConvertStreamUtils;
 import com.skycloud.base.nacos.util.NacosUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.BeanFactoryUtils;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.CompositePropertySource;
@@ -99,15 +97,5 @@ public class NacosApplicationContextInitializer implements ApplicationContextIni
             }
             log.info("used nacos config:{}", flag);
         }
-    }
-
-    private NacosConfigProperties nacosConfigProperties(ApplicationContext context) {
-        if (context.getParent() != null
-                && BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
-                context.getParent(), NacosConfigProperties.class).length > 0) {
-            return BeanFactoryUtils.beanOfTypeIncludingAncestors(context.getParent(),
-                    NacosConfigProperties.class);
-        }
-        return null;
     }
 }
