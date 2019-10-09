@@ -1,4 +1,4 @@
-package ${package}.${moduleName}.entity;
+package ${package}.${moduleName}.model.po;
 
 import com.sky.framework.web.support.BaseEntity;
 
