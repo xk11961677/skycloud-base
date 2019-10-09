@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.model.domain;
+package com.skycloud.base.authentication.model.po;
 
 import com.sky.framework.web.support.BaseEntity;
 import lombok.Data;
@@ -32,25 +32,25 @@ import java.io.Serializable;
 
 
 /**
- * 角色和资源关系表
+ * 用户和角色关系表
  *
  * @author code generator
- * @date 2019-09-11 13:34:12
+ * @date 2019-09-11 13:34:28
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "t_role_resource")
-public class RoleResource extends BaseEntity implements Serializable {
+@Table(name = "t_user_role")
+public class UserRole extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 角色id
+     * 用户id
      */
-    @Column(name = "resource_id")
-    private Integer resourceId;
+    @Column(name = "user_id")
+    private Integer userId;
     /**
-     * 资源id
+     * 角色id
      */
     @Column(name = "role_id")
     private Integer roleId;

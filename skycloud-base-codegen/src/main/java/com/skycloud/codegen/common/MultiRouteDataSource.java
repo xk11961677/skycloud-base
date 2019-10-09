@@ -22,7 +22,7 @@
  */
 package com.skycloud.codegen.common;
 
-import com.skycloud.codegen.model.domain.DataSourceEntity;
+import com.skycloud.codegen.model.po.DataSourceEntity;
 import com.skycloud.codegen.service.DatasourceService;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;

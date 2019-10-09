@@ -3,7 +3,7 @@
 
 <mapper namespace="com.skycloud.base.authentication.mapper.ResourceMapper">
 
-    <resultMap id="BaseResultMap" type="com.skycloud.base.authentication.model.domain.Resource">
+    <resultMap id="BaseResultMap" type="com.skycloud.base.authentication.model.po.Resource">
         <id property="id" javaType="java.lang.Long" column="id"/>
         <result property="code" javaType="java.lang.String" column="code"/>
         <result property="type" javaType="java.lang.String" column="type"/>
@@ -83,7 +83,7 @@
         </foreach>
     </select>
 
-    <select id="listApiURL" resultType="com.skycloud.base.authentication.model.domain.Resource">
+    <select id="listApiURL" resultType="com.skycloud.base.authentication.model.po.Resource">
         select
         <include refid="BaseColumnList"/>
         from t_resource where `type` in

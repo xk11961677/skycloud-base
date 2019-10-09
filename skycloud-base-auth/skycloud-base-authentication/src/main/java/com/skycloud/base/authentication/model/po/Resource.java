@@ -20,39 +20,67 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.codegen.model.domain;
+package com.skycloud.base.authentication.model.po;
 
+import com.sky.framework.web.support.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Table;
+import java.io.Serializable;
+
 
 /**
- * @author
+ * 资源表
+ *
+ * @author code generator
+ * @date 2019-09-11 17:47:27
  */
 @Data
-public class TableEntity {
+@EqualsAndHashCode(callSuper = true)
+@Table(name = "t_resource")
+public class Resource extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     /**
-     * 名称
+     * 资源code
      */
-    private String tableName;
+    private String code;
     /**
-     * 备注
+     * 资源类型(10 左侧菜单 20 top菜单 30 接口URL 40 按钮)
      */
-    private String comments;
+    private String type;
     /**
-     * 主键
+     * 资源名称
      */
-    private ColumnEntity pk;
+    private String name;
     /**
-     * 列名
+     * 资源url
      */
-    private List<ColumnEntity> columns;
+    private String url;
     /**
-     * 驼峰类型
+     * 资源方法
      */
-    private String caseClassName;
+    private String method;
     /**
-     * 普通类型
+     * 简介
      */
-    private String lowerClassName;
+    private String description;
+    /**
+     * 排序
+     */
+    private Integer sort;
+    /**
+     * 父ID
+     */
+    @Column(name = "parent_id")
+    private Long parentId;
+
+    /**
+     * 图标
+     */
+    private String icon;
+
 }

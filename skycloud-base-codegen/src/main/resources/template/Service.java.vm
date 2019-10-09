@@ -1,7 +1,7 @@
 package ${package}.${moduleName}.service;
 
 import com.sky.framework.web.support.IService;
-import ${package}.${moduleName}.model.domain.${className};
+import ${package}.${moduleName}.model.po.${className};
 
 /**
  * ${comments}

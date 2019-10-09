@@ -20,46 +20,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.codegen.model.domain;
+package com.skycloud.codegen.model.po;
 
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author
  */
 @Data
-public class ColumnEntity {
+public class TableEntity {
     /**
-     * 列表
+     * 名称
      */
-    private String columnName;
-    /**
-     * 数据类型
-     */
-    private String dataType;
+    private String tableName;
     /**
      * 备注
      */
     private String comments;
-
     /**
-     * 驼峰属性
+     * 主键
      */
-    private String caseAttrName;
+    private ColumnEntity pk;
     /**
-     * 普通属性
+     * 列名
      */
-    private String lowerAttrName;
+    private List<ColumnEntity> columns;
     /**
-     * 属性类型
+     * 驼峰类型
      */
-    private String attrType;
+    private String caseClassName;
     /**
-     * 实体属性类型
+     * 普通类型
      */
-    private String entityAttrType;
-    /**
-     * 其他信息。
-     */
-    private String extra;
+    private String lowerClassName;
 }

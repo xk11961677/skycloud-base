@@ -47,16 +47,15 @@ public class LoadFilterChainListener implements ApplicationListener<ApplicationR
     @Value("${spring.application.name}")
     private String name;
 
-
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         try {
             AbstractFilter.gatewayProperties = gatewayProperties;
             ServiceLoader<FilterChain> filterChains = SpiLoader.loadAll(FilterChain.class);
             filterChains.forEach(f -> FilterChainManager.getInstance().add(f));
-            LogUtils.info(log, name + " load filter chain successfully:{}");
+            LogUtils.info(log, name + "load filter chain successfully:{}");
         } catch (Exception e) {
-            LogUtils.error(log, name + " load filter chain failed:{}", e);
+            LogUtils.error(log, name + "load filter chain failed:{}", e);
         }
     }
 }

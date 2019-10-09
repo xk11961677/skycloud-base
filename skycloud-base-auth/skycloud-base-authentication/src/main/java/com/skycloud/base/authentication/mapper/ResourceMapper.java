@@ -23,7 +23,7 @@
 package com.skycloud.base.authentication.mapper;
 
 import com.sky.framework.mybatis.MyMapper;
-import com.skycloud.base.authentication.model.domain.Resource;
+import com.skycloud.base.authentication.model.po.Resource;
 import com.skycloud.base.authentication.model.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

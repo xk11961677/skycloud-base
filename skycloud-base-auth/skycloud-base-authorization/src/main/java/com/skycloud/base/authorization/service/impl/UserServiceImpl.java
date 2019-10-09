@@ -23,7 +23,7 @@
 package com.skycloud.base.authorization.service.impl;
 
 import com.sky.framework.web.support.BaseService;
-import com.skycloud.base.authorization.model.domain.User;
+import com.skycloud.base.authorization.model.po.User;
 import com.skycloud.base.authorization.service.UserService;
 import org.springframework.stereotype.Service;
 

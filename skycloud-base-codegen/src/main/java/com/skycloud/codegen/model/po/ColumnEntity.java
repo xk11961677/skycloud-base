@@ -20,39 +20,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.model.domain;
+package com.skycloud.codegen.model.po;
 
-import com.sky.framework.web.support.BaseEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import javax.persistence.Column;
-import javax.persistence.Table;
-import java.io.Serializable;
-
 
 /**
- * 用户和角色关系表
- *
- * @author code generator
- * @date 2019-09-11 13:34:28
+ * @author
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Table(name = "t_user_role")
-public class UserRole extends BaseEntity implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class ColumnEntity {
+    /**
+     * 列表
+     */
+    private String columnName;
+    /**
+     * 数据类型
+     */
+    private String dataType;
+    /**
+     * 备注
+     */
+    private String comments;
 
     /**
-     * 用户id
+     * 驼峰属性
      */
-    @Column(name = "user_id")
-    private Integer userId;
+    private String caseAttrName;
     /**
-     * 角色id
+     * 普通属性
      */
-    @Column(name = "role_id")
-    private Integer roleId;
-
+    private String lowerAttrName;
+    /**
+     * 属性类型
+     */
+    private String attrType;
+    /**
+     * 实体属性类型
+     */
+    private String entityAttrType;
+    /**
+     * 其他信息。
+     */
+    private String extra;
 }

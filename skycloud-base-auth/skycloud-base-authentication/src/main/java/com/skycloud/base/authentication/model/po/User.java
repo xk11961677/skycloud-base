@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.model.domain;
+package com.skycloud.base.authentication.model.po;
 
 import com.sky.framework.web.support.BaseEntity;
 import lombok.Data;

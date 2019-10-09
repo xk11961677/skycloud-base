@@ -31,6 +31,8 @@ import com.skycloud.base.nacos.util.ConvertStreamUtils;
 import com.skycloud.base.nacos.util.NacosUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.BeanFactoryUtils;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.CompositePropertySource;
@@ -74,7 +76,7 @@ public class NacosApplicationContextInitializer implements ApplicationContextIni
                     PropertySource<?> next = iterator.next();
                     if (next.getName().equals(NACOS_PROPERTY_SOURCE_NAME)) {
                         flag = true;
-                        NacosConfigProperties nacosConfigProperties = NacosUtils.nacosConfigProperties(context);
+                        NacosConfigProperties bean = NacosUtils.nacosConfigProperties(context);
                         ConfigService configService = NacosUtils.getConfigService(context);
                         Collection<PropertySource<?>> composite = ((CompositePropertySource) next).getPropertySources();
                         Iterator<PropertySource<?>> iter = composite.iterator();
@@ -83,7 +85,7 @@ public class NacosApplicationContextInitializer implements ApplicationContextIni
                             String name = nacos.getName();
                             if (list.contains(name)) {
                                 try {
-                                    String content = configService.getConfig(nacos.getDataId(), nacos.getGroup(), nacosConfigProperties.getTimeout());
+                                    String content = configService.getConfig(nacos.getDataId(), nacos.getGroup(), bean.getTimeout());
                                     ByteArrayInputStream in = ConvertStreamUtils.parseToInputStream(content);
                                     NacosContainer.put(name, in);
                                     log.info("extend nacos name:{}", name);
@@ -97,5 +99,15 @@ public class NacosApplicationContextInitializer implements ApplicationContextIni
             }
             log.info("used nacos config:{}", flag);
         }
+    }
+
+    private NacosConfigProperties nacosConfigProperties(ApplicationContext context) {
+        if (context.getParent() != null
+                && BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
+                context.getParent(), NacosConfigProperties.class).length > 0) {
+            return BeanFactoryUtils.beanOfTypeIncludingAncestors(context.getParent(),
+                    NacosConfigProperties.class);
+        }
+        return null;
     }
 }

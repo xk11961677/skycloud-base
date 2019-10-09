@@ -20,70 +20,64 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.codegen.model.domain;
+package com.skycloud.base.authorization.model.po;
 
-import com.baomidou.mybatisplus.annotation.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sky.framework.web.support.BaseEntity;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.EqualsAndHashCode;
 
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Table;
+import java.io.Serializable;
+
 
 /**
- * @author
+ * 用户表
+ *
+ * @author code generator
+ * @date 2019-09-11 13:27:16
  */
 @Data
-@TableName("t_datasource")
-public class DataSourceEntity {
+@EqualsAndHashCode(callSuper = true)
+@Table(name = "t_user")
+public class User extends BaseEntity implements Serializable {
 
-    @TableId(type = IdType.AUTO)
-    private Long id;
+    private static final long serialVersionUID = 1L;
 
-    private String name;
-
-    private String url;
-
-    @TableField(value = "driver_class")
-    private String driverClass;
-
+    /**
+     * 用户名
+     */
     private String username;
-
+    /**
+     * 用户密码密文
+     */
     private String password;
-
-    private String remark;
-
     /**
-     * 状态 0 有效 1 无效
+     * 用户姓名
      */
-    private Integer disabled;
-
+    private String name;
     /**
-     * 创建时间
+     * 用户手机
      */
-    @TableField(value = "created_time",fill = FieldFill.INSERT)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createdTime;
-
+    private String mobile;
     /**
-     * 创建人
+     * 是否有效用户
      */
-    @TableField(value = "created_by",fill = FieldFill.INSERT)
-    private String createdBy;
-
+    private Boolean enabled;
     /**
-     * 更新时间
+     * 账号是否未过期
      */
-    @TableField(value = "updated_time",fill = FieldFill.INSERT_UPDATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date updatedTime;
-
+    @Column(name = "account_non_expired")
+    private Boolean accountNonExpired;
     /**
-     * 更新人
+     * 密码是否未过期
      */
-    @TableField(value = "updated_by",fill = FieldFill.INSERT_UPDATE)
-    private String updatedBy;
-
+    @Column(name = "credentials_non_expired")
+    private Boolean credentialsNonExpired;
+    /**
+     * 是否未锁定
+     */
+    @Column(name = "account_non_locked")
+    private Boolean accountNonLocked;
 
 }

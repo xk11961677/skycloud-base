@@ -29,7 +29,7 @@ import com.sky.framework.web.support.BaseService;
 import com.skycloud.base.authentication.enums.ResourceTypeEnums;
 import com.skycloud.base.authentication.mapper.ResourceMapper;
 import com.skycloud.base.authentication.model.bo.ResourceTreeNodeBo;
-import com.skycloud.base.authentication.model.domain.Resource;
+import com.skycloud.base.authentication.model.po.Resource;
 import com.skycloud.base.authentication.model.dto.UserDto;
 import com.skycloud.base.authentication.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;

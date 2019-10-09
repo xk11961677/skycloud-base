@@ -23,7 +23,7 @@
 package com.skycloud.codegen.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.skycloud.codegen.model.domain.GenConfig;
+import com.skycloud.codegen.model.po.GenConfig;
 
 /**
  * 代码生成器

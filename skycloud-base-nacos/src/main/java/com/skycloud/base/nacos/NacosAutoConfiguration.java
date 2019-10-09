@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author
  */
+@EnableDiscoveryClient
 @Configuration
 @EnableDiscoveryClient
 @Slf4j

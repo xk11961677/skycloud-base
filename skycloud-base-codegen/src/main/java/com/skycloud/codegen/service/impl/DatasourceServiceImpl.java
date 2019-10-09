@@ -24,7 +24,7 @@ package com.skycloud.codegen.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.skycloud.codegen.mapper.DatasourceMapper;
-import com.skycloud.codegen.model.domain.DataSourceEntity;
+import com.skycloud.codegen.model.po.DataSourceEntity;
 import com.skycloud.codegen.service.DatasourceService;
 import org.springframework.stereotype.Service;
 

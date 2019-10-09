@@ -25,7 +25,7 @@ package com.skycloud.base.authentication.service.impl;
 import com.sky.framework.common.LogUtils;
 import com.skycloud.base.authentication.common.ResourceMatcherContainer;
 import com.skycloud.base.authentication.enums.ResourceTypeEnums;
-import com.skycloud.base.authentication.model.domain.Resource;
+import com.skycloud.base.authentication.model.po.Resource;
 import com.skycloud.base.authentication.service.AuthenticationService;
 import com.skycloud.base.authentication.common.CustomMvcRequestMatcher;
 import com.skycloud.base.authentication.service.ResourceService;

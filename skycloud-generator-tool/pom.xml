@@ -20,7 +20,7 @@
         <!-- Java接口和实体类 -->
         <targetJavaProject>${basedir}/src/main/java</targetJavaProject>
         <targetMapperPackage>com.skycloud.service.xxx.mapper</targetMapperPackage>
-        <targetModelPackage>com.skycloud.service.xxx.model.domain</targetModelPackage>
+        <targetModelPackage>com.skycloud.service.xxx.model.po</targetModelPackage>
         <!-- XML生成路径 -->
         <targetResourcesProject>${basedir}/src/main/resources</targetResourcesProject>
         <targetXMLPackage>mapper</targetXMLPackage>

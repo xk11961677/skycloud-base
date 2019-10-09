@@ -23,7 +23,7 @@
 package com.skycloud.base.authorization.service;
 
 import com.sky.framework.web.support.IService;
-import com.skycloud.base.authorization.model.domain.User;
+import com.skycloud.base.authorization.model.po.User;
 
 /**
  * 用户表

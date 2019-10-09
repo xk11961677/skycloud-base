@@ -22,7 +22,7 @@
  */
 package com.skycloud.base.authentication.service;
 
-import com.skycloud.base.authentication.model.domain.Resource;
+import com.skycloud.base.authentication.model.po.Resource;
 
 import javax.servlet.http.HttpServletRequest;
 
