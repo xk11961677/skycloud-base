@@ -33,7 +33,7 @@ import java.util.Optional;
  *
  * @author
  */
-public enum ResourceTypeEnums {
+public enum ResourceTypeEnum {
     MENU(10),
     TOP_MENU(20),
     INTERFACE_URL(30),
@@ -42,7 +42,7 @@ public enum ResourceTypeEnums {
     @Getter
     private final int key;
 
-    ResourceTypeEnums(final int key) {
+    ResourceTypeEnum(final int key) {
         this.key = key;
     }
 
@@ -50,12 +50,12 @@ public enum ResourceTypeEnums {
      * @param key
      * @return
      */
-    public static ResourceTypeEnums acquire(final int key) {
-        Optional<ResourceTypeEnums> serializeEnum =
-                Arrays.stream(ResourceTypeEnums.values())
+    public static ResourceTypeEnum acquire(final int key) {
+        Optional<ResourceTypeEnum> serializeEnum =
+                Arrays.stream(ResourceTypeEnum.values())
                         .filter(v -> Objects.equals(v.getKey(), key))
                         .findFirst();
-        return serializeEnum.orElse(ResourceTypeEnums.MENU);
+        return serializeEnum.orElse(ResourceTypeEnum.MENU);
 
     }
 }

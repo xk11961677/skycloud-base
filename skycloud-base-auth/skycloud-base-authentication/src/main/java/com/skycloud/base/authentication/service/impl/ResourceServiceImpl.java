@@ -26,7 +26,7 @@ import com.sky.framework.common.json.JsonUtils;
 import com.sky.framework.common.tree.ITreeNode;
 import com.sky.framework.common.tree.Tree;
 import com.sky.framework.web.support.BaseService;
-import com.skycloud.base.authentication.enums.ResourceTypeEnums;
+import com.skycloud.base.authentication.enums.ResourceTypeEnum;
 import com.skycloud.base.authentication.mapper.ResourceMapper;
 import com.skycloud.base.authentication.model.bo.ResourceTreeNodeBo;
 import com.skycloud.base.authentication.model.po.Resource;
@@ -54,7 +54,7 @@ public class ResourceServiceImpl extends BaseService<Resource> implements Resour
 
     @Override
     public String listMenuByUserId(UserDto userDto) {
-        userDto.setType(ResourceTypeEnums.MENU.getKey() + "");
+        userDto.setType(ResourceTypeEnum.MENU.getKey() + "");
         List<Resource> resources = resourceMapper.listResourceByUserId(userDto);
         List<ITreeNode> list = new ArrayList<>();
         resources.forEach(resource -> list.add(new ResourceTreeNodeBo(resource)));
@@ -65,7 +65,7 @@ public class ResourceServiceImpl extends BaseService<Resource> implements Resour
 
     @Override
     public List<Resource> listButtonByUserId(UserDto userDto) {
-        userDto.setType(ResourceTypeEnums.BUTTON.getKey() + "");
+        userDto.setType(ResourceTypeEnum.BUTTON.getKey() + "");
         List<Resource> resources = resourceMapper.listResourceByUserId(userDto);
         for (Resource resource : resources) {
             resource.setCode(resource.getCode().replace(":", "_"));
