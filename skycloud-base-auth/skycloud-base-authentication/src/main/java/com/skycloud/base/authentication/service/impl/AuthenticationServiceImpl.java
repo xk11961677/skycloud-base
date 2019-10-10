@@ -24,7 +24,7 @@ package com.skycloud.base.authentication.service.impl;
 
 import com.sky.framework.common.LogUtils;
 import com.skycloud.base.authentication.common.ResourceMatcherContainer;
-import com.skycloud.base.authentication.enums.ResourceTypeEnums;
+import com.skycloud.base.authentication.enums.ResourceTypeEnum;
 import com.skycloud.base.authentication.model.po.Resource;
 import com.skycloud.base.authentication.service.AuthenticationService;
 import com.skycloud.base.authentication.common.CustomMvcRequestMatcher;
@@ -67,7 +67,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public void loadResource() {
-        Integer[] types = {ResourceTypeEnums.INTERFACE_URL.getKey()};
+        Integer[] types = {ResourceTypeEnum.INTERFACE_URL.getKey()};
         List<Resource> resources = resourceService.listApiURL(null, types);
         resources.stream().forEach(r -> addResourceConfigAttributes(r));
         LogUtils.debug(log, "resourceConfigAttributes:{}", () -> ResourceMatcherContainer.getInstance());
@@ -154,7 +154,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .toArray(new String[authorityRoles.size()]);
         Set<Resource> resources = new HashSet<>();
         if (authorityRoleCodes.length != 0) {
-            Integer[] types = {ResourceTypeEnums.INTERFACE_URL.getKey()};
+            Integer[] types = {ResourceTypeEnum.INTERFACE_URL.getKey()};
             resources = resourceService.listByRoleCodes(authorityRoleCodes, types);
         }
         Set<Resource> finalResources = resources;
