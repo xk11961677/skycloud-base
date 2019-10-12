@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_PATH" value="skycloud-log"/>
+    <springProperty scope="context" name="appName" source="spring.application.name"/>
+    <springProperty scope="context" name="ip" source="spring.cloud.client.ip-address"/>
+    <springProperty scope="context" name="env" source="spring.profiles.active"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="[%d{yyyy-MM-dd HH:mm:ss.SSS} ${ip} ${appName} %tid %highlight(%-5level) %yellow(%thread) %green(%logger{56}) %L %msg%n"/>
+
+    <!--<appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>127.0.0.1:4567</destination>
+        <connectionStrategy>
+            <roundRobin>
+                <connectionTTL>5 seconds</connectionTTL>
+            </roundRobin>
+        </connectionStrategy>
+        <reconnectionDelay>1 second</reconnectionDelay>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
+            <provider class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.logstash.TraceIdJsonProvider">
+            </provider>
+            <customFields>{"tags":"log","ip":"${ip}","env":"${env}","appName": "${appName}"}</customFields>
+        </encoder>
+    </appender>-->
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            </layout>
+            <charset>utf-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+    </appender>
+
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="com.sky" level="INFO"/>
+
+    <root level="INFO">
+        <!--        <appender-ref ref="LOGSTASH"/>-->
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

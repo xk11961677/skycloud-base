@@ -75,6 +75,8 @@
         <module>skycloud-base-codegen</module>
         <module>skycloud-base-prometheus</module>
         <module>skycloud-base-upload</module>
+        <module>skycloud-base-log</module>
+        <module>skycloud-base-log-api</module>
     </modules>
 
 
