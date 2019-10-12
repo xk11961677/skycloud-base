@@ -32,6 +32,8 @@
         <skywalking.version>6.4.0</skywalking.version>
         <hutool.version>4.5.18</hutool.version>
         <apollo.client.version>1.4.0</apollo.client.version>
+        <orika-spring.version>1.8.0</orika-spring.version>
+        <disruptor.version>3.4.0</disruptor.version>
         <sky.framework.version>1.0.0-SNAPSHOT</sky.framework.version>
     </properties>
 
@@ -183,7 +185,7 @@
             <dependency>
                 <groupId>net.rakugakibox.spring.boot</groupId>
                 <artifactId>orika-spring-boot-starter</artifactId>
-                <version>1.8.0</version>
+                <version>${orika-spring.version}</version>
             </dependency>
 
             <!-- spring boot admin  -->
@@ -263,6 +265,12 @@
             </dependency>
             <!-- yaml <==> properties -->
 
+            <!-- disruptor queue -->
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>${disruptor.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

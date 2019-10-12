@@ -1,0 +1,13 @@
+app:
+  id: skycloud-base-log
+apollo:
+  custom:
+    dev:
+      meta: http://47.96.117.253:8080
+    fat:
+      meta: http://127.0.0.1:8080
+  bootstrap:
+    enabled: true
+    eagerLoad:
+      enabled: true
+    namespaces: application
