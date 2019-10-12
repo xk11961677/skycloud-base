@@ -30,13 +30,7 @@
 
         <dependency>
             <groupId>com.sky.skycloud</groupId>
-            <artifactId>skycloud-base-consul</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sky.skycloud</groupId>
-            <artifactId>skycloud-base-config</artifactId>
+            <artifactId>skycloud-base-nacos</artifactId>
             <version>${project.version}</version>
         </dependency>
 
