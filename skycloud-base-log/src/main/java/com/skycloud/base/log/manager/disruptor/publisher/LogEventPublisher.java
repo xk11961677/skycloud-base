@@ -22,28 +22,40 @@
  */
 package com.skycloud.base.log.manager.disruptor.publisher;
 
+import com.lmax.disruptor.RingBuffer;
+import com.lmax.disruptor.YieldingWaitStrategy;
+import com.lmax.disruptor.dsl.Disruptor;
+import com.lmax.disruptor.dsl.ProducerType;
+import com.sky.framework.common.LogUtils;
 import com.skycloud.base.log.api.model.dto.SystemOptLogDto;
 import com.skycloud.base.log.manager.disruptor.event.LogEvent;
 import com.skycloud.base.log.manager.disruptor.factory.LogEventFactory;
 import com.skycloud.base.log.manager.disruptor.handler.LogEventHandler;
 import com.skycloud.base.log.manager.disruptor.translator.LogEventTranslator;
-import com.lmax.disruptor.RingBuffer;
-import com.lmax.disruptor.YieldingWaitStrategy;
-import com.lmax.disruptor.dsl.Disruptor;
-import com.lmax.disruptor.dsl.ProducerType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author
  */
+@Slf4j
 @Component
-public class LogEventPublisher implements DisposableBean {
+public class LogEventPublisher implements InitializingBean, DisposableBean {
 
     private Disruptor<LogEvent> disruptor;
+
+    /**
+     * 环形缓冲区大小, 需要2的幂次方
+     */
+    private int bufferSize = 1024;
+
+    private AtomicBoolean started = new AtomicBoolean(false);
 
     @Autowired
     private LogEventHandler logEventHandler;
@@ -64,9 +76,8 @@ public class LogEventPublisher implements DisposableBean {
      * 发布事件
      *
      * @param systemOptLogDto
-     * @param type
      */
-    public void publishEvent(SystemOptLogDto systemOptLogDto, int type) {
+    public void publishEvent(SystemOptLogDto systemOptLogDto) {
         final RingBuffer<LogEvent> ringBuffer = disruptor.getRingBuffer();
         ringBuffer.publishEvent(new LogEventTranslator(), systemOptLogDto);
     }
@@ -78,5 +89,13 @@ public class LogEventPublisher implements DisposableBean {
     @Override
     public void destroy() throws Exception {
         disruptor.shutdown();
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if (!started.getAndSet(true)) {
+            start(bufferSize);
+            LogUtils.info(log, "disruptor startup successfully !");
+        }
     }
 }
