@@ -22,20 +22,32 @@
  */
 package com.skycloud.base.log.manager.disruptor.handler;
 
-import com.skycloud.base.log.manager.disruptor.event.LogEvent;
 import com.lmax.disruptor.EventHandler;
+import com.sky.framework.common.LogUtils;
+import com.skycloud.base.log.manager.disruptor.event.LogEvent;
+import com.skycloud.base.log.mapper.SystemLogMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
  * @author
  */
+@Slf4j
 @Component
 public class LogEventHandler implements EventHandler<LogEvent> {
 
+    @Autowired
+    private SystemLogMapper systemLogMapper;
 
     @Override
-    public void onEvent(LogEvent LogEvent, long sequence, boolean endOfBatch) throws Exception {
-
-        LogEvent.clear();
+    public void onEvent(LogEvent logEvent, long sequence, boolean endOfBatch) throws Exception {
+        try {
+            systemLogMapper.insertSelective(logEvent.getSystemLog());
+        } catch (Exception e) {
+            LogUtils.error(log, "disruptor LogEventHandler exception:{}", e);
+        } finally {
+            logEvent.clear();
+        }
     }
 }
