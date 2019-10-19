@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.skycloud.codegen.mapper.DatasourceMapper">
-    <resultMap id="BaseResultMap" type="com.skycloud.codegen.model.po.DataSourceEntity">
+<mapper namespace="com.skycloud.base.codegen.mapper.DatasourceMapper">
+    <resultMap id="BaseResultMap" type="com.skycloud.base.codegen.model.po.DataSourceEntity">
         <id column="ID" jdbcType="BIGINT" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>

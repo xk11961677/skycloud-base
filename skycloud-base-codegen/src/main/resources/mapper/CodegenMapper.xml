@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.skycloud.codegen.mapper.CodegenMapper">
+<mapper namespace="com.skycloud.base.codegen.mapper.CodegenMapper">
 
-    <resultMap id="BaseResultMap" type="com.skycloud.codegen.model.po.GenConfig">
+    <resultMap id="BaseResultMap" type="com.skycloud.base.codegen.model.po.GenConfig">
         <id property="id" javaType="java.lang.Long" column="id"/>
         <result property="packageName" javaType="java.lang.String" column="package_name"/>
         <result property="moduleName" javaType="java.lang.String" column="module_name"/>
@@ -11,6 +11,7 @@
         <result property="tablePrefix" javaType="java.lang.String" column="table_prefix"/>
         <result property="tableName" javaType="java.lang.String" column="table_name"/>
         <result property="remark" javaType="java.lang.String" column="remark"/>
+        <result property="dalType" javaType="java.lang.Integer" column="dal_type"/>
         <result property="datasourceId" javaType="java.lang.Long" column="datasource_id"/>
         <result property="author" javaType="java.lang.String" column="author"/>
         <result property="createdTime" javaType="java.util.Date" column="created_time"/>
@@ -27,6 +28,7 @@
       service_name,
       table_prefix,
       table_name,
+      dal_type,
       datasource_id,
       author,
       remark,
