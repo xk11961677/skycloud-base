@@ -1,0 +1,55 @@
+package ${package}.${moduleName}.model.po;
+
+
+
+import lombok.Data;
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+#if(${hasDate})
+import java.sql.Date;
+#end
+#if(${hasTimestamp})
+import java.sql.Timestamp;
+#end
+#if(${hasUtilDate})
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+#end
+import com.baomidou.mybatisplus.annotation.*;
+import java.io.Serializable;
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+@TableName("${tableName}")
+public class ${className} implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+
+  #foreach ($column in $columns)
+    #if($column.columnName == $pk.columnName)
+      @TableId(type = IdType.AUTO)
+      private $column.entityAttrType $column.lowerAttrName;
+    #else
+     /**
+     * $column.comments
+     */
+      #if($column.columnName != $column.lowerAttrName)
+      @TableField(value = "${column.columnName}")
+      #end
+      #if($column.entityAttrType == "Date")
+      @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+      @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+      #end
+      private $column.entityAttrType $column.lowerAttrName;
+    #end
+  #end
+
+}

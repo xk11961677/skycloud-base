@@ -73,6 +73,14 @@
             <version>1.7</version>
         </dependency>
 
+        <!-- hot deployment -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -82,7 +90,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.skycloud.codegen.CodeGenApplication</mainClass>
+                    <mainClass>com.skycloud.base.codegen.CodeGenApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

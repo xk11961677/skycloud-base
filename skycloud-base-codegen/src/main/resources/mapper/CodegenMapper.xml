@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.skycloud.codegen.mapper.CodegenMapper">
+<mapper namespace="com.skycloud.base.codegen.mapper.CodegenMapper">
 
-    <resultMap id="BaseResultMap" type="com.skycloud.codegen.model.po.GenConfig">
+    <resultMap id="BaseResultMap" type="com.skycloud.base.codegen.model.po.Codegen">
         <id property="id" javaType="java.lang.Long" column="id"/>
         <result property="packageName" javaType="java.lang.String" column="package_name"/>
         <result property="moduleName" javaType="java.lang.String" column="module_name"/>
         <result property="serviceName" javaType="java.lang.String" column="service_name"/>
         <result property="tablePrefix" javaType="java.lang.String" column="table_prefix"/>
         <result property="tableName" javaType="java.lang.String" column="table_name"/>
-        <result property="remark" javaType="java.lang.String" column="remark"/>
+        <result property="dalType" javaType="java.lang.Integer" column="dal_type"/>
         <result property="datasourceId" javaType="java.lang.Long" column="datasource_id"/>
         <result property="author" javaType="java.lang.String" column="author"/>
         <result property="createdTime" javaType="java.util.Date" column="created_time"/>
@@ -18,22 +18,24 @@
         <result property="createdBy" javaType="java.lang.String" column="created_by"/>
         <result property="updatedBy" javaType="java.lang.String" column="updated_by"/>
         <result property="disabled" javaType="java.lang.Integer" column="disabled"/>
+        <result property="remark" javaType="java.lang.String" column="remark"/>
     </resultMap>
 
     <sql id="BaseColumnList">
-      id,
-      package_name,
-      module_name,
-      service_name,
-      table_prefix,
-      table_name,
-      datasource_id,
-      author,
-      remark,
-      created_time,
-      updated_time,
-      created_by,
-      updated_by,
-      disabled
+         id,
+         package_name,
+         module_name,
+         service_name,
+         table_prefix,
+         table_name,
+         dal_type,
+         datasource_id,
+         author,
+         created_time,
+         updated_time,
+         created_by,
+         updated_by,
+         disabled,
+         remark
     </sql>
 </mapper>
