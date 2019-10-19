@@ -24,7 +24,7 @@ package com.skycloud.base.codegen.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.skycloud.base.codegen.model.po.GenConfig;
+import com.skycloud.base.codegen.model.po.Codegen;
 
 import java.util.List;
 import java.util.Map;
@@ -39,7 +39,7 @@ public interface SysGeneratorService {
 	 * @param tableNames 表名称
 	 * @return
 	 */
-	byte[] generatorCode(GenConfig tableNames);
+	byte[] generatorCode(Codegen tableNames);
 
 	/**
 	 * 分页查询表

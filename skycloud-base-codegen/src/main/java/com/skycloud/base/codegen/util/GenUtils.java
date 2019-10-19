@@ -30,7 +30,7 @@ import com.skycloud.base.codegen.common.CommonConstants;
 import com.skycloud.base.codegen.common.enums.DALTypeEnum;
 import com.skycloud.base.codegen.exception.CheckedException;
 import com.skycloud.base.codegen.model.po.ColumnEntity;
-import com.skycloud.base.codegen.model.po.GenConfig;
+import com.skycloud.base.codegen.model.po.Codegen;
 import com.skycloud.base.codegen.model.po.TableEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.configuration.Configuration;
@@ -90,7 +90,7 @@ public class GenUtils {
     /**
      * 生成代码
      */
-    public static void generatorCode(GenConfig genConfig, Map<String, String> table,
+    public static void generatorCode(Codegen genConfig, Map<String, String> table,
                                      List<Map<String, String>> columns, ZipOutputStream zip) {
         //配置信息
         Configuration config = getConfig();

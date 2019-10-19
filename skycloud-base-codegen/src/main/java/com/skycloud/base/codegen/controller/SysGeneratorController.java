@@ -32,7 +32,7 @@ import com.skycloud.base.codegen.common.DataSourceContext;
 import com.skycloud.base.codegen.model.form.BaseForm;
 import com.skycloud.base.codegen.util.PageUtils;
 import com.skycloud.base.codegen.model.po.DataSourceEntity;
-import com.skycloud.base.codegen.model.po.GenConfig;
+import com.skycloud.base.codegen.model.po.Codegen;
 import com.skycloud.base.codegen.model.dto.GenConfigDTO;
 import com.skycloud.base.codegen.service.CodegenService;
 import com.skycloud.base.codegen.service.DatasourceService;
@@ -77,9 +77,9 @@ public class SysGeneratorController {
     @PostMapping("/gen-code")
     @ResponseBody
     public MessageRes<List<GenConfigDTO>> code(@RequestParam("ids") List<Long> ids, HttpServletResponse response) throws IOException {
-        List<GenConfig> genConfigs = (List) this.codegenService.listByIds(ids);
+        List<Codegen> genConfigs = (List) this.codegenService.listByIds(ids);
         List<Long> list = new ArrayList<>();
-        for (GenConfig gen : genConfigs) {
+        for (Codegen gen : genConfigs) {
             Long datasourceId = gen.getDatasourceId();
             if (!list.contains(datasourceId)) {
                 list.add(datasourceId);
@@ -92,7 +92,7 @@ public class SysGeneratorController {
         }
         List<GenConfigDTO> genConfigDTOList = new ArrayList();
 
-        for (GenConfig genConfig : genConfigs) {
+        for (Codegen genConfig : genConfigs) {
             DataSourceContext.setDataSource(map.get(genConfig.getDatasourceId()));
             byte[] data = sysGeneratorService.generatorCode(genConfig);
             DataSourceContext.clearDataSource();
@@ -128,16 +128,16 @@ public class SysGeneratorController {
                     @ApiImplicitParam(paramType = "query", dataType = "String", name = "pluginName", value = "插件名"),
                     @ApiImplicitParam(paramType = "query", dataType = "String", name = "pluginType", value = "插件类型")
             })
-    public MessageRes<IPage<GenConfig>> selectPage() {
-        BaseForm<GenConfig> baseForm = new BaseForm();
+    public MessageRes<IPage<Codegen>> selectPage() {
+        BaseForm<Codegen> baseForm = new BaseForm();
         IPage page = this.codegenService.page(baseForm.getPlusPagingQueryEntity(), pageQueryWrapperCustom(baseForm.getParameters()));
         return MessageRes.success(page);
     }
 
     @GetMapping("/select")
     @ApiOperation("查询所有数据")
-    public MessageRes<List<GenConfig>> selectAll() {
-        List<GenConfig> list = this.codegenService.list();
+    public MessageRes<List<Codegen>> selectAll() {
+        List<Codegen> list = this.codegenService.list();
         return MessageRes.success(list);
     }
 
@@ -147,7 +147,7 @@ public class SysGeneratorController {
      * @param map
      * @return
      */
-    protected QueryWrapper<GenConfig> pageQueryWrapperCustom(Map<String, Object> map) {
+    protected QueryWrapper<Codegen> pageQueryWrapperCustom(Map<String, Object> map) {
         // mybatis plus 分页相关的参数
         Map<String, Object> pageHelperParams = PageUtils.filterPageParams(map);
         log.info("分页相关的参数: {}", pageHelperParams);
@@ -155,7 +155,7 @@ public class SysGeneratorController {
         Map<String, Object> columnQueryMap = PageUtils.filterColumnQueryParams(map);
         log.info("字段查询条件参数为: {}", columnQueryMap);
 
-        QueryWrapper<GenConfig> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<Codegen> queryWrapper = new QueryWrapper<>();
 
         //排序 操作
         pageHelperParams.forEach((k, v) -> {
@@ -192,7 +192,7 @@ public class SysGeneratorController {
      */
     @ApiOperation("通过主键查询单条数据")
     @GetMapping("/detail")
-    public MessageRes<GenConfig> selectOne(@RequestParam Serializable id) {
+    public MessageRes<Codegen> selectOne(@RequestParam Serializable id) {
         return MessageRes.success(this.codegenService.getById(id));
     }
 
@@ -204,7 +204,7 @@ public class SysGeneratorController {
      */
     @ApiOperation("新增数据")
     @PostMapping("/add")
-    public MessageRes<Boolean> insert(@RequestBody GenConfig genConfig) {
+    public MessageRes<Boolean> insert(@RequestBody Codegen genConfig) {
         boolean save = this.codegenService.save(genConfig);
         return MessageRes.success(save);
     }
@@ -217,7 +217,7 @@ public class SysGeneratorController {
      */
     @PostMapping("/update")
     @ApiOperation("修改数据")
-    public MessageRes<Boolean> update(@RequestBody GenConfig genConfig) {
+    public MessageRes<Boolean> update(@RequestBody Codegen genConfig) {
         boolean b = this.codegenService.updateById(genConfig);
         return MessageRes.success(b);
     }
@@ -244,7 +244,7 @@ public class SysGeneratorController {
     @PostMapping("/copy")
     @ApiOperation("拷贝数据")
     public MessageRes<Boolean> copy(@RequestParam("id") Long id) {
-        GenConfig genConfig = this.codegenService.getById(id);
+        Codegen genConfig = this.codegenService.getById(id);
         genConfig.setId(null);
         boolean save = this.codegenService.save(genConfig);
         return MessageRes.success(save);

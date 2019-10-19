@@ -28,7 +28,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sky.framework.model.exception.BusinessException;
 import com.skycloud.base.codegen.mapper.SysGeneratorMapper;
 import com.skycloud.base.codegen.util.GenUtils;
-import com.skycloud.base.codegen.model.po.GenConfig;
+import com.skycloud.base.codegen.model.po.Codegen;
 import com.skycloud.base.codegen.service.SysGeneratorService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -67,7 +67,7 @@ public class SysGeneratorServiceImpl implements SysGeneratorService {
 	 * @return
 	 */
 	@Override
-	public byte[] generatorCode(GenConfig genConfig) {
+	public byte[] generatorCode(Codegen genConfig) {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		ZipOutputStream zip = new ZipOutputStream(outputStream);
 
