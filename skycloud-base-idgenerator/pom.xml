@@ -24,13 +24,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>skycloud-base-consul</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>skycloud-base-config</artifactId>
+            <artifactId>skycloud-base-nacos</artifactId>
             <version>${project.version}</version>
         </dependency>
 
