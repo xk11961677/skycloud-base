@@ -68,13 +68,13 @@
 │  │
 │  ├─skycloud-base-codegen-----------------代码生成工具(web站点)
 │  │
-│  ├─skycloud-base-common------------------公共包
+│  ├─skycloud-base-common------------------公共包(依赖JAR包)
 │  │
-│  ├─skycloud-base-config------------------配置中心
+│  ├─skycloud-base-config------------------配置中心(依赖JAR包)
 │  │
-│  ├─skycloud-base-consul------------------服务发现与注册
+│  ├─skycloud-base-consul------------------服务发现与注册(依赖JAR包)
 │  │
-│  ├─skycloud-base-hystrix-client------------------hystrix客户端
+│  ├─skycloud-base-hystrix-client------------------hystrix客户端(依赖JAR包)
 │  │
 │  ├─skycloud-base-hystrix-dashboard------------------hystrix单一面板
 │  │
@@ -82,13 +82,19 @@
 │  │
 │  ├─skycloud-base-monitor------------------Spring boot admin监控
 │  │
-│  ├─skycloud-base-prometheus------------------prometheus grafana监控
+│  ├─skycloud-base-prometheus------------------prometheus grafana监控(依赖JAR包)
 │  │
 │  ├─skycloud-base-upload----------------------文件上传资源服务
 │  │
 │  ├─skycloud-base-log----------------------系统日志服务
 │  │
 │  ├─skycloud-base-log-api----------------------系统日志服务API
+│  │
+│  ├─skycloud-base-idgenerator----------------------ID生成器服务
+│  │
+│  ├─skycloud-base-idgenerator-api----------------------ID生成器API
+│  │
+│  ├─skycloud-base-nacos------------------------------注册与配置中心(nacos)(依赖JAR包)
 │  │
 │  ├─seata--------------------------------------分布式事务(seata)
 │  │

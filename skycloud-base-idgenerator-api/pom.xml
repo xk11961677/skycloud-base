@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.sky.skycloud</groupId>
+        <artifactId>skycloud-base-bom</artifactId>
+        <version>${revision}</version>
+        <relativePath>../skycloud-base-bom</relativePath>
+    </parent>
+
+    <artifactId>skycloud-base-idgenerator-api</artifactId>
+    <packaging>jar</packaging>
+    <name>skycloud-base-idgenerator-api</name>
+    <description>ID生成器API - idgenerator manager center</description>
+
+    <dependencies>
+
+        <!-- sky -->
+        <dependency>
+            <groupId>com.sky.framework</groupId>
+            <artifactId>framework-model</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sky.framework</groupId>
+            <artifactId>framework-util-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>skycloud-base-common</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <!-- sky end -->
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
+        </dependency>
+
+
+    </dependencies>
+
+</project>

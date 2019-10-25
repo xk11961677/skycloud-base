@@ -77,6 +77,8 @@
         <module>skycloud-base-upload</module>
         <module>skycloud-base-log</module>
         <module>skycloud-base-log-api</module>
+        <module>skycloud-base-idgenerator</module>
+        <module>skycloud-base-idgenerator-api</module>
     </modules>
 
 
@@ -280,6 +282,7 @@
                     </includes>
                     <excludes>
                         <exclude>**/generated/**</exclude>
+                        <exclude>**/com/skycloud/base/idgenerator/baidu/**</exclude>
                     </excludes>
                     <strictCheck>true</strictCheck>
                     <mapping>

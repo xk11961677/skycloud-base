@@ -23,6 +23,7 @@
 package com.skycloud.base.geteway.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.support.NameUtils;
@@ -37,6 +38,7 @@ import java.util.List;
 /**
  * @author
  */
+@ConditionalOnProperty(prefix = "swagger", value = "enabled", matchIfMissing = true)
 @Component
 @Primary
 public class SwaggerProvider implements SwaggerResourcesProvider {
