@@ -23,6 +23,7 @@
 package com.skycloud.base.geteway.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,7 @@ import java.util.Optional;
 /**
  * @author
  */
+@ConditionalOnProperty(prefix = "swagger", value = "enabled",matchIfMissing = true)
 @RestController
 @RequestMapping("/swagger-resources")
 public class SwaggerHandler {

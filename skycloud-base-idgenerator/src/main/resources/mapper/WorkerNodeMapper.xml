@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skycloud.base.idgenerator.baidu.worker.dao.WorkerNodeDAO">
+	<resultMap id="workerNodeRes" type="com.skycloud.base.idgenerator.baidu.worker.entity.WorkerNodeEntity">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="host_name" jdbcType="VARCHAR" property="hostName" />
+		<result column="port" jdbcType="VARCHAR" property="port" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="launch_date" jdbcType="DATE" property="launchDate" />
+		<result column="modified" jdbcType="TIMESTAMP" property="modified" />
+		<result column="created" jdbcType="TIMESTAMP" property="created" />
+	</resultMap>
+
+	<insert id="addWorkerNode" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.skycloud.base.idgenerator.baidu.worker.entity.WorkerNodeEntity">
+		INSERT INTO worker_node
+		(host_name,
+		port,
+		type,
+		launch_date,
+		modified,
+		created)
+		VALUES (
+		#{hostName},
+		#{port},
+		#{type},
+		#{launchDate},
+		NOW(),
+		NOW())
+	</insert>
+
+	<select id="getWorkerNodeByHostPort" resultMap="workerNodeRes">
+		SELECT
+		id,
+		host_name,
+		port,
+		type,
+		launch_date,
+		modified,
+		created
+		FROM
+		worker_node
+		WHERE
+		host_name = #{host} AND port = #{port}
+	</select>
+</mapper>
