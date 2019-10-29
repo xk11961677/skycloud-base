@@ -34,9 +34,10 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @author
  */
-@Slf4j
 //@Component
+@Slf4j
 public class AuthFeignFallback implements AuthFeignApi {
+
     @Setter
     private Throwable cause;
 
