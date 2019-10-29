@@ -22,8 +22,8 @@
  */
 package com.skycloud.base.authentication.api.client;
 
-import com.skycloud.base.authentication.api.client.fallback.AuthFeignFallback;
 import com.sky.framework.model.dto.MessageRes;
+import com.skycloud.base.authentication.api.client.factory.AuthFeignFallbackFactory;
 import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
 import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.*;
  * @author
  */
 @Component
-@FeignClient(name = "skycloud-base-authentication", fallback = AuthFeignFallback.class)
+@FeignClient(name = "skycloud-base-authentication", fallbackFactory = AuthFeignFallbackFactory.class)
 public interface AuthFeignApi {
     /**
      * 调用签权服务，判断用户是否有权限
