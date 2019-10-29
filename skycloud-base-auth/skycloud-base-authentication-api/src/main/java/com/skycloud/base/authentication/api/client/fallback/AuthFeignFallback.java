@@ -20,12 +20,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authorization.client.fallback;
+package com.skycloud.base.authentication.api.client.fallback;
 
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.MessageRes;
-import com.skycloud.base.authorization.client.AdUserFeignApi;
-import com.skycloud.base.authorization.client.dto.CustomLoginDto;
+import com.skycloud.base.authentication.api.client.AuthFeignApi;
+import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
+import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
 import com.skycloud.base.common.fallback.FallbackResult;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -33,16 +34,29 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @author
  */
+//@Component
 @Slf4j
-public class AdUserFeignFallback implements AdUserFeignApi {
+public class AuthFeignFallback implements AuthFeignApi {
 
     @Setter
     private Throwable cause;
 
+    /**
+     * 降级统一返回超时
+     *
+     * @param authentication
+     * @param url
+     * @param method
+     */
     @Override
-    public MessageRes<CustomLoginDto> login(CustomLoginDto customLoginDto) {
+    public MessageRes auth(String authentication, String url, String method) {
         LogUtils.error(log, "feign fallback :{} ", cause);
         return FallbackResult.fail(cause);
     }
 
+    @Override
+    public MessageRes<UserLoginVo> login(UserLoginDto userLoginDto) {
+        LogUtils.error(log, "feign fallback :{} ", cause);
+        return FallbackResult.fail(cause);
+    }
 }

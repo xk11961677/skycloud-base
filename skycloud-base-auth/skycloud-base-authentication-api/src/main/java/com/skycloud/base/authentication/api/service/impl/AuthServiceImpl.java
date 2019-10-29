@@ -32,6 +32,7 @@ import com.skycloud.base.authentication.api.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
@@ -51,7 +52,7 @@ import java.util.stream.Stream;
 @Slf4j
 public class AuthServiceImpl implements AuthService {
 
-    @Resource
+    @Autowired(required = false)
     private AuthFeignApi authFeignApi;
 
     /**

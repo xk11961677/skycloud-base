@@ -20,28 +20,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.common.hystrix;
+package com.skycloud.base.authentication.api.client.factory;
 
-import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.model.enums.FailureCodeEnum;
-import com.sky.framework.model.exception.BusinessException;
+import com.skycloud.base.authentication.api.client.AuthFeignApi;
+import com.skycloud.base.authentication.api.client.fallback.AuthFeignFallback;
+import feign.hystrix.FallbackFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * @author
  */
-public class HystrixFallBackResult {
+@Component
+public class AuthFeignFallbackFactory implements FallbackFactory<AuthFeignApi> {
 
-    /**
-     * 断路降级,优先显示错误系统异常信息
-     *
-     * @param cause
-     * @return
-     */
-    public static MessageRes fail(Throwable cause) {
-        if (cause instanceof BusinessException) {
-            BusinessException be = (BusinessException) cause;
-            return MessageRes.fail(be.getCode(), be.getMessage());
-        }
-        return MessageRes.fail(FailureCodeEnum.GL990002.getCode(), FailureCodeEnum.GL990002.getMsg());
+    @Override
+    public AuthFeignApi create(Throwable throwable) {
+        AuthFeignFallback fallback = new AuthFeignFallback();
+        fallback.setCause(throwable);
+        return fallback;
     }
 }
