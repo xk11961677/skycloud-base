@@ -13,6 +13,12 @@ before_install:
     && cp ./style/travis_settings.xml $HOME/.m2/settings.xml
     && mvn -version
 
+#指定分支，只有指定的分支提交时才会运行脚本
+branches:
+  only:
+    - master
+
+
 cache:
 #  ccache: true
   directories:
