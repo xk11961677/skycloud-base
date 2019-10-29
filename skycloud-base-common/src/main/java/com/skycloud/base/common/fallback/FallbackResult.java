@@ -20,34 +20,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.api.client.hystrix;
+package com.skycloud.base.common.fallback;
 
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.model.enums.FailureCodeEnum;
-import com.skycloud.base.authentication.api.client.AuthFeignApi;
-import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
-import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
-import org.springframework.stereotype.Component;
+import com.sky.framework.model.exception.BusinessException;
 
 /**
  * @author
  */
-@Component
-public class AuthFeignHystrix implements AuthFeignApi {
-    /**
-     * 降级统一返回超时
-     *
-     * @param authentication
-     * @param url
-     * @param method
-     */
-    @Override
-    public MessageRes auth(String authentication, String url, String method) {
-        return MessageRes.fail(FailureCodeEnum.GL990002.getCode(), FailureCodeEnum.GL990002.getMsg());
-    }
+public class FallbackResult {
 
-    @Override
-    public MessageRes<UserLoginVo> login(UserLoginDto userLoginDto) {
+    /**
+     * 断路降级,优先显示错误系统异常信息
+     *
+     * @param cause
+     * @return
+     */
+    public static MessageRes fail(Throwable cause) {
+        if (cause instanceof BusinessException) {
+            BusinessException be = (BusinessException) cause;
+            return MessageRes.fail(be.getCode(), be.getMessage());
+        }
         return MessageRes.fail(FailureCodeEnum.GL990002.getCode(), FailureCodeEnum.GL990002.getMsg());
     }
 }

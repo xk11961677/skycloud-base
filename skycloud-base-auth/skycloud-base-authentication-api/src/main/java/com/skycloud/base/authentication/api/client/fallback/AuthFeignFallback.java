@@ -20,28 +20,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.common.hystrix;
+package com.skycloud.base.authentication.api.client.fallback;
 
+import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.model.enums.FailureCodeEnum;
-import com.sky.framework.model.exception.BusinessException;
+import com.skycloud.base.authentication.api.client.AuthFeignApi;
+import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
+import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
+import com.skycloud.base.common.fallback.FallbackResult;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author
  */
-public class HystrixFallBackResult {
+@Slf4j
+//@Component
+public class AuthFeignFallback implements AuthFeignApi {
+    @Setter
+    private Throwable cause;
 
     /**
-     * 断路降级,优先显示错误系统异常信息
+     * 降级统一返回超时
      *
-     * @param cause
-     * @return
+     * @param authentication
+     * @param url
+     * @param method
      */
-    public static MessageRes fail(Throwable cause) {
-        if (cause instanceof BusinessException) {
-            BusinessException be = (BusinessException) cause;
-            return MessageRes.fail(be.getCode(), be.getMessage());
-        }
-        return MessageRes.fail(FailureCodeEnum.GL990002.getCode(), FailureCodeEnum.GL990002.getMsg());
+    @Override
+    public MessageRes auth(String authentication, String url, String method) {
+        LogUtils.error(log, "feign fallback :{} ", cause);
+        return FallbackResult.fail(cause);
+    }
+
+    @Override
+    public MessageRes<UserLoginVo> login(UserLoginDto userLoginDto) {
+        LogUtils.error(log, "feign fallback :{} ", cause);
+        return FallbackResult.fail(cause);
     }
 }

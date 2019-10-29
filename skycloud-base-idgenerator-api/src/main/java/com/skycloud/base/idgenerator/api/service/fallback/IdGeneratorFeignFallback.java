@@ -24,7 +24,7 @@ package com.skycloud.base.idgenerator.api.service.fallback;
 
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.MessageRes;
-import com.skycloud.base.common.hystrix.HystrixFallBackResult;
+import com.skycloud.base.common.fallback.FallbackResult;
 import com.skycloud.base.idgenerator.api.service.IdGeneratorFeignApi;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -46,19 +46,19 @@ public class IdGeneratorFeignFallback implements IdGeneratorFeignApi {
     @Override
     public MessageRes<Long> getUid() {
         LogUtils.error(log, "feign fallback :{} ", cause);
-        return HystrixFallBackResult.fail(cause);
+        return FallbackResult.fail(cause);
     }
 
     @Override
     public MessageRes<List<Long>> getUidByBatch(int num) {
         LogUtils.error(log, "feign fallback :{} ", cause);
-        return HystrixFallBackResult.fail(cause);
+        return FallbackResult.fail(cause);
     }
 
     @Override
     public MessageRes<Long> parseUid(Long uid) {
         LogUtils.error(log, "feign fallback :{} ", cause);
-        return HystrixFallBackResult.fail(cause);
+        return FallbackResult.fail(cause);
     }
 
 }

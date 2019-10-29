@@ -61,7 +61,7 @@ public class GatewayApplication {
 
     @RequestMapping(value = "/defaultFallback", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<String> defaultFallback() {
-        LogUtils.info(log, "gateway default hystrix:{}");
+        LogUtils.info(log, "gateway default fallback:{}");
         MessageRes fail = MessageRes.fail(FailureCodeEnum.GL990002.getCode(), FailureCodeEnum.GL990002.getMsg());
         return Mono.just(JSON.toJSONString(fail));
     }

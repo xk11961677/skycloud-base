@@ -34,6 +34,7 @@
         <apollo.client.version>1.4.0</apollo.client.version>
         <orika-spring.version>1.8.0</orika-spring.version>
         <disruptor.version>3.4.0</disruptor.version>
+        <alibaba.cloud.version>2.1.0.RELEASE</alibaba.cloud.version>
         <sky.framework.version>1.0.0-SNAPSHOT</sky.framework.version>
     </properties>
 

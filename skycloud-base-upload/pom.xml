@@ -33,13 +33,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- hystrix -->
-        <dependency>
-            <groupId>com.sky.skycloud</groupId>
-            <artifactId>skycloud-base-hystrix-client</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.sky.skycloud</groupId>
             <artifactId>skycloud-base-prometheus</artifactId>
@@ -48,9 +41,17 @@
 
         <!-- sky end -->
 
+        <!-- aliyun oss -->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
+        </dependency>
+
+        <!-- sentinel -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+            <version>${alibaba.cloud.version}</version>
         </dependency>
 
         <!-- feign -->
