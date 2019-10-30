@@ -77,13 +77,13 @@ public class GatewayPropertRefresher implements ApplicationContextAware {
      * @param changeEvent
      */
     private void GatewayPropertRefresher(ConfigChangeEvent changeEvent) {
-        LogUtils.info(log, "Refreshing gateway properties!");
+        LogUtils.info(log, "refreshing gateway route!");
         //更新配置
         this.applicationContext.publishEvent(new EnvironmentChangeEvent(changeEvent.changedKeys()));
 
         gatewayProperties.getRoutes().forEach(dynamicRouteService::update);
 
-        LogUtils.info(log, "gateway properties refreshed!");
+        LogUtils.info(log, "gateway route refreshed!");
     }
 
     @Override

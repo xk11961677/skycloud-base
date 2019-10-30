@@ -25,6 +25,7 @@ package com.skycloud.base.geteway.chain.filter;
 import com.alibaba.fastjson.JSON;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.common.encrypt.DefaultMd5Verifier;
+import com.sky.framework.common.encrypt.Verifier;
 import com.sky.framework.model.dto.MessageReq;
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.model.enums.FailureCodeEnum;
@@ -75,7 +76,7 @@ public class SignFilter extends AbstractFilter {
     /**
      * 默认签名验证器
      */
-    private static final DefaultMd5Verifier defaultMd5Verifier = new DefaultMd5Verifier();
+    private static final Verifier verifier = new DefaultMd5Verifier();
 
 
     @Override
@@ -106,15 +107,13 @@ public class SignFilter extends AbstractFilter {
 
     @Override
     public boolean shouldFilter(Context context) {
-        boolean signOpen = gatewayProperties.isSignOpen();
+        boolean signPluginOpen = gatewayProperties.isSignPluginOpen();
         FilterChainContext ctx = (FilterChainContext) context;
         ServerWebExchange exchange = ctx.getExchange();
-
         ServerHttpRequest request = ctx.getExchange().getRequest();
         MediaType mediaType = request.getHeaders().getContentType();
         String method = request.getMethodValue().toUpperCase();
-        return ctx.getResult().isSuccess() &&
-                signOpen && match(method, mediaType) && match(exchange);
+        return signPluginOpen && ctx.getResult().isSuccess() && match(method, mediaType) && match(exchange);
     }
 
     @Override
@@ -175,9 +174,9 @@ public class SignFilter extends AbstractFilter {
     private boolean verifySignature(HttpHeaders headers, MessageReq messageReq) {
         String clientId = messageReq.getClientId();
         headers.set(CLIENT_ID, clientId);
-        Map<String, String> clientSecret = gatewayProperties.getClientSecret();
+        Map<String, String> clientSecret = gatewayProperties.getSignClientSecret();
         String secret = clientSecret.getOrDefault(clientId, DEFAULT_SECRET);
-        boolean verify = defaultMd5Verifier.verify(messageReq, secret);
+        boolean verify = verifier.verify(messageReq, secret);
         return verify;
     }
 
