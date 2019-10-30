@@ -64,13 +64,14 @@ public class ParameterFilter extends AbstractFilter {
 
     @Override
     public boolean shouldFilter(Context context) {
+        boolean parameterPluginOpen = gatewayProperties.isParameterPluginOpen();
         FilterChainContext ctx = (FilterChainContext) context;
         ServerHttpRequest request = ctx.getExchange().getRequest();
         URI requestUri = request.getURI();
         String schema = requestUri.getScheme();
         String method = request.getMethodValue().toUpperCase();
         String contentType = Optional.ofNullable(request.getHeaders().getFirst(GatewayConstants.CONTENT_TYPE)).orElse("unknown");
-        return (GatewayConstants.HTTP.equals(schema) || GatewayConstants.HTTPS.equals(schema))
+        return parameterPluginOpen && (GatewayConstants.HTTP.equals(schema) || GatewayConstants.HTTPS.equals(schema))
                 && match(method, contentType);
     }
 

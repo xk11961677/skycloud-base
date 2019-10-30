@@ -37,36 +37,28 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GatewayProperties {
 
     /**
-     * 是否开启验证时间限制
+     * 是否开启修改请求体插件
      */
-    @Value("${gateway.sign_timestamp_open:true}")
-    private boolean timestampOpen;
+    @Value("${gateway.modify_body_plugin_open:true}")
+    private boolean modifyBodyPluginOpen;
 
     /**
-     * 是否开启验证时间限制,单位秒
+     * 日志插件
      */
-    @Value("${gateway.sign_timestamp_limit:600}")
-    private int timestampLimit;
+    @Value("${gateway.parameter_plugin_open:true}")
+    private boolean parameterPluginOpen;
+
+    /**
+     * 是否开启验签插件
+     */
+    @Value("${gateway.sign_plugin_open:true}")
+    private boolean signPluginOpen;
 
     /**
      * 签名秘钥
      */
     @Value("#{${gateway.sign_plugin_secret}}")
-    private Map<String, String> clientSecret = new ConcurrentHashMap<>();
-
-
-    /**
-     * 是否开启验签
-     */
-    @Value("${gateway.sign_open:true}")
-    private boolean signOpen;
-
-
-    /**
-     * 是否开启签名插件
-     */
-    @Value("${gateway.modify_body_plugin_open:true}")
-    private boolean modifyBodyPluginOpen;
+    private Map<String, String> signClientSecret = new ConcurrentHashMap<>();
 
     /**
      * 某渠道忽略此插件
@@ -87,6 +79,17 @@ public class GatewayProperties {
     private String signPluginIgnoreRoutes;
 
 
+    /**
+     * 是否开启验证时间限制
+     */
+    @Value("${gateway.time_plugin_open:true}")
+    private boolean timePluginOpen;
+
+    /**
+     * 是否开启验证时间限制,单位秒
+     */
+    @Value("${gateway.time_plugin_limit:600}")
+    private int timePluginLimit;
     /**
      * 某渠道忽略此插件
      */
