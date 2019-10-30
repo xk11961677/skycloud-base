@@ -74,16 +74,16 @@ public class GatewayPropertRefresher implements InitializingBean, ApplicationCon
             configService.addListener("gateway-route-config.yaml", nacosConfigProperties.getGroup(), new Listener() {
                 @Override
                 public void receiveConfigInfo(String configInfo) {
-                    LogUtils.info(log, "Refreshing gateway properties!");
+                    LogUtils.info(log, "refreshing gateway route!");
                     try {
 //                        Yaml yaml = new Yaml();
 //                        Iterable<Object> objects = yaml.loadAll(configInfo);
 //                        List<RouteDefinition> routeDefinitions = JSON.parseArray(configInfo, RouteDefinition.class);
 //                        gatewayProperties.getRoutes().forEach(t -> System.out.println(t));
                     } catch (Exception e) {
-                        LogUtils.error(log, "gateway properties refreshed exception:{}", e);
+                        LogUtils.error(log, "gateway route refreshed exception:{}", e);
                     }
-                    LogUtils.info(log, "gateway properties refreshed!");
+                    LogUtils.info(log, "gateway route refreshed!");
                 }
 
                 @Override
