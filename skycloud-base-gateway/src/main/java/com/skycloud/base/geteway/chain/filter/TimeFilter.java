@@ -50,7 +50,7 @@ public class TimeFilter extends AbstractFilter {
 
     @Override
     public void doFilter(Context context) {
-        int timestampLimit = gatewayProperties.getTimestampLimit();
+        int timePluginLimit = gatewayProperties.getTimePluginLimit();
         FilterChainContext ctx = (FilterChainContext) context;
         ServerHttpRequest request = ctx.getExchange().getRequest();
         String method = request.getMethodValue().toUpperCase();
@@ -59,11 +59,14 @@ public class TimeFilter extends AbstractFilter {
             String body = ctx.getBody();
             MessageReq messageReq = JSON.parseObject(body, MessageReq.class);
             time = messageReq.getTimestamp();
+            if (StringUtils.isBlank(time)) {
+                time = Optional.ofNullable(request.getQueryParams().getFirst("timestamp")).orElse("0");
+            }
         } else if (GatewayConstants.METHOD_GET.equals(method)) {
             time = Optional.ofNullable(request.getQueryParams().getFirst("timestamp")).orElse(time);
         }
         Long timestamp = Long.valueOf(time);
-        boolean verify = (timestamp > System.currentTimeMillis() - timestampLimit * 1000) ? true : false;
+        boolean verify = (timestamp > System.currentTimeMillis() - timePluginLimit * 1000) ? true : false;
         if (!verify) {
             MessageRes result = MessageRes.fail(FailureCodeEnum.GL990008.getCode(), FailureCodeEnum.GL990008.getMsg());
             ctx.setResult(result);
@@ -72,11 +75,11 @@ public class TimeFilter extends AbstractFilter {
 
     @Override
     public boolean shouldFilter(Context context) {
-        boolean timestampOpen = gatewayProperties.isTimestampOpen();
+        boolean timePluginOpen = gatewayProperties.isTimePluginOpen();
         FilterChainContext ctx = (FilterChainContext) context;
         ServerWebExchange exchange = ctx.getExchange();
         String method = exchange.getRequest().getMethodValue().toUpperCase();
-        return timestampOpen && ctx.getResult().isSuccess() && match(method) && match(exchange);
+        return timePluginOpen && ctx.getResult().isSuccess() && match(method) && match(exchange);
     }
 
     private boolean match(String method) {
