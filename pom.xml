@@ -321,11 +321,11 @@
     <distributionManagement>
         <repository>
             <id>rdc-releases</id>
-            <url>https://repo.rdc.aliyun.com/repository/81047-release-zDCqyt/</url>
+            <url>https://repo.rdc.aliyun.com/repository/109496-release-o4UFqu/</url>
         </repository>
         <snapshotRepository>
             <id>rdc-snapshots</id>
-            <url>https://repo.rdc.aliyun.com/repository/81047-snapshot-xQDwbd/</url>
+            <url>https://repo.rdc.aliyun.com/repository/109496-snapshot-yQkopR/</url>
         </snapshotRepository>
     </distributionManagement>
 

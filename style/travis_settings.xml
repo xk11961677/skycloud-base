@@ -14,13 +14,13 @@
     <servers>
         <server>
             <id>rdc-releases</id>
-            <username>NEWQxl</username>
-            <password>dcNTT7WlR0</password>
+            <username>tcE4vo</username>
+            <password>ObWU14TDyz</password>
         </server>
         <server>
             <id>rdc-snapshots</id>
-            <username>NEWQxl</username>
-            <password>dcNTT7WlR0</password>
+            <username>tcE4vo</username>
+            <password>ObWU14TDyz</password>
         </server>
     </servers>
     <profiles>
@@ -49,7 +49,7 @@
                 </repository>
                 <repository>
                     <id>rdc-releases</id>
-                    <url>https://repo.rdc.aliyun.com/repository/81047-release-zDCqyt/</url>
+                    <url>https://repo.rdc.aliyun.com/repository/109496-release-o4UFqu/</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -59,7 +59,7 @@
                 </repository>
                 <repository>
                     <id>rdc-snapshots</id>
-                    <url>https://repo.rdc.aliyun.com/repository/81047-snapshot-xQDwbd/</url>
+                    <url>https://repo.rdc.aliyun.com/repository/109496-snapshot-yQkopR/</url>
                     <releases>
                         <enabled>false</enabled>
                     </releases>
@@ -91,7 +91,7 @@
                 </pluginRepository>
                 <pluginRepository>
                     <id>rdc-releases</id>
-                    <url>https://repo.rdc.aliyun.com/repository/81047-release-zDCqyt/</url>
+                    <url>https://repo.rdc.aliyun.com/repository/109496-release-o4UFqu/</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -101,7 +101,7 @@
                 </pluginRepository>
                 <pluginRepository>
                     <id>rdc-snapshots</id>
-                    <url>https://repo.rdc.aliyun.com/repository/81047-snapshot-xQDwbd/</url>
+                    <url>https://repo.rdc.aliyun.com/repository/109496-snapshot-yQkopR/</url>
                     <releases>
                         <enabled>false</enabled>
                     </releases>
