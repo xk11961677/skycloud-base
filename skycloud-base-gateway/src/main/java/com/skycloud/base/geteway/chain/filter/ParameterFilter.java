@@ -24,7 +24,7 @@ package com.skycloud.base.geteway.chain.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.sky.framework.common.LogUtils;
-import com.sky.framework.model.dto.LogHttpDto;
+import com.sky.framework.model.dto.LogHttpDTO;
 import com.skycloud.base.geteway.chain.AbstractFilter;
 import com.skycloud.base.geteway.chain.Context;
 import com.skycloud.base.geteway.chain.FilterChainContext;
@@ -53,7 +53,7 @@ public class ParameterFilter extends AbstractFilter {
         ServerWebExchange exchange = ctx.getExchange();
         Route route = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
         ServerHttpRequest request = exchange.getRequest();
-        LogHttpDto logHttpDto = ctx.getLogHttpDto();
+        LogHttpDTO logHttpDto = ctx.getLogHttpDto();
         logHttpDto.setQueryString(request.getQueryParams());
         logHttpDto.setUrl(route.getId() + request.getURI().getPath());
         logHttpDto.setQueryString(request.getQueryParams());

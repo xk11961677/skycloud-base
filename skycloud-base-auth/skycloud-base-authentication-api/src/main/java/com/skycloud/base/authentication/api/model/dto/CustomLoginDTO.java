@@ -20,37 +20,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.log.api.model.dto;
+package com.skycloud.base.authentication.api.model.dto;
 
-import com.skycloud.base.log.api.enums.SystemLogBizTypeEnum;
-import com.skycloud.base.log.api.enums.SystemLogTypeEnum;
+import com.skycloud.base.authentication.api.model.bo.ClientDetailsBO;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.data.annotation.Transient;
 
-import java.io.Serializable;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * @author
  */
 @Data
-public class SystemOptLogDto implements Serializable {
+public class CustomLoginDTO {
 
-    private static final long serialVersionUID = -7458411407138165050L;
+    @ApiModelProperty(value = "渠道", hidden = true)
+    @NotEmpty(message = "渠道不能为空!")
+    private String channel;
 
-    /**
-     * 操作类型 0 增 1 删 2 改 3 查
-     */
-    private SystemLogTypeEnum type;
-    /**
-     * 业务类型
-     */
-    private SystemLogBizTypeEnum bizType;
-    /**
-     * 备注
-     */
-    private String remark;
+    @ApiModelProperty(value = "手机号或用户名", hidden = true)
+    private String loginName;
 
-    /**
-     * 创建人
-     */
-    private String createdBy;
+    @ApiModelProperty(value = "密码", hidden = true)
+    private String password;
+
+    @ApiModelProperty(value = "登录IP", hidden = true)
+    private String loginIp;
+
+    @Transient
+    @ApiModelProperty(hidden = true)
+    private ClientDetailsBO clientDetailsBo;
 }

@@ -24,8 +24,8 @@ package com.skycloud.base.authentication.api.client;
 
 import com.sky.framework.model.dto.MessageRes;
 import com.skycloud.base.authentication.api.client.factory.AuthFeignFallbackFactory;
-import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
-import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
+import com.skycloud.base.authentication.api.model.dto.UserLoginDTO;
+import com.skycloud.base.authentication.api.model.vo.UserLoginVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -57,5 +57,5 @@ public interface AuthFeignApi {
      */
     @PostMapping(value = "/auth/login")
     @ResponseBody
-    MessageRes<UserLoginVo> login(@RequestBody UserLoginDto userLoginDto);
+    MessageRes<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDto);
 }

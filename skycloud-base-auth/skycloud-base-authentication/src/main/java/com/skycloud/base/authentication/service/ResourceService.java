@@ -24,7 +24,7 @@ package com.skycloud.base.authentication.service;
 
 import com.sky.framework.web.support.IService;
 import com.skycloud.base.authentication.model.po.Resource;
-import com.skycloud.base.authentication.model.dto.UserDto;
+import com.skycloud.base.authentication.model.dto.UserDTO;
 
 import java.util.List;
 import java.util.Set;
@@ -43,7 +43,7 @@ public interface ResourceService extends IService<Resource> {
      * @param userDto
      * @return
      */
-    String listMenuByUserId(UserDto userDto);
+    String listMenuByUserId(UserDTO userDto);
 
 
     /**
@@ -52,7 +52,7 @@ public interface ResourceService extends IService<Resource> {
      * @param userDto
      * @return
      */
-    List<Resource> listButtonByUserId(UserDto userDto);
+    List<Resource> listButtonByUserId(UserDTO userDto);
 
 
     /**

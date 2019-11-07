@@ -22,7 +22,7 @@
  */
 package com.skycloud.base.log.manager.disruptor.translator;
 
-import com.skycloud.base.log.api.model.dto.SystemOptLogDto;
+import com.skycloud.base.log.api.model.dto.SystemOptLogDTO;
 import com.skycloud.base.log.manager.disruptor.event.LogEvent;
 import com.skycloud.base.log.model.po.SystemLog;
 import com.lmax.disruptor.EventTranslatorOneArg;
@@ -33,13 +33,13 @@ import java.util.Optional;
 /**
  * @author
  */
-public class LogEventTranslator implements EventTranslatorOneArg<LogEvent, SystemOptLogDto> {
+public class LogEventTranslator implements EventTranslatorOneArg<LogEvent, SystemOptLogDTO> {
 
     public LogEventTranslator() {
     }
 
     @Override
-    public void translateTo(LogEvent logEvent, long l, SystemOptLogDto systemOptLogDto) {
+    public void translateTo(LogEvent logEvent, long l, SystemOptLogDTO systemOptLogDto) {
         SystemLog systemLog = new SystemLog();
         systemLog.setBizType(systemOptLogDto.getBizType().getKey());
         systemLog.setType(systemOptLogDto.getType().getKey());

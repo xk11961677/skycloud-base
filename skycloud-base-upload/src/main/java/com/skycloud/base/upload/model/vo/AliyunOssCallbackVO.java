@@ -20,35 +20,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.api.model.dto;
+package com.skycloud.base.upload.model.vo;
 
-import com.skycloud.base.authentication.api.model.bo.ClientDetailsBo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.data.annotation.Transient;
-
-import javax.validation.constraints.NotEmpty;
 
 /**
+ * 返回对象
+ *
  * @author
  */
 @Data
-public class CustomLoginDto {
+public class AliyunOssCallbackVO {
 
-    @ApiModelProperty(value = "渠道", hidden = true)
-    @NotEmpty(message = "渠道不能为空!")
-    private String channel;
+    @ApiModelProperty("文件名称")
+    private String filename;
 
-    @ApiModelProperty(value = "手机号或用户名", hidden = true)
-    private String loginName;
+    @ApiModelProperty("文件大小")
+    private String size;
 
-    @ApiModelProperty(value = "密码", hidden = true)
-    private String password;
+    @ApiModelProperty("文件的mimeType")
+    private String mimeType;
 
-    @ApiModelProperty(value = "登录IP", hidden = true)
-    private String loginIp;
+    @ApiModelProperty("图片文件的宽")
+    private String width;
 
-    @Transient
-    @ApiModelProperty(hidden = true)
-    private ClientDetailsBo clientDetailsBo;
+    @ApiModelProperty("图片文件的高")
+    private String height;
 }

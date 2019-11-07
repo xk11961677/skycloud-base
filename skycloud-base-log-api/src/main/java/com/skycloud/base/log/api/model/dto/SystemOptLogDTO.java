@@ -20,10 +20,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authorization.client.dto;
+package com.skycloud.base.log.api.model.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.skycloud.base.log.api.enums.SystemLogBizTypeEnum;
+import com.skycloud.base.log.api.enums.SystemLogTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -32,20 +32,25 @@ import java.io.Serializable;
  * @author
  */
 @Data
-@ApiModel("会员登录CustomLoginDto")
-public class CustomLoginDto implements Serializable {
+public class SystemOptLogDTO implements Serializable {
 
-    private static final long serialVersionUID = -1516605271422590944L;
-    /**
-     * 手机号或用户名
-     */
-    @ApiModelProperty("手机号或用户名")
-    private String loginName;
+    private static final long serialVersionUID = -7458411407138165050L;
 
     /**
-     *
+     * 操作类型 0 增 1 删 2 改 3 查
      */
-    private String password;
+    private SystemLogTypeEnum type;
+    /**
+     * 业务类型
+     */
+    private SystemLogBizTypeEnum bizType;
+    /**
+     * 备注
+     */
+    private String remark;
 
-
+    /**
+     * 创建人
+     */
+    private String createdBy;
 }

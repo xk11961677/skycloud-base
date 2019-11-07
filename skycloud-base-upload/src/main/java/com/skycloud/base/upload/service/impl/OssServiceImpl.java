@@ -27,8 +27,8 @@ import com.sky.framework.common.DateUtils;
 import com.sky.framework.oss.model.UploadToken;
 import com.sky.framework.oss.property.OssProperties;
 import com.sky.framework.oss.util.OssUtils;
-import com.skycloud.base.upload.model.vo.AliyunOssCallbackVo;
-import com.skycloud.base.upload.model.vo.AliyunOssTokenPolicyVo;
+import com.skycloud.base.upload.model.vo.AliyunOssCallbackVO;
+import com.skycloud.base.upload.model.vo.AliyunOssTokenPolicyVO;
 import com.skycloud.base.upload.service.OssService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,17 +48,17 @@ public class OssServiceImpl implements OssService {
     private OssProperties ossProperties;
 
     @Override
-    public AliyunOssTokenPolicyVo policy() {
+    public AliyunOssTokenPolicyVO policy() {
         UploadToken uploadToken = new UploadToken();
         uploadToken.setUploadDir(ossProperties.getDirPrefix() + DateUtils.getYear() + "/" + DateUtils.getMonth() + "/" + DateUtils.getDay());
         Map<String, Object> policy = OssUtils.createUploadToken(uploadToken);
-        AliyunOssTokenPolicyVo vo = BeanUtil.mapToBean(policy, AliyunOssTokenPolicyVo.class, true);
+        AliyunOssTokenPolicyVO vo = BeanUtil.mapToBean(policy, AliyunOssTokenPolicyVO.class, true);
         return vo;
     }
 
     @Override
-    public AliyunOssCallbackVo callback(HttpServletRequest request) {
-        AliyunOssCallbackVo result = new AliyunOssCallbackVo();
+    public AliyunOssCallbackVO callback(HttpServletRequest request) {
+        AliyunOssCallbackVO result = new AliyunOssCallbackVO();
         String filename = request.getParameter("filename");
         filename = ossProperties.getUrlPrefix().concat("/").concat(filename);
         result.setFilename(filename);

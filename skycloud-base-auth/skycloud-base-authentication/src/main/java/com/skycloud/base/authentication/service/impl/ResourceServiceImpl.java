@@ -28,9 +28,9 @@ import com.sky.framework.common.tree.Tree;
 import com.sky.framework.web.support.BaseService;
 import com.skycloud.base.authentication.enums.ResourceTypeEnum;
 import com.skycloud.base.authentication.mapper.ResourceMapper;
-import com.skycloud.base.authentication.model.bo.ResourceTreeNodeBo;
+import com.skycloud.base.authentication.model.bo.ResourceTreeNodeBO;
 import com.skycloud.base.authentication.model.po.Resource;
-import com.skycloud.base.authentication.model.dto.UserDto;
+import com.skycloud.base.authentication.model.dto.UserDTO;
 import com.skycloud.base.authentication.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,18 +53,18 @@ public class ResourceServiceImpl extends BaseService<Resource> implements Resour
     private ResourceMapper resourceMapper;
 
     @Override
-    public String listMenuByUserId(UserDto userDto) {
+    public String listMenuByUserId(UserDTO userDto) {
         userDto.setType(ResourceTypeEnum.MENU.getKey() + "");
         List<Resource> resources = resourceMapper.listResourceByUserId(userDto);
         List<ITreeNode> list = new ArrayList<>();
-        resources.forEach(resource -> list.add(new ResourceTreeNodeBo(resource)));
+        resources.forEach(resource -> list.add(new ResourceTreeNodeBO(resource)));
         Tree tree = new Tree(list);
         String data = JsonUtils.toJsonString(tree.getRoot(), "parent", "allChildren");
         return data;
     }
 
     @Override
-    public List<Resource> listButtonByUserId(UserDto userDto) {
+    public List<Resource> listButtonByUserId(UserDTO userDto) {
         userDto.setType(ResourceTypeEnum.BUTTON.getKey() + "");
         List<Resource> resources = resourceMapper.listResourceByUserId(userDto);
         for (Resource resource : resources) {

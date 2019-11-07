@@ -26,16 +26,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.sky.framework.model.dto.MessageRes;
 import com.skycloud.base.authentication.api.client.AuthFeignApi;
-import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
-import com.skycloud.base.authentication.api.model.vo.RoleVo;
-import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
+import com.skycloud.base.authentication.api.model.dto.UserLoginDTO;
+import com.skycloud.base.authentication.api.model.vo.RoleVO;
+import com.skycloud.base.authentication.api.model.vo.UserLoginVO;
 import com.skycloud.base.authorization.client.AdUserFeignApi;
-import com.skycloud.base.authorization.client.dto.CustomLoginDto;
+import com.skycloud.base.authorization.client.dto.CustomLoginDTO;
 import com.skycloud.base.authentication.api.model.bo.CustomUserDetail;
 import com.skycloud.base.authentication.api.model.token.UserPasswordAuthenticationToken;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
-import com.skycloud.base.authentication.api.model.bo.ClientDetailsBo;
-import com.skycloud.base.authentication.api.model.dto.UserPasswordLoginDto;
+import com.skycloud.base.authentication.api.model.bo.ClientDetailsBO;
+import com.skycloud.base.authentication.api.model.dto.UserPasswordLoginDTO;
 import com.skycloud.base.common.enums.ChannelTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
@@ -82,32 +82,32 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UserPasswordAuthenticationToken authenticationToken = (UserPasswordAuthenticationToken) authentication;
-        UserPasswordLoginDto userPasswordLoginDto = (UserPasswordLoginDto) authenticationToken.getPrincipal();
+        UserPasswordLoginDTO userPasswordLoginDto = (UserPasswordLoginDTO) authenticationToken.getPrincipal();
         /**
          * 根据渠道类型调用不同策略feign接口登录//todo 待优化
          */
         UserPasswordAuthenticationToken authenticationResult = null;
         if (ChannelTypeEnum.BACKEND.getKey().equals(userPasswordLoginDto.getChannel())) {
             //管理平台登录
-            UserLoginDto loginDto = new UserLoginDto();
+            UserLoginDTO loginDto = new UserLoginDTO();
             loginDto.setUsername(userPasswordLoginDto.getUsername());
             loginDto.setPassword(userPasswordLoginDto.getPassword());
-            MessageRes<UserLoginVo> login = authFeignApi.login(loginDto);
+            MessageRes<UserLoginVO> login = authFeignApi.login(loginDto);
             if (!login.isSuccess()) {
                 throw new AuzBussinessException(login.getCode(), login.getMsg());
             }
-            UserLoginVo userLoginVo = login.getData();
+            UserLoginVO userLoginVo = login.getData();
             authenticationResult = buildAuthentication(userLoginVo, userLoginVo.getId(), userLoginVo.getName(), userLoginVo.getMobile(), userLoginVo.getRoles());
         } else {
-            CustomLoginDto dto = mapperFacade.map(userPasswordLoginDto, CustomLoginDto.class);
+            CustomLoginDTO dto = mapperFacade.map(userPasswordLoginDto, CustomLoginDTO.class);
             dto.setLoginName(userPasswordLoginDto.getUsername());
             dto.setPassword(dto.getPassword().toLowerCase());
             //adUserFeignApi.login(dto);
-            MessageRes<CustomLoginDto> login = MessageRes.success(dto);
+            MessageRes<CustomLoginDTO> login = MessageRes.success(dto);
             if (!login.isSuccess()) {
                 throw new AuzBussinessException(login.getCode(), login.getMsg());
             }
-            CustomLoginDto adUserConnDto = login.getData();
+            CustomLoginDTO adUserConnDto = login.getData();
             authenticationResult = buildAuthentication(adUserConnDto, Long.valueOf(adUserConnDto.getLoginName()), adUserConnDto.getLoginName(), adUserConnDto.getLoginName(), null);
         }
         //创建oauth2
@@ -130,7 +130,7 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
      * @param mobile
      * @return
      */
-    private UserPasswordAuthenticationToken buildAuthentication(Object object, Long userId, String name, String mobile, List<RoleVo> roles) {
+    private UserPasswordAuthenticationToken buildAuthentication(Object object, Long userId, String name, String mobile, List<RoleVO> roles) {
         JSONObject data = new JSONObject();
         data.put("userInfo", object);
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -150,8 +150,8 @@ public class UserPasswordAuthenticationProvider implements AuthenticationProvide
      * @param userPasswordLoginDto
      * @return
      */
-    private OAuth2AccessToken createOauth2Token(Authentication authentication, UserPasswordLoginDto userPasswordLoginDto) {
-        ClientDetailsBo clientDetailsBo = userPasswordLoginDto.getClientDetailsBo();
+    private OAuth2AccessToken createOauth2Token(Authentication authentication, UserPasswordLoginDTO userPasswordLoginDto) {
+        ClientDetailsBO clientDetailsBo = userPasswordLoginDto.getClientDetailsBo();
         ClientDetails clientDetails = clientDetailsBo.getClientDetails();
         TokenRequest tokenRequest = new TokenRequest(Maps.newHashMap(), clientDetailsBo.getClientId(), clientDetails.getScope(), clientDetailsBo.getGrantType());
         OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);

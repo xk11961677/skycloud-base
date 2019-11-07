@@ -20,65 +20,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.model.dto;
+package com.skycloud.base.authentication.api.model.vo;
 
-import com.sky.framework.model.dto.BaseQueryPageRequestDto;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
-
 /**
- * 用户表
+ * 角色
  *
  * @author
- * @date 2019-06-04 14:19:39
  */
 @Data
-public class UserDto extends BaseQueryPageRequestDto implements Serializable {
+public class RoleVO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -1196566026068489147L;
 
     private Long id;
 
     /**
-     * 用户名
+     * 角色code
      */
-    @NotBlank(message = "用户名不能为空")
-    private String username;
+    private String code;
     /**
-     * 用户密码密文
-     */
-    private String password;
-    /**
-     * 用户姓名
+     * 角色名称
      */
     private String name;
-    /**
-     * 用户手机
-     */
-    private String mobile;
-    /**
-     * 是否有效用户
-     */
-    private Boolean enabled;
-    /**
-     * 账号是否未过期
-     */
-    private Boolean accountNonExpired;
-    /**
-     * 密码是否未过期
-     */
-    private Boolean credentialsNonExpired;
-    /**
-     * 是否未锁定
-     */
-    private Boolean accountNonLocked;
-
-    /**
-     * 资源type
-     */
-    private String type;
-
 }

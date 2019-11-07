@@ -24,7 +24,7 @@ package com.skycloud.base.geteway.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.sky.framework.common.LogUtils;
-import com.sky.framework.model.dto.LogHttpDto;
+import com.sky.framework.model.dto.LogHttpDTO;
 import com.sky.framework.model.dto.MessageRes;
 import com.skycloud.base.geteway.GatewayProperties;
 import com.skycloud.base.geteway.chain.FilterChainContext;
@@ -124,7 +124,7 @@ public class ModifyBodyGatewayFilter implements GlobalFilter, Ordered {
         }));
     }
 
-    private Mono<Void> returnMono(GatewayFilterChain chain, ServerWebExchange exchange, LogHttpDto logHttpDto) {
+    private Mono<Void> returnMono(GatewayFilterChain chain, ServerWebExchange exchange, LogHttpDTO logHttpDto) {
         return chain.filter(exchange).then(Mono.fromRunnable(() -> this.printRequestExpendTime(exchange, logHttpDto)));
     }
 
@@ -148,7 +148,7 @@ public class ModifyBodyGatewayFilter implements GlobalFilter, Ordered {
      * @param exchange
      * @param logHttpDto
      */
-    private void printRequestExpendTime(ServerWebExchange exchange, LogHttpDto logHttpDto) {
+    private void printRequestExpendTime(ServerWebExchange exchange, LogHttpDTO logHttpDto) {
         Long startTime = exchange.getAttribute("startTime");
         Optional.ofNullable(startTime).ifPresent(time -> {
             long executeTime = (System.currentTimeMillis() - time);
