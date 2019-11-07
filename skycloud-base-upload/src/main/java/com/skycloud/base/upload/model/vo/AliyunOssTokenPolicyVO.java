@@ -31,7 +31,7 @@ import lombok.Data;
  * @author
  */
 @Data
-public class AliyunOssTokenPolicyVo {
+public class AliyunOssTokenPolicyVO {
 
     @ApiModelProperty("访问标识")
     private String accessKeyId;

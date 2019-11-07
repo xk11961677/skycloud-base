@@ -20,30 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.api.model.vo;
+package com.skycloud.base.authentication.api.model.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
+import javax.validation.constraints.NotEmpty;
 
 /**
- * 角色
+ * 手机号验证码登录
  *
  * @author
  */
 @Data
-public class RoleVo implements Serializable {
+public class MobileLoginDTO extends CustomLoginDTO {
 
-    private static final long serialVersionUID = -1196566026068489147L;
+    @ApiModelProperty(value = "手机号码", required = true)
+    @NotEmpty(message = "手机号码不能为空!")
+    private String mobile;
 
-    private Long id;
-
-    /**
-     * 角色code
-     */
+    @ApiModelProperty(value = "验证码", required = true)
+    @NotEmpty(message = "验证码不能为空!")
     private String code;
-    /**
-     * 角色名称
-     */
-    private String name;
 }

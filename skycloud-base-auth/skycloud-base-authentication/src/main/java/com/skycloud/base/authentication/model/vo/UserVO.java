@@ -20,60 +20,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.model.bo;
+package com.skycloud.base.authentication.model.vo;
 
-import com.skycloud.base.authentication.model.po.Resource;
-import com.sky.framework.common.tree.ITreeNode;
-import org.apache.commons.lang.StringUtils;
+import lombok.Data;
+
+import java.io.Serializable;
+
 
 /**
+ * 用户表
+ *
  * @author
+ * @date 2019-06-04 14:19:39
  */
-public class ResourceTreeNodeBo implements ITreeNode {
+@Data
+public class UserVO implements Serializable {
 
-    private Resource resource;
+    private static final long serialVersionUID = 1L;
 
-    public ResourceTreeNodeBo(Resource resource) {
-        this.resource = resource;
-    }
+    /**
+     * 用户名
+     */
+    private String username;
 
-    @Override
-    public String getNodeId() {
-        return resource.getId() + "";
-    }
+    /**
+     * 用户姓名
+     */
+    private String name;
+    /**
+     * 用户手机
+     */
+    private String mobile;
+    /**
+     * 是否有效用户
+     */
+    private Boolean enabled;
+    /**
+     * 账号是否未过期
+     */
+    private Boolean accountNonExpired;
+    /**
+     * 密码是否未过期
+     */
+    private Boolean credentialsNonExpired;
+    /**
+     * 是否未锁定
+     */
+    private Boolean accountNonLocked;
 
-    @Override
-    public String getNodeName() {
-        return resource.getName();
-    }
-
-    @Override
-    public String getCode() {
-        return resource.getCode();
-    }
-
-    @Override
-    public String getNodeParentId() {
-        return resource.getParentId() + "";
-    }
-
-    @Override
-    public Integer getOrderNum() {
-        return resource.getSort();
-    }
-
-    @Override
-    public String getMethod() {
-        return resource.getMethod();
-    }
-
-    @Override
-    public String getUrl() {
-        return StringUtils.isEmpty(resource.getUrl())?resource.getCode():resource.getUrl();
-    }
-
-    @Override
-    public String getIcon() {
-        return resource.getIcon();
-    }
 }

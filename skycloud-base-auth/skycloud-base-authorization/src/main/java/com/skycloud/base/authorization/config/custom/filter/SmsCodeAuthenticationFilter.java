@@ -35,8 +35,8 @@ import com.skycloud.base.authorization.config.custom.ResponseUtils;
 import com.skycloud.base.authentication.api.model.token.SmsCodeAuthenticationToken;
 import com.skycloud.base.authorization.exception.AuthErrorType;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
-import com.skycloud.base.authentication.api.model.bo.ClientDetailsBo;
-import com.skycloud.base.authentication.api.model.dto.MobileLoginDto;
+import com.skycloud.base.authentication.api.model.bo.ClientDetailsBO;
+import com.skycloud.base.authentication.api.model.dto.MobileLoginDTO;
 import com.skycloud.base.common.constant.BaseConstants;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -79,7 +79,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
             String channel = request.getHeader(BaseConstants.CHANNEL);
             String clientIp = IpUtils.getClientIp(request);
 
-            MobileLoginDto mobileLoginDto = RequestUtils.getJsonParameters(request, MobileLoginDto.class);
+            MobileLoginDTO mobileLoginDto = RequestUtils.getJsonParameters(request, MobileLoginDTO.class);
             mobileLoginDto.setChannel(channel);
             mobileLoginDto.setLoginIp(clientIp);
 
@@ -94,7 +94,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 //                throw new AuzBussinessException(res.getCode(), res.getMsg());
 //            }
 
-            ClientDetailsBo clientDetailsBo = customClientDetailService.verifyClient(request, "mobile");
+            ClientDetailsBO clientDetailsBo = customClientDetailService.verifyClient(request, "mobile");
             mobileLoginDto.setClientDetailsBo(clientDetailsBo);
 
             SmsCodeAuthenticationToken authRequest = new SmsCodeAuthenticationToken(mobileLoginDto);

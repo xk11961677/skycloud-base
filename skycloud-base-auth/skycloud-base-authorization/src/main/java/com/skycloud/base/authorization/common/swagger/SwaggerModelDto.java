@@ -22,8 +22,8 @@
  */
 package com.skycloud.base.authorization.common.swagger;
 
-import com.skycloud.base.authentication.api.model.dto.MobileLoginDto;
-import com.skycloud.base.authentication.api.model.dto.UserPasswordLoginDto;
+import com.skycloud.base.authentication.api.model.dto.MobileLoginDTO;
+import com.skycloud.base.authentication.api.model.dto.UserPasswordLoginDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
@@ -40,14 +40,14 @@ public class SwaggerModelDto {
 
     @ApiOperation(value = "test")
     @PostMapping("/test")
-    public void test(@RequestBody UserPasswordLoginDto userPasswordLoginDto) {
+    public void test(@RequestBody UserPasswordLoginDTO userPasswordLoginDto) {
 
     }
 
 
     @ApiOperation(value = "test2")
     @PostMapping("/test2")
-    public void test2(@RequestBody MobileLoginDto mobileLoginDto) {
+    public void test2(@RequestBody MobileLoginDTO mobileLoginDto) {
 
     }
 }

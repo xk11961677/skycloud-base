@@ -23,7 +23,7 @@
 package com.skycloud.base.authentication.api.model.token;
 
 import com.alibaba.fastjson.JSONObject;
-import com.skycloud.base.authentication.api.model.dto.UserPasswordLoginDto;
+import com.skycloud.base.authentication.api.model.dto.UserPasswordLoginDTO;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
@@ -35,7 +35,7 @@ import java.util.Collection;
  */
 public class UserPasswordAuthenticationToken extends CustomAuthenticationToken {
 
-    public UserPasswordAuthenticationToken(UserPasswordLoginDto userPasswordLoginDto) {
+    public UserPasswordAuthenticationToken(UserPasswordLoginDTO userPasswordLoginDto) {
         super(userPasswordLoginDto);
     }
 

@@ -33,7 +33,7 @@ import java.util.List;
  * @author
  */
 @Data
-public class UserLoginVo implements Serializable {
+public class UserLoginVO implements Serializable {
 
     private static final long serialVersionUID = 311279508573008378L;
 
@@ -55,5 +55,5 @@ public class UserLoginVo implements Serializable {
     /**
      * 角色列表
      */
-    private List<RoleVo> roles;
+    private List<RoleVO> roles;
 }

@@ -20,30 +20,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.api.model.dto;
+package com.skycloud.base.authentication.api.model.bo;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.validation.constraints.NotEmpty;
+import org.springframework.security.oauth2.provider.ClientDetails;
 
 /**
- * 用户登录DTO
- *
  * @author
  */
 @Data
-public class UserLoginDto {
+public class ClientDetailsBO {
 
-    @ApiModelProperty(value = "用户名", required = true)
-    @NotEmpty(message = "用户名不能为空!")
-    public String username;
+    private String clientId;
 
-    @ApiModelProperty(value = "密码", required = true)
-    @NotEmpty(message = "密码不能为空!")
-    public String password;
+    private ClientDetails clientDetails;
 
-    @ApiModelProperty(value = "租户ID", required = true)
-    @NotEmpty(message = "租户ID不能为空!")
-    public String tenantId;
+    private String grantType;
 }

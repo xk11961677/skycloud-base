@@ -27,7 +27,7 @@ import com.lmax.disruptor.YieldingWaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
 import com.sky.framework.common.LogUtils;
-import com.skycloud.base.log.api.model.dto.SystemOptLogDto;
+import com.skycloud.base.log.api.model.dto.SystemOptLogDTO;
 import com.skycloud.base.log.manager.disruptor.event.LogEvent;
 import com.skycloud.base.log.manager.disruptor.factory.LogEventFactory;
 import com.skycloud.base.log.manager.disruptor.handler.LogEventHandler;
@@ -77,7 +77,7 @@ public class LogEventPublisher implements InitializingBean, DisposableBean {
      *
      * @param systemOptLogDto
      */
-    public void publishEvent(SystemOptLogDto systemOptLogDto) {
+    public void publishEvent(SystemOptLogDTO systemOptLogDto) {
         final RingBuffer<LogEvent> ringBuffer = disruptor.getRingBuffer();
         ringBuffer.publishEvent(new LogEventTranslator(), systemOptLogDto);
     }

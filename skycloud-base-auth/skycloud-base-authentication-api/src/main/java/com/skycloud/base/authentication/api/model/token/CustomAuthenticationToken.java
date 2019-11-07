@@ -23,7 +23,7 @@
 package com.skycloud.base.authentication.api.model.token;
 
 import com.alibaba.fastjson.JSONObject;
-import com.skycloud.base.authentication.api.model.dto.CustomLoginDto;
+import com.skycloud.base.authentication.api.model.dto.CustomLoginDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -46,7 +46,7 @@ public class CustomAuthenticationToken extends AbstractAuthenticationToken {
     @Setter
     private OAuth2AccessToken oAuth2AccessToken;
 
-    public CustomAuthenticationToken(CustomLoginDto customLoginDto) {
+    public CustomAuthenticationToken(CustomLoginDTO customLoginDto) {
         super(null);
         this.principal = customLoginDto;
         this.setAuthenticated(false);

@@ -25,7 +25,7 @@ package com.skycloud.base.authentication.web.backend;
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.web.support.BaseController;
 import com.skycloud.base.authentication.model.po.Resource;
-import com.skycloud.base.authentication.model.dto.UserDto;
+import com.skycloud.base.authentication.model.dto.UserDTO;
 import com.skycloud.base.authentication.service.ResourceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -61,7 +61,7 @@ public class ResourceController extends BaseController {
     @RequestMapping(method = RequestMethod.POST, value = "/getMenu")
     @ResponseBody
     public MessageRes<String> getMenu() {
-        UserDto userDto = new UserDto();
+        UserDTO userDto = new UserDTO();
         userDto.setId(getUserId());
         String data = resourcesService.listMenuByUserId(userDto);
         return MessageRes.success(data);
@@ -71,7 +71,7 @@ public class ResourceController extends BaseController {
     @RequestMapping(method = RequestMethod.POST, value = "/getButton")
     @ResponseBody
     public MessageRes<Resource> getButton() {
-        UserDto userDto = new UserDto();
+        UserDTO userDto = new UserDTO();
         userDto.setId(getUserId());
         List<Resource> resources = resourcesService.listButtonByUserId(userDto);
         return MessageRes.success(resources);

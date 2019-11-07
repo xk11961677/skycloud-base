@@ -20,31 +20,65 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.upload.model.vo;
+package com.skycloud.base.authentication.model.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import com.sky.framework.model.dto.BaseQueryPageRequestDTO;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+
+
 /**
- * 返回对象
+ * 用户表
  *
  * @author
+ * @date 2019-06-04 14:19:39
  */
 @Data
-public class AliyunOssCallbackVo {
+public class UserDTO extends BaseQueryPageRequestDTO implements Serializable {
 
-    @ApiModelProperty("文件名称")
-    private String filename;
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("文件大小")
-    private String size;
+    private Long id;
 
-    @ApiModelProperty("文件的mimeType")
-    private String mimeType;
+    /**
+     * 用户名
+     */
+    @NotBlank(message = "用户名不能为空")
+    private String username;
+    /**
+     * 用户密码密文
+     */
+    private String password;
+    /**
+     * 用户姓名
+     */
+    private String name;
+    /**
+     * 用户手机
+     */
+    private String mobile;
+    /**
+     * 是否有效用户
+     */
+    private Boolean enabled;
+    /**
+     * 账号是否未过期
+     */
+    private Boolean accountNonExpired;
+    /**
+     * 密码是否未过期
+     */
+    private Boolean credentialsNonExpired;
+    /**
+     * 是否未锁定
+     */
+    private Boolean accountNonLocked;
 
-    @ApiModelProperty("图片文件的宽")
-    private String width;
+    /**
+     * 资源type
+     */
+    private String type;
 
-    @ApiModelProperty("图片文件的高")
-    private String height;
 }

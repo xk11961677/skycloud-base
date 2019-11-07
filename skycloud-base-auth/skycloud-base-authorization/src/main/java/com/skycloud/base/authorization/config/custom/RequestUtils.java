@@ -26,7 +26,7 @@ import com.alibaba.fastjson.JSON;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.enums.FailureCodeEnum;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
-import com.skycloud.base.authentication.api.model.dto.CustomLoginDto;
+import com.skycloud.base.authentication.api.model.dto.CustomLoginDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
@@ -48,7 +48,7 @@ public class RequestUtils {
      * @param <T>
      * @return
      */
-    public static <T> T getJsonParameters(HttpServletRequest request, Class<? extends CustomLoginDto> clazz) {
+    public static <T> T getJsonParameters(HttpServletRequest request, Class<? extends CustomLoginDTO> clazz) {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
             String line;

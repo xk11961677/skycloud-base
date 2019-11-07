@@ -25,7 +25,7 @@ package com.skycloud.base.authorization.client.fallback;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.MessageRes;
 import com.skycloud.base.authorization.client.AdUserFeignApi;
-import com.skycloud.base.authorization.client.dto.CustomLoginDto;
+import com.skycloud.base.authorization.client.dto.CustomLoginDTO;
 import com.skycloud.base.common.fallback.FallbackResult;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class AdUserFeignFallback implements AdUserFeignApi {
     private Throwable cause;
 
     @Override
-    public MessageRes<CustomLoginDto> login(CustomLoginDto customLoginDto) {
+    public MessageRes<CustomLoginDTO> login(CustomLoginDTO customLoginDto) {
         LogUtils.error(log, "feign fallback :{} ", cause);
         return FallbackResult.fail(cause);
     }

@@ -25,7 +25,7 @@ cache:
     - $HOME/.m2
 
 install:
-  - mvn clean deploy -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  - mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 script:
 #  - mvn clean deploy -DskipTests=true -Dmaven.javadoc.skip=true -B -V

@@ -22,7 +22,7 @@
  */
 package com.skycloud.base.geteway.chain;
 
-import com.sky.framework.model.dto.LogHttpDto;
+import com.sky.framework.model.dto.LogHttpDTO;
 import com.sky.framework.model.dto.MessageRes;
 import lombok.Data;
 import org.springframework.http.HttpHeaders;
@@ -40,7 +40,7 @@ public class FilterChainContext implements Context {
 
     private ServerWebExchange exchange;
 
-    private LogHttpDto logHttpDto = new LogHttpDto();
+    private LogHttpDTO logHttpDto = new LogHttpDTO();
 
     private MessageRes result = MessageRes.success();
 

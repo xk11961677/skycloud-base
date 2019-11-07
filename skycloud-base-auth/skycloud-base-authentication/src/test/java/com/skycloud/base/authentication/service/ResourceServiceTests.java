@@ -23,7 +23,7 @@
 package com.skycloud.base.authentication.service;
 
 import com.skycloud.base.authentication.BaseApplicationTests;
-import com.skycloud.base.authentication.model.dto.UserDto;
+import com.skycloud.base.authentication.model.dto.UserDTO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,7 +35,7 @@ public class ResourceServiceTests extends BaseApplicationTests {
 
     @Test
     public void listMenuByUserId() {
-        UserDto userDto = new UserDto();
+        UserDTO userDto = new UserDTO();
         userDto.setId(101L);
         String data = resourceService.listMenuByUserId(userDto);
         System.out.println(data);

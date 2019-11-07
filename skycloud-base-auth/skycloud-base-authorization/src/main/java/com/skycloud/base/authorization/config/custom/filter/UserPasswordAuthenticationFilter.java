@@ -35,8 +35,8 @@ import com.skycloud.base.authorization.config.custom.ResponseUtils;
 import com.skycloud.base.authentication.api.model.token.UserPasswordAuthenticationToken;
 import com.skycloud.base.authorization.exception.AuthErrorType;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
-import com.skycloud.base.authentication.api.model.bo.ClientDetailsBo;
-import com.skycloud.base.authentication.api.model.dto.UserPasswordLoginDto;
+import com.skycloud.base.authentication.api.model.bo.ClientDetailsBO;
+import com.skycloud.base.authentication.api.model.dto.UserPasswordLoginDTO;
 import com.skycloud.base.common.constant.BaseConstants;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -85,12 +85,12 @@ public class UserPasswordAuthenticationFilter extends AbstractAuthenticationProc
 
             String channel = request.getHeader(BaseConstants.CHANNEL);
             String clientIp = IpUtils.getClientIp(request);
-            UserPasswordLoginDto userPasswordLoginDto = RequestUtils.getJsonParameters(request, UserPasswordLoginDto.class);
+            UserPasswordLoginDTO userPasswordLoginDto = RequestUtils.getJsonParameters(request, UserPasswordLoginDTO.class);
             userPasswordLoginDto.setChannel(channel);
             userPasswordLoginDto.setLoginIp(clientIp);
             ValidateUtils.validThrowFailFast(userPasswordLoginDto);
 
-            ClientDetailsBo clientDetailsBo = customClientDetailService.verifyClient(request, "password");
+            ClientDetailsBO clientDetailsBo = customClientDetailService.verifyClient(request, "password");
             userPasswordLoginDto.setClientDetailsBo(clientDetailsBo);
             UserPasswordAuthenticationToken authRequest = new UserPasswordAuthenticationToken(userPasswordLoginDto);
             setDetails(request, authRequest);
