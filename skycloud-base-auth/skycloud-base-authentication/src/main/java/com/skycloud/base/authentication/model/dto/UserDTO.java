@@ -22,7 +22,7 @@
  */
 package com.skycloud.base.authentication.model.dto;
 
-import com.sky.framework.model.dto.BaseQueryPageRequestDto;
+import com.sky.framework.model.dto.BaseQueryPageRequestDTO;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -36,7 +36,7 @@ import java.io.Serializable;
  * @date 2019-06-04 14:19:39
  */
 @Data
-public class UserDTO extends BaseQueryPageRequestDto implements Serializable {
+public class UserDTO extends BaseQueryPageRequestDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
