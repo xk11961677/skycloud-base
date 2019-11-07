@@ -20,60 +20,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.model.bo;
+package com.skycloud.base.authorization.client.dto;
 
-import com.skycloud.base.authentication.model.po.Resource;
-import com.sky.framework.common.tree.ITreeNode;
-import org.apache.commons.lang.StringUtils;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * @author
  */
-public class ResourceTreeNodeBo implements ITreeNode {
+@Data
+@ApiModel("会员登录CustomLoginDto")
+public class CustomLoginDTO implements Serializable {
 
-    private Resource resource;
+    private static final long serialVersionUID = -1516605271422590944L;
+    /**
+     * 手机号或用户名
+     */
+    @ApiModelProperty("手机号或用户名")
+    private String loginName;
 
-    public ResourceTreeNodeBo(Resource resource) {
-        this.resource = resource;
-    }
+    /**
+     *
+     */
+    private String password;
 
-    @Override
-    public String getNodeId() {
-        return resource.getId() + "";
-    }
 
-    @Override
-    public String getNodeName() {
-        return resource.getName();
-    }
-
-    @Override
-    public String getCode() {
-        return resource.getCode();
-    }
-
-    @Override
-    public String getNodeParentId() {
-        return resource.getParentId() + "";
-    }
-
-    @Override
-    public Integer getOrderNum() {
-        return resource.getSort();
-    }
-
-    @Override
-    public String getMethod() {
-        return resource.getMethod();
-    }
-
-    @Override
-    public String getUrl() {
-        return StringUtils.isEmpty(resource.getUrl())?resource.getCode():resource.getUrl();
-    }
-
-    @Override
-    public String getIcon() {
-        return resource.getIcon();
-    }
 }

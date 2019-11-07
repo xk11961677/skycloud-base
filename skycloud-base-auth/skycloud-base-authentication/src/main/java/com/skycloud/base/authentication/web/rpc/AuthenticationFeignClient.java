@@ -24,8 +24,8 @@ package com.skycloud.base.authentication.web.rpc;
 
 import com.sky.framework.model.dto.MessageRes;
 import com.sky.framework.web.support.BaseController;
-import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
-import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
+import com.skycloud.base.authentication.api.model.dto.UserLoginDTO;
+import com.skycloud.base.authentication.api.model.vo.UserLoginVO;
 import com.skycloud.base.authentication.service.AuthenticationService;
 import com.skycloud.base.authentication.service.UserService;
 import com.skycloud.base.authentication.web.HttpServletRequestAuthWrapper;
@@ -67,8 +67,8 @@ public class AuthenticationFeignClient extends BaseController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/auth/login")
     @ResponseBody
-    public MessageRes<UserLoginVo> login(@RequestBody UserLoginDto userLoginDto) {
-        UserLoginVo loginVo = userService.login(userLoginDto);
+    public MessageRes<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDto) {
+        UserLoginVO loginVo = userService.login(userLoginDto);
         return MessageRes.success(loginVo);
     }
 }

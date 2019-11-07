@@ -23,9 +23,9 @@
 package com.skycloud.base.authentication.service.impl;
 
 import com.skycloud.base.authentication.api.exception.AucBussinessException;
-import com.skycloud.base.authentication.api.model.dto.UserLoginDto;
-import com.skycloud.base.authentication.api.model.vo.RoleVo;
-import com.skycloud.base.authentication.api.model.vo.UserLoginVo;
+import com.skycloud.base.authentication.api.model.dto.UserLoginDTO;
+import com.skycloud.base.authentication.api.model.vo.RoleVO;
+import com.skycloud.base.authentication.api.model.vo.UserLoginVO;
 import com.skycloud.base.authentication.mapper.RoleMapper;
 import com.skycloud.base.authentication.mapper.UserMapper;
 import com.skycloud.base.authentication.model.po.Role;
@@ -57,7 +57,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     private MapperFacade mapperFacade;
 
     @Override
-    public UserLoginVo login(UserLoginDto userLoginDto) {
+    public UserLoginVO login(UserLoginDTO userLoginDto) {
         User userQuery = new User();
         userQuery.setUsername(userLoginDto.getUsername());
         userQuery.setDisabled(0);
@@ -67,8 +67,8 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         }
         userQuery.setId(user.getId());
         List<Role> roles = roleMapper.listByUser(userQuery);
-        UserLoginVo userLoginVo = mapperFacade.map(user, UserLoginVo.class);
-        List<RoleVo> roleVos = mapperFacade.mapAsList(roles, RoleVo.class);
+        UserLoginVO userLoginVo = mapperFacade.map(user, UserLoginVO.class);
+        List<RoleVO> roleVos = mapperFacade.mapAsList(roles, RoleVO.class);
         userLoginVo.setRoles(roleVos);
         return userLoginVo;
     }

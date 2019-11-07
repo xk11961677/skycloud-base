@@ -22,7 +22,7 @@
  */
 package com.skycloud.base.authorization.common.swagger;
 
-import com.skycloud.base.authentication.api.model.dto.MobileLoginDto;
+import com.skycloud.base.authentication.api.model.dto.MobileLoginDTO;
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Sets;
 import org.springframework.http.HttpMethod;
@@ -68,7 +68,7 @@ public class SwaggerMobile {
                                                         .build(),
                                                 new ParameterBuilder()
                                                         .description("mobileLoginDto")
-                                                        .type(new TypeResolver().resolve(MobileLoginDto.class))
+                                                        .type(new TypeResolver().resolve(MobileLoginDTO.class))
                                                         .name("mobileLoginDto")
                                                         .parameterType("body")
                                                         .parameterAccess("access")

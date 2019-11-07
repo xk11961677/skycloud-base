@@ -26,12 +26,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.sky.framework.model.dto.MessageRes;
 import com.skycloud.base.authorization.client.AdUserFeignApi;
-import com.skycloud.base.authorization.client.dto.CustomLoginDto;
+import com.skycloud.base.authorization.client.dto.CustomLoginDTO;
 import com.skycloud.base.authentication.api.model.bo.CustomUserDetail;
 import com.skycloud.base.authentication.api.model.token.SmsCodeAuthenticationToken;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
-import com.skycloud.base.authentication.api.model.bo.ClientDetailsBo;
-import com.skycloud.base.authentication.api.model.dto.MobileLoginDto;
+import com.skycloud.base.authentication.api.model.bo.ClientDetailsBO;
+import com.skycloud.base.authentication.api.model.dto.MobileLoginDTO;
 import lombok.extern.slf4j.Slf4j;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,14 +68,14 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
-        MobileLoginDto mobileLoginDto = (MobileLoginDto) authenticationToken.getPrincipal();
-        CustomLoginDto dto = mapperFacade.map(mobileLoginDto, CustomLoginDto.class);
+        MobileLoginDTO mobileLoginDto = (MobileLoginDTO) authenticationToken.getPrincipal();
+        CustomLoginDTO dto = mapperFacade.map(mobileLoginDto, CustomLoginDTO.class);
         dto.setLoginName(mobileLoginDto.getMobile());
-        MessageRes<CustomLoginDto> login = adUserFeignApi.login(dto);
+        MessageRes<CustomLoginDTO> login = adUserFeignApi.login(dto);
         if (!login.isSuccess()) {
             throw new AuzBussinessException(login.getCode(), login.getMsg());
         }
-        CustomLoginDto customLoginDto = login.getData();
+        CustomLoginDTO customLoginDto = login.getData();
         JSONObject data = new JSONObject();
         data.put("userInfo", customLoginDto);
         CustomUserDetail customUserDetail = new CustomUserDetail(Long.valueOf(customLoginDto.getLoginName()), customLoginDto.getLoginName(), customLoginDto.getLoginName());
@@ -100,8 +100,8 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
      * @param mobileLoginDto
      * @return
      */
-    private OAuth2AccessToken createOauth2Token(Authentication authentication, MobileLoginDto mobileLoginDto) {
-        ClientDetailsBo clientDetailsBo = mobileLoginDto.getClientDetailsBo();
+    private OAuth2AccessToken createOauth2Token(Authentication authentication, MobileLoginDTO mobileLoginDto) {
+        ClientDetailsBO clientDetailsBo = mobileLoginDto.getClientDetailsBo();
         ClientDetails clientDetails = clientDetailsBo.getClientDetails();
         TokenRequest tokenRequest = new TokenRequest(Maps.newHashMap(), clientDetailsBo.getClientId(), clientDetails.getScope(), clientDetailsBo.getGrantType());
         OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);

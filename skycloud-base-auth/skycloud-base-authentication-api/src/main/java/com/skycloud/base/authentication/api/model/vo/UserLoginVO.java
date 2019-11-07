@@ -20,20 +20,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.api.model.bo;
+package com.skycloud.base.authentication.api.model.vo;
 
 import lombok.Data;
-import org.springframework.security.oauth2.provider.ClientDetails;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
+ * 用户登录VO
+ *
  * @author
  */
 @Data
-public class ClientDetailsBo {
+public class UserLoginVO implements Serializable {
 
-    private String clientId;
+    private static final long serialVersionUID = 311279508573008378L;
 
-    private ClientDetails clientDetails;
+    private Long id;
 
-    private String grantType;
+    /**
+     * 用户名
+     */
+    private String username;
+    /**
+     * 用户姓名
+     */
+    private String name;
+    /**
+     * 用户手机
+     */
+    private String mobile;
+
+    /**
+     * 角色列表
+     */
+    private List<RoleVO> roles;
 }

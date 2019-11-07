@@ -20,40 +20,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.api.model.vo;
+package com.skycloud.base.log.api.model.dto;
 
+import com.skycloud.base.log.api.enums.SystemLogBizTypeEnum;
+import com.skycloud.base.log.api.enums.SystemLogTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
- * 用户登录VO
- *
  * @author
  */
 @Data
-public class UserLoginVo implements Serializable {
+public class SystemOptLogDTO implements Serializable {
 
-    private static final long serialVersionUID = 311279508573008378L;
-
-    private Long id;
+    private static final long serialVersionUID = -7458411407138165050L;
 
     /**
-     * 用户名
+     * 操作类型 0 增 1 删 2 改 3 查
      */
-    private String username;
+    private SystemLogTypeEnum type;
     /**
-     * 用户姓名
+     * 业务类型
      */
-    private String name;
+    private SystemLogBizTypeEnum bizType;
     /**
-     * 用户手机
+     * 备注
      */
-    private String mobile;
+    private String remark;
 
     /**
-     * 角色列表
+     * 创建人
      */
-    private List<RoleVo> roles;
+    private String createdBy;
 }

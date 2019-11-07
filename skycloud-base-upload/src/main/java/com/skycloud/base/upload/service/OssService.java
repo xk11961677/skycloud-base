@@ -22,8 +22,8 @@
  */
 package com.skycloud.base.upload.service;
 
-import com.skycloud.base.upload.model.vo.AliyunOssCallbackVo;
-import com.skycloud.base.upload.model.vo.AliyunOssTokenPolicyVo;
+import com.skycloud.base.upload.model.vo.AliyunOssCallbackVO;
+import com.skycloud.base.upload.model.vo.AliyunOssTokenPolicyVO;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,7 +40,7 @@ public interface OssService {
      * @return
      * @since
      */
-    AliyunOssTokenPolicyVo policy();
+    AliyunOssTokenPolicyVO policy();
 
     /**
      * oss上传成功回调
@@ -48,5 +48,5 @@ public interface OssService {
      * @param request
      * @return
      */
-    AliyunOssCallbackVo callback(HttpServletRequest request);
+    AliyunOssCallbackVO callback(HttpServletRequest request);
 }

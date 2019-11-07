@@ -24,8 +24,8 @@ package com.skycloud.base.upload.web.frontend;
 
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.MessageRes;
-import com.skycloud.base.upload.model.vo.AliyunOssCallbackVo;
-import com.skycloud.base.upload.model.vo.AliyunOssTokenPolicyVo;
+import com.skycloud.base.upload.model.vo.AliyunOssCallbackVO;
+import com.skycloud.base.upload.model.vo.AliyunOssTokenPolicyVO;
 import com.skycloud.base.upload.service.OssService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -59,21 +59,21 @@ public class OssController {
 
     @ApiOperation(value = "oss上传签名生成")
     @RequestMapping(value = "/policy")
-    public MessageRes<AliyunOssTokenPolicyVo> policy() {
-        AliyunOssTokenPolicyVo policy = ossService.policy();
+    public MessageRes<AliyunOssTokenPolicyVO> policy() {
+        AliyunOssTokenPolicyVO policy = ossService.policy();
         return MessageRes.success(policy);
     }
 
     @ApiOperation(value = "oss上传成功回调")
     @PostMapping(value = "callback")
-    public MessageRes<AliyunOssCallbackVo> callback(HttpServletRequest request) {
+    public MessageRes<AliyunOssCallbackVO> callback(HttpServletRequest request) {
         Map<String, String[]> parameterMap = request.getParameterMap();
         for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
             Arrays.stream(entry.getValue()).forEach(t ->
                     LogUtils.info(log, "key:{} value:{}", entry.getKey(), t)
             );
         }
-        AliyunOssCallbackVo ossCallbackResult = ossService.callback(request);
+        AliyunOssCallbackVO ossCallbackResult = ossService.callback(request);
         return MessageRes.success(ossCallbackResult);
     }
 }

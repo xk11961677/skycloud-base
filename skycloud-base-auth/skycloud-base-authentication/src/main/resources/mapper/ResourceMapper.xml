@@ -56,7 +56,7 @@
        r.icon
     </sql>
 
-    <select id="listResourceByUserId" parameterType="com.skycloud.base.authentication.model.dto.UserDto"
+    <select id="listResourceByUserId" parameterType="com.skycloud.base.authentication.model.dto.UserDTO"
             resultMap="BaseResultMap">
         select
         <include refid="AliasBaseColumnList"/>

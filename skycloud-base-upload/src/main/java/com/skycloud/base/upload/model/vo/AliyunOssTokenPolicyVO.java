@@ -20,37 +20,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.log.api.model.dto;
+package com.skycloud.base.upload.model.vo;
 
-import com.skycloud.base.log.api.enums.SystemLogBizTypeEnum;
-import com.skycloud.base.log.api.enums.SystemLogTypeEnum;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
+ * 阿里云签名后返回信息
+ *
  * @author
  */
 @Data
-public class SystemOptLogDto implements Serializable {
+public class AliyunOssTokenPolicyVO {
 
-    private static final long serialVersionUID = -7458411407138165050L;
+    @ApiModelProperty("访问标识")
+    private String accessKeyId;
 
-    /**
-     * 操作类型 0 增 1 删 2 改 3 查
-     */
-    private SystemLogTypeEnum type;
-    /**
-     * 业务类型
-     */
-    private SystemLogBizTypeEnum bizType;
-    /**
-     * 备注
-     */
-    private String remark;
+    @ApiModelProperty("访问政策")
+    private String policy;
 
-    /**
-     * 创建人
-     */
-    private String createdBy;
+    @ApiModelProperty("签名")
+    private String signature;
+
+    @ApiModelProperty("地址")
+    private String host;
+
+    @ApiModelProperty("上传目录")
+    private String dir;
+
+    @ApiModelProperty("过期时间")
+    private String expire;
+
+    @ApiModelProperty("回调地址")
+    private String callback;
 }

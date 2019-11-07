@@ -22,7 +22,7 @@
  */
 package com.skycloud.base.authorization.common.swagger;
 
-import com.skycloud.base.authentication.api.model.dto.UserPasswordLoginDto;
+import com.skycloud.base.authentication.api.model.dto.UserPasswordLoginDTO;
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Sets;
 import org.springframework.http.HttpMethod;
@@ -69,7 +69,7 @@ public class SwaggerLogin {
                                                         .build(),
                                                 new ParameterBuilder()
                                                         .description("userPasswordLoginDto")
-                                                        .type(new TypeResolver().resolve(UserPasswordLoginDto.class))
+                                                        .type(new TypeResolver().resolve(UserPasswordLoginDTO.class))
                                                         .name("userPasswordLoginDto")
                                                         .parameterType("body")
                                                         .parameterAccess("access")

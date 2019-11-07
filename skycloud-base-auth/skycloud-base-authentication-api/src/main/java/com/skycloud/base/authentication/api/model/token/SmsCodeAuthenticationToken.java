@@ -23,7 +23,7 @@
 package com.skycloud.base.authentication.api.model.token;
 
 import com.alibaba.fastjson.JSONObject;
-import com.skycloud.base.authentication.api.model.dto.MobileLoginDto;
+import com.skycloud.base.authentication.api.model.dto.MobileLoginDTO;
 
 import java.util.HashSet;
 
@@ -35,7 +35,7 @@ import java.util.HashSet;
 public class SmsCodeAuthenticationToken extends CustomAuthenticationToken {
 
 
-    public SmsCodeAuthenticationToken(MobileLoginDto mobileLoginDto) {
+    public SmsCodeAuthenticationToken(MobileLoginDTO mobileLoginDto) {
         super(mobileLoginDto);
     }
 

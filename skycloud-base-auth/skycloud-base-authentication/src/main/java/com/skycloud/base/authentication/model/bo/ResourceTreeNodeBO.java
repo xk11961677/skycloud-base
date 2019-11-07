@@ -20,31 +20,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.upload.model.vo;
+package com.skycloud.base.authentication.model.bo;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import com.skycloud.base.authentication.model.po.Resource;
+import com.sky.framework.common.tree.ITreeNode;
+import org.apache.commons.lang.StringUtils;
 
 /**
- * 返回对象
- *
  * @author
  */
-@Data
-public class AliyunOssCallbackVo {
+public class ResourceTreeNodeBO implements ITreeNode {
 
-    @ApiModelProperty("文件名称")
-    private String filename;
+    private Resource resource;
 
-    @ApiModelProperty("文件大小")
-    private String size;
+    public ResourceTreeNodeBO(Resource resource) {
+        this.resource = resource;
+    }
 
-    @ApiModelProperty("文件的mimeType")
-    private String mimeType;
+    @Override
+    public String getNodeId() {
+        return resource.getId() + "";
+    }
 
-    @ApiModelProperty("图片文件的宽")
-    private String width;
+    @Override
+    public String getNodeName() {
+        return resource.getName();
+    }
 
-    @ApiModelProperty("图片文件的高")
-    private String height;
+    @Override
+    public String getCode() {
+        return resource.getCode();
+    }
+
+    @Override
+    public String getNodeParentId() {
+        return resource.getParentId() + "";
+    }
+
+    @Override
+    public Integer getOrderNum() {
+        return resource.getSort();
+    }
+
+    @Override
+    public String getMethod() {
+        return resource.getMethod();
+    }
+
+    @Override
+    public String getUrl() {
+        return StringUtils.isEmpty(resource.getUrl())?resource.getCode():resource.getUrl();
+    }
+
+    @Override
+    public String getIcon() {
+        return resource.getIcon();
+    }
 }

@@ -20,30 +20,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authentication.api.model.dto;
+package com.skycloud.base.upload.model.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
-
 /**
- * 用户登录DTO
+ * 返回对象
  *
  * @author
  */
 @Data
-public class UserLoginDto {
+public class AliyunOssCallbackVO {
 
-    @ApiModelProperty(value = "用户名", required = true)
-    @NotEmpty(message = "用户名不能为空!")
-    public String username;
+    @ApiModelProperty("文件名称")
+    private String filename;
 
-    @ApiModelProperty(value = "密码", required = true)
-    @NotEmpty(message = "密码不能为空!")
-    public String password;
+    @ApiModelProperty("文件大小")
+    private String size;
 
-    @ApiModelProperty(value = "租户ID", required = true)
-    @NotEmpty(message = "租户ID不能为空!")
-    public String tenantId;
+    @ApiModelProperty("文件的mimeType")
+    private String mimeType;
+
+    @ApiModelProperty("图片文件的宽")
+    private String width;
+
+    @ApiModelProperty("图片文件的高")
+    private String height;
 }

@@ -20,32 +20,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.authorization.client.dto;
+package com.skycloud.base.authentication.api.model.bo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.io.Serializable;
+import org.springframework.security.oauth2.provider.ClientDetails;
 
 /**
  * @author
  */
 @Data
-@ApiModel("会员登录CustomLoginDto")
-public class CustomLoginDto implements Serializable {
+public class ClientDetailsBO {
 
-    private static final long serialVersionUID = -1516605271422590944L;
-    /**
-     * 手机号或用户名
-     */
-    @ApiModelProperty("手机号或用户名")
-    private String loginName;
+    private String clientId;
 
-    /**
-     *
-     */
-    private String password;
+    private ClientDetails clientDetails;
 
-
+    private String grantType;
 }

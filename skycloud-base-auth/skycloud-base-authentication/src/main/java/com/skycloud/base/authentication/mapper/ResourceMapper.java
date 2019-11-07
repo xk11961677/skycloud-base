@@ -24,7 +24,7 @@ package com.skycloud.base.authentication.mapper;
 
 import com.sky.framework.mybatis.MyMapper;
 import com.skycloud.base.authentication.model.po.Resource;
-import com.skycloud.base.authentication.model.dto.UserDto;
+import com.skycloud.base.authentication.model.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -46,7 +46,7 @@ public interface ResourceMapper extends MyMapper<Resource> {
      * @param userDto
      * @return
      */
-    List<Resource> listResourceByUserId(UserDto userDto);
+    List<Resource> listResourceByUserId(UserDTO userDto);
 
     /**
      * 根据角色code获取资源信息

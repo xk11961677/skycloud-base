@@ -25,7 +25,7 @@ package com.skycloud.base.authorization.config.custom;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.exception.BusinessException;
 import com.skycloud.base.authorization.exception.AuthErrorType;
-import com.skycloud.base.authentication.api.model.bo.ClientDetailsBo;
+import com.skycloud.base.authentication.api.model.bo.ClientDetailsBO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -60,8 +60,8 @@ public class CustomClientDetailService {
      *
      * @param request
      */
-    public ClientDetailsBo verifyClient(HttpServletRequest request, String grantType) {
-        ClientDetailsBo clientDetailsBo;
+    public ClientDetailsBO verifyClient(HttpServletRequest request, String grantType) {
+        ClientDetailsBO clientDetailsBo;
         try {
             String header = request.getHeader(HttpHeaders.AUTHORIZATION);
             if (header == null || !header.startsWith(HTTP_BASIC)) {
@@ -79,7 +79,7 @@ public class CustomClientDetailService {
             if (!matches) {
                 throw new UnapprovedClientAuthenticationException("clientSecret不匹配" + clientId);
             }
-            clientDetailsBo = new ClientDetailsBo();
+            clientDetailsBo = new ClientDetailsBO();
             clientDetailsBo.setClientDetails(clientDetails);
             clientDetailsBo.setClientId(clientId);
             clientDetailsBo.setGrantType(grantType);

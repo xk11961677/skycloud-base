@@ -20,37 +20,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.skycloud.base.upload.model.vo;
+package com.skycloud.base.authentication.model.vo;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
+
 /**
- * 阿里云签名后返回信息
+ * 用户表
  *
  * @author
+ * @date 2019-06-04 14:19:39
  */
 @Data
-public class AliyunOssTokenPolicyVo {
+public class UserVO implements Serializable {
 
-    @ApiModelProperty("访问标识")
-    private String accessKeyId;
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("访问政策")
-    private String policy;
+    /**
+     * 用户名
+     */
+    private String username;
 
-    @ApiModelProperty("签名")
-    private String signature;
+    /**
+     * 用户姓名
+     */
+    private String name;
+    /**
+     * 用户手机
+     */
+    private String mobile;
+    /**
+     * 是否有效用户
+     */
+    private Boolean enabled;
+    /**
+     * 账号是否未过期
+     */
+    private Boolean accountNonExpired;
+    /**
+     * 密码是否未过期
+     */
+    private Boolean credentialsNonExpired;
+    /**
+     * 是否未锁定
+     */
+    private Boolean accountNonLocked;
 
-    @ApiModelProperty("地址")
-    private String host;
-
-    @ApiModelProperty("上传目录")
-    private String dir;
-
-    @ApiModelProperty("过期时间")
-    private String expire;
-
-    @ApiModelProperty("回调地址")
-    private String callback;
 }

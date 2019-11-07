@@ -23,7 +23,7 @@
 package com.skycloud.base.authorization.client;
 
 import com.sky.framework.model.dto.MessageRes;
-import com.skycloud.base.authorization.client.dto.CustomLoginDto;
+import com.skycloud.base.authorization.client.dto.CustomLoginDTO;
 import com.skycloud.base.authorization.client.factory.AdUserFeignFallbackFactory;
 import com.skycloud.base.common.feign.CustomFeignAutoConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -43,5 +43,5 @@ public interface AdUserFeignApi {
      * @return
      */
     @PostMapping(value = "/api/user/login")
-    MessageRes<CustomLoginDto> login(@RequestBody CustomLoginDto customLoginDto);
+    MessageRes<CustomLoginDTO> login(@RequestBody CustomLoginDTO customLoginDto);
 }
