@@ -51,15 +51,18 @@ public class ConfigAutoConfiguration implements CommandLineRunner {
     @Override
     public void run(String... args) {
         String[] defaultProfiles = environment.getDefaultProfiles();
-        String springActiceEnv = defaultProfiles[0];
+        String springActiveEnv = defaultProfiles[0];
         String[] activeProfiles = environment.getActiveProfiles();
         if (activeProfiles != null && activeProfiles.length != 0) {
-            springActiceEnv = activeProfiles[0];
+            springActiveEnv = String.join(",", activeProfiles);
         }
         ConfigUtil instance = ApolloInjector.getInstance(ConfigUtil.class);
         String metaServerDomainName = instance.getMetaServerDomainName();
         Env apolloEnv = instance.getApolloEnv();
-        apolloEnv = Env.UNKNOWN.name().equalsIgnoreCase(apolloEnv.name())?Env.DEV:apolloEnv;
-        log.info("skycloud base config startup successfully ! spring env:{}  env:{}  meta:{}", springActiceEnv, apolloEnv.name(), metaServerDomainName);
+        apolloEnv = Env.UNKNOWN.name().equalsIgnoreCase(apolloEnv.name()) ? Env.DEV : apolloEnv;
+        if (Env.LOCAL.name().equalsIgnoreCase(apolloEnv.name())) {
+            metaServerDomainName = "Local development mode has no remote address";
+        }
+        log.info("skycloud base config startup successfully ! spring env:{}  env:{}  meta:{}", springActiveEnv, apolloEnv.name(), metaServerDomainName);
     }
 }

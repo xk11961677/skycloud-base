@@ -23,58 +23,120 @@
 package com.skycloud.base.config.util;
 
 import com.ctrip.framework.apollo.core.utils.ClassLoaderUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * @author
  */
-public class ResourceYmlUtils {
+@Slf4j
+public class ResourceUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(ResourceYmlUtils.class);
-
+    /**
+     * 默认读取路径
+     */
     private static final String[] DEFAULT_FILE_SEARCH_LOCATIONS = new String[]{"./config/", "./"};
 
-    @SuppressWarnings("unchecked")
-    public static Map<String,Object> readConfigFile(String configPath) {
+    public static final String FORMAT_KEY = "$$format$$";
+
+    public static final String FORMAT_YML = "yml";
+
+    public static final String FORMAT_PROPERTIES = "properties";
+
+    public static final String FORMAT_YAML = "yaml";
+
+    /**
+     * 读取application文件 格式: yml或properties
+     *
+     * @param name
+     * @return
+     */
+    public static Map<String, Object> readConfigFile(String name) {
+        Map<String, Object> map = readConfigFileYaml(name + "." + FORMAT_YML);
+        if (map == null || map.size() == 0) {
+            map = readConfigFileYaml(name + "." + FORMAT_YAML);
+        }
+        if (map == null || map.size() == 0) {
+            map = readConfigFileProperties(name + "." + FORMAT_PROPERTIES);
+            map.put(FORMAT_KEY, FORMAT_PROPERTIES);
+        }
+        map.putIfAbsent(FORMAT_KEY, FORMAT_YML);
+        return map;
+    }
+
+    /**
+     * @param configPath
+     * @return
+     */
+    public static Map<String, Object> readConfigFileProperties(String configPath) {
         Map<String, Object> map = null;
-
-
-        Yaml yaml = new Yaml();
+        Properties properties = new Properties();
         InputStream in = loadConfigFileFromDefaultSearchLocations(configPath);
-
         try {
             if (in != null) {
-                map = yaml.load(in);
+                properties.load(in);
+                map = new HashMap<String, Object>((Map) properties);
             }
         } catch (Exception ex) {
-            logger.warn("Reading config failed: {}", ex.getMessage());
+            log.warn("Reading config failed: {}", ex.getMessage());
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException ex) {
-                    logger.warn("Close config failed: {}", ex.getMessage());
+                    log.warn("Close config failed: {}", ex.getMessage());
                 }
             }
         }
         return map;
     }
 
+    /**
+     * @param configPath
+     * @return
+     */
+    public static Map<String, Object> readConfigFileYaml(String configPath) {
+        Map<String, Object> map = null;
+        Yaml yaml = new Yaml();
+        InputStream in = loadConfigFileFromDefaultSearchLocations(configPath);
+        try {
+            if (in != null) {
+                map = yaml.load(in);
+            }
+        } catch (Exception ex) {
+            log.warn("Reading config failed: {}", ex.getMessage());
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    log.warn("Close config failed: {}", ex.getMessage());
+                }
+            }
+        }
+        return map;
+    }
 
+    /**
+     * 加载文件
+     *
+     * @param configPath
+     * @return
+     */
     private static InputStream loadConfigFileFromDefaultSearchLocations(String configPath) {
         try {
             // load from default search locations
             for (String searchLocation : DEFAULT_FILE_SEARCH_LOCATIONS) {
                 File candidate = Paths.get(searchLocation, configPath).toFile();
                 if (candidate.exists() && candidate.isFile() && candidate.canRead()) {
-                    logger.debug("Reading config from resource {}", candidate.getAbsolutePath());
+                    log.debug("Reading config from resource {}", candidate.getAbsolutePath());
                     return new FileInputStream(candidate);
                 }
             }
@@ -86,7 +148,7 @@ public class ResourceYmlUtils {
                 InputStream in = getResourceAsStream(url);
 
                 if (in != null) {
-                    logger.debug("Reading config from resource {}", url.getPath());
+                    log.debug("Reading config from resource {}", url.getPath());
                     return in;
                 }
             }
@@ -94,7 +156,7 @@ public class ResourceYmlUtils {
             // load outside resource under current user path
             File candidate = new File(System.getProperty("user.dir"), configPath);
             if (candidate.exists() && candidate.isFile() && candidate.canRead()) {
-                logger.debug("Reading config from resource {}", candidate.getAbsolutePath());
+                log.debug("Reading config from resource {}", candidate.getAbsolutePath());
                 return new FileInputStream(candidate);
             }
         } catch (FileNotFoundException e) {
