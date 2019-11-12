@@ -216,7 +216,7 @@ docker-compose -f docs/docker/docker-compose.yml up -d
 
 ## 开发计划
  1. 用户中心管理功能
-
+ 2. 优化dockerfile
 
 
 ## 架构图
