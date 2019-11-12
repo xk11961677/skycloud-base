@@ -212,7 +212,7 @@ docker-compose -f docs/docker/docker-compose.yml up -d
 - [apollo-consul源码与部署包](https://pan.baidu.com/s/1s7tXv1uXBdWGxL84Ha5tFw) 提取码: xbdw
 - [apollo数据库](docs/script/db/apollo)
 - ELK 现阶段测试使用 logstash-logback-encoder 直接写入logstash,消耗资源较大，生产建议不要使用
-  改用EFK 或 flume+kafka+es 或 filebeat+kafka+elk 或logback appender --> MQ 等
+  改用EFK 或 flume+kafka+logstash/flume(自定义sink)+es 或 filebeat+kafka+elk 或logback appender --> MQ 等
 
 ## 开发计划
  1. 用户中心管理功能
