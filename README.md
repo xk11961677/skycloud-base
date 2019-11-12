@@ -114,8 +114,8 @@
 
 | 服务          | 使用技术                 | 进度 | 备注                                                  |
 | ------------- | ------------------------ | ---- | ----------------------------------------------------- |
-| 注册中心      | consul                   | ✅    |                                                       |
-| 配置中心      | apollo                   | ✅    |                                                       |
+| 注册中心      | consul/nacos             | ✅    |                                                       |
+| 配置中心      | apollo/nacos             | ✅    |                                                       |
 | 动态网关      | SpringCloud Gateway      | ✅    | 多种维度的流量控制（服务、IP、用户等），后端可配置化✅ |
 | 授权认证      | Spring Security OAuth2   | ✅    |                                                       |
 | 服务容错      | SpringCloud Hystrix      | ✅    |                                                       |
@@ -126,10 +126,11 @@
 | 任务调度      | xxl-job                  | ✅    |
 | 分表分库      | sharding-jdbc            |  ✅   |  sharding与seata结合还需大量测试
 | 分布式事务     | seata                    | ✅    | 现阶段还需大量测试
-| 分布式ID     |     todo                | 🏗    | 
+| 分布式ID     |  uid-generator            | ✅    | 
 | 日志收集      | ELK                      | ✅    |  
 | 企业监控      | prometheus + grafana     | ✅    |
 | 数据迁移      | Datax                     | ✅    |
+| 灰度发布      | todo                     | 🏗     |
 
 数据迁移项目代码请[点我](https://github.com/xk11961677/skycloud-datax)
 
@@ -214,8 +215,8 @@ docker-compose -f docs/docker/docker-compose.yml up -d
   改用EFK 或 flume+kafka+es 或 filebeat+kafka+elk 或logback appender --> MQ 等
 
 ## 开发计划
-1.0.0 增加详细权限控制、优化gateway 、优化if else等代码
-1.0.1 替换hystrix --> sentinel 、consul、apollo --> nacos 
+ 1. 用户中心管理功能
+
 
 
 ## 架构图
