@@ -5,6 +5,7 @@
 ![Gitter](https://img.shields.io/gitter/room/sky-docs/community)
 ![version](https://img.shields.io/badge/version-1.0.0-blueviolet.svg)
 ![helloworld](https://img.shields.io/badge/hello-world-blue)
+[![codecov](https://codecov.io/gh/xk11961677/skycloud-base/branch/master/graph/badge.svg)](https://codecov.io/gh/xk11961677/skycloud-base)
 
 ## 文档地址
 - [quick-start](https://xk11961677.github.io/sky-docs/)
