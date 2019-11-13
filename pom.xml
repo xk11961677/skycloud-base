@@ -107,7 +107,10 @@
             </plugins>
         </pluginManagement>
 
+
         <plugins>
+
+            <!-- 编译插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -133,6 +136,7 @@
                 </executions>
             </plugin>
 
+            <!--测试插件 此处为跳过测试-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -142,6 +146,7 @@
                 </configuration>
             </plugin>
 
+            <!-- 将maven中变量替换成真实值 如:revision -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
@@ -180,6 +185,7 @@
                 </executions>
             </plugin>
 
+            <!--自动发布release版本插件-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
@@ -200,6 +206,7 @@
                 </dependencies>
             </plugin>
 
+            <!--检查代码覆盖率的插件配置-->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -208,18 +215,26 @@
                     <execution>
                         <goals>
                             <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
                             <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
 
+            <!--sonar插件配置-->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>${sonar-maven-plugin.version}</version>
             </plugin>
 
+            <!-- 生成javadoc文档插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -241,6 +256,7 @@
                 </executions>
             </plugin>
 
+            <!-- 打包后带源码 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
