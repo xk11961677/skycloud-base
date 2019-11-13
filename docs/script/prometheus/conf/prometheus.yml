@@ -48,6 +48,13 @@ scrape_configs:
       - targets: ['127.0.0.1:9104']
         labels:
           instance: test_db
+
+  - job_name: redis
+    static_configs:
+      - targets: ['127.0.0.1:9121']
+        labels:
+          instance: test_redis
+
     #可将static_configs替换成文件形式
     #file_sd_configs:
     #  - files:
