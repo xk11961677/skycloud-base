@@ -137,14 +137,14 @@
             </plugin>
 
             <!--测试插件 此处为跳过测试-->
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
-            </plugin>
+            </plugin>-->
 
             <!-- 将maven中变量替换成真实值 如:revision -->
             <plugin>

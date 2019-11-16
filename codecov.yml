@@ -13,9 +13,14 @@ coverage:
   range: "50...100"
 ignore:
   - ".github/.*"
-  - ".style/.*"
+  - "style/*"
   - "*.md"
   - "LICENSE"
+  - "zipkin/*"
+  - "skywalking/*"
+  - "skycloud-generator-tool/*"
+  - "seata/*"
+  - "docs/*"
 comment:
   layout: "reach,diff,flags,tree"
   behavior: default

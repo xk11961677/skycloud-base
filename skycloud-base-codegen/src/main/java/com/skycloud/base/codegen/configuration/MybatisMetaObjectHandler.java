@@ -40,19 +40,18 @@ public class MybatisMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         log.debug("start insert fill ....");
-        this.setInsertFieldValByName("createdBy", "system", metaObject);
-        this.setInsertFieldValByName("updatedBy", "system", metaObject);
+        this.setInsertFieldValByName("createBy", "system", metaObject);
+        this.setInsertFieldValByName("updateBy", "system", metaObject);
         Date date = new Date();
-        this.setInsertFieldValByName("createdTime", date, metaObject);
-        this.setInsertFieldValByName("updatedTime", date, metaObject);
+        this.setInsertFieldValByName("createTime", date, metaObject);
+        this.setInsertFieldValByName("updateTime", date, metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        //todo updateBY
         log.debug("start update fill ....");
-        this.setInsertFieldValByName("updatedBy", "system", metaObject);
+        this.setInsertFieldValByName("updateBy", "system", metaObject);
         Date date = new Date();
-        this.setUpdateFieldValByName("updatedTime", date, metaObject);
+        this.setUpdateFieldValByName("updateTime", date, metaObject);
     }
 }
