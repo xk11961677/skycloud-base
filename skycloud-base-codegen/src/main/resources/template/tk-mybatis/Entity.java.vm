@@ -38,10 +38,10 @@ public class ${className} extends BaseEntity implements Serializable {
 
   #foreach ($column in $columns)
     #if($column.columnName == $pk.columnName)
-    #elseif($column.columnName == "created_time")
-    #elseif($column.columnName == "created_by")
-    #elseif($column.columnName == "updated_time")
-    #elseif($column.columnName == "updated_by")
+    #elseif($column.columnName == "create_time")
+    #elseif($column.columnName == "create_by")
+    #elseif($column.columnName == "update_time")
+    #elseif($column.columnName == "update_by")
     #elseif($column.columnName == "disabled")
     #else
      /**

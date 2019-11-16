@@ -52,5 +52,5 @@ public class SystemOptLogDTO implements Serializable {
     /**
      * 创建人
      */
-    private String createdBy;
+    private String createBy;
 }

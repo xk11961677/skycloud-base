@@ -11,10 +11,10 @@
         <result property="url" javaType="java.lang.String" column="url"/>
         <result property="method" javaType="java.lang.String" column="method"/>
         <result property="description" javaType="java.lang.String" column="description"/>
-        <result property="createdTime" javaType="java.util.Date" column="created_time"/>
-        <result property="updatedTime" javaType="java.util.Date" column="updated_time"/>
-        <result property="createdBy" javaType="java.lang.String" column="created_by"/>
-        <result property="updatedBy" javaType="java.lang.String" column="updated_by"/>
+        <result property="createTime" javaType="java.util.Date" column="create_time"/>
+        <result property="updateTime" javaType="java.util.Date" column="update_time"/>
+        <result property="createBy" javaType="java.lang.String" column="create_by"/>
+        <result property="updateBy" javaType="java.lang.String" column="update_by"/>
         <result property="disabled" javaType="java.lang.Integer" column="disabled"/>
         <result property="sort" javaType="java.lang.Integer" column="sort"/>
         <result property="parentId" javaType="java.lang.Long" column="parent_id"/>
@@ -29,10 +29,10 @@
         url,
         method,
         description,
-        created_time,
-        updated_time,
-        created_by,
-        updated_by,
+        create_time,
+        update_time,
+        create_by,
+        update_by,
         disabled,
         sort,
         parent_id
@@ -47,10 +47,10 @@
        r.url,
        r.method,
        r.description,
-       r.created_time,
-       r.updated_time,
-       r.created_by,
-       r.updated_by,
+       r.create_time,
+       r.update_time,
+       r.create_by,
+       r.update_by,
        r.disabled,
        r.sort,
        r.icon
