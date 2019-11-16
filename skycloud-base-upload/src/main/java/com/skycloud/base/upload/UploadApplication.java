@@ -30,8 +30,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- * The class Doooly cloud order application.
- *
  * @author
  */
 @EnableFeignClients(basePackages = "com.skycloud")

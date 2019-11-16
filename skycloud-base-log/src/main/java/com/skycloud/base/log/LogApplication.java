@@ -27,8 +27,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
- * The class Doooly cloud order application.
- *
  * @author
  */
 @EnableFeignClients(basePackages = "com.skycloud")
