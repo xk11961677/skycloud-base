@@ -9,10 +9,10 @@
         <result column="url" jdbcType="VARCHAR" property="url"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
         <result column="driver_class" jdbcType="VARCHAR" property="driverClass"/>
-        <result property="createdTime" javaType="java.util.Date" column="created_time"/>
-        <result property="updatedTime" javaType="java.util.Date" column="updated_time"/>
-        <result property="createdBy" javaType="java.lang.String" column="created_by"/>
-        <result property="updatedBy" javaType="java.lang.String" column="updated_by"/>
+        <result property="createTime" javaType="java.util.Date" column="create_time"/>
+        <result property="updateTime" javaType="java.util.Date" column="update_time"/>
+        <result property="createBy" javaType="java.lang.String" column="create_by"/>
+        <result property="updateBy" javaType="java.lang.String" column="update_by"/>
         <result property="disabled" javaType="java.lang.Integer" column="disabled"/>
     </resultMap>
     <sql id="Base_Column_List">
@@ -23,10 +23,10 @@
         REMARK,
         driver_class,
         URL,
-        created_time,
-        updated_time,
-        created_by,
-        updated_by,
+        create_time,
+        update_time,
+        create_by,
+        update_by,
         disabled
     </sql>
 </mapper>

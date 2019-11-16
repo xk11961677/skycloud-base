@@ -11,10 +11,10 @@ CREATE TABLE users
   account_non_expired     bit COMMENT '账号是否未过期',
   credentials_non_expired bit COMMENT '密码是否未过期',
   account_non_locked      bit COMMENT '是否未锁定',
-  created_time            DATETIME     NOT NULL DEFAULT now() COMMENT '创建时间',
-  updated_time            DATETIME     NOT NULL DEFAULT now() COMMENT '更新时间',
-  created_by              VARCHAR(100) NOT NULL COMMENT '创建人',
-  updated_by              VARCHAR(100) NOT NULL COMMENT '更新人',
+  create_time            DATETIME     NOT NULL DEFAULT now() COMMENT '创建时间',
+  update_time            DATETIME     NOT NULL DEFAULT now() COMMENT '更新时间',
+  create_by              VARCHAR(100) NOT NULL COMMENT '创建人',
+  update_by              VARCHAR(100) NOT NULL COMMENT '更新人',
   disabled                int COMMENT '数据是否有效(0 有效 1 无效)'
 ) COMMENT '用户表';
 CREATE UNIQUE INDEX ux_users_username
@@ -30,10 +30,10 @@ CREATE TABLE roles
   code         VARCHAR(100) NOT NULL COMMENT '角色code',
   name         VARCHAR(200) COMMENT '角色名称',
   description  VARCHAR(500) COMMENT '简介',
-  created_time DATETIME     NOT NULL DEFAULT now() COMMENT '创建时间',
-  updated_time DATETIME     NOT NULL DEFAULT now() COMMENT '更新时间',
-  created_by   VARCHAR(100) NOT NULL COMMENT '创建人',
-  updated_by   VARCHAR(100) NOT NULL COMMENT '更新人',
+  create_time DATETIME     NOT NULL DEFAULT now() COMMENT '创建时间',
+  update_time DATETIME     NOT NULL DEFAULT now() COMMENT '更新时间',
+  create_by   VARCHAR(100) NOT NULL COMMENT '创建人',
+  update_by   VARCHAR(100) NOT NULL COMMENT '更新人',
   disabled                int COMMENT '数据是否有效(0 有效 1 无效)'
 ) COMMENT '角色表';
 
@@ -48,10 +48,10 @@ CREATE TABLE resources
   url          VARCHAR(200) COMMENT '资源url',
   method       VARCHAR(20) COMMENT '资源方法',
   description  VARCHAR(500) COMMENT '简介',
-  created_time DATETIME     NOT NULL DEFAULT now() COMMENT '创建时间',
-  updated_time DATETIME     NOT NULL DEFAULT now() COMMENT '更新时间',
-  created_by   VARCHAR(100) NOT NULL COMMENT '创建人',
-  updated_by   VARCHAR(100) NOT NULL COMMENT '更新人',
+  create_time DATETIME     NOT NULL DEFAULT now() COMMENT '创建时间',
+  update_time DATETIME     NOT NULL DEFAULT now() COMMENT '更新时间',
+  create_by   VARCHAR(100) NOT NULL COMMENT '创建人',
+  update_by   VARCHAR(100) NOT NULL COMMENT '更新人',
   disabled                int COMMENT '数据是否有效(0 有效 1 无效)'
 ) COMMENT '资源表';
 CREATE UNIQUE INDEX ux_resources_code
@@ -64,10 +64,10 @@ CREATE TABLE users_roles_relation
   id           BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '关系id',
   user_id      INT          NOT NULL COMMENT '用户id',
   role_id      INT          NOT NULL COMMENT '角色id',
-  created_time DATETIME     NOT NULL DEFAULT now() COMMENT '创建时间',
-  updated_time DATETIME     NOT NULL DEFAULT now() COMMENT '更新时间',
-  created_by   VARCHAR(100) NOT NULL COMMENT '创建人',
-  updated_by   VARCHAR(100) NOT NULL COMMENT '更新人',
+  create_time DATETIME     NOT NULL DEFAULT now() COMMENT '创建时间',
+  update_time DATETIME     NOT NULL DEFAULT now() COMMENT '更新时间',
+  create_by   VARCHAR(100) NOT NULL COMMENT '创建人',
+  update_by   VARCHAR(100) NOT NULL COMMENT '更新人',
   disabled                int COMMENT '数据是否有效(0 有效 1 无效)'
 ) COMMENT '用户和角色关系表';
 
@@ -78,9 +78,9 @@ CREATE TABLE roles_resources_relation
   id           BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '关系id',
   resource_id  INT          NOT NULL COMMENT '角色id',
   role_id      INT          NOT NULL COMMENT '资源id',
-  created_time DATETIME     NOT NULL DEFAULT now() COMMENT '创建时间',
-  updated_time DATETIME     NOT NULL DEFAULT now() COMMENT '更新时间',
-  created_by   VARCHAR(100) NOT NULL COMMENT '创建人',
-  updated_by   VARCHAR(100) NOT NULL COMMENT '更新人',
+  create_time DATETIME     NOT NULL DEFAULT now() COMMENT '创建时间',
+  update_time DATETIME     NOT NULL DEFAULT now() COMMENT '更新时间',
+  create_by   VARCHAR(100) NOT NULL COMMENT '创建人',
+  update_by   VARCHAR(100) NOT NULL COMMENT '更新人',
   disabled                int COMMENT '数据是否有效(0 有效 1 无效)'
 ) COMMENT '角色和资源关系表';

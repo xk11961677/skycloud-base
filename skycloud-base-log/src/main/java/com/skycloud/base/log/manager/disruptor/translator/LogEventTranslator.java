@@ -44,8 +44,8 @@ public class LogEventTranslator implements EventTranslatorOneArg<LogEvent, Syste
         systemLog.setBizType(systemOptLogDto.getBizType().getKey());
         systemLog.setType(systemOptLogDto.getType().getKey());
         systemLog.setRemark(systemOptLogDto.getRemark());
-        systemLog.setCreatedBy(Optional.ofNullable(systemOptLogDto.getCreatedBy()).orElse("system"));
-        systemLog.setCreatedTime(new Date());
+        systemLog.setCreateBy(Optional.ofNullable(systemOptLogDto.getCreateBy()).orElse("system"));
+        systemLog.setCreateTime(new Date());
         systemLog.setDisabled(0);
 
         logEvent.setSystemLog(systemLog);
