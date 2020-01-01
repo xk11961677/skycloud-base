@@ -27,7 +27,6 @@
         <feign.form.spring.version>3.0.3</feign.form.spring.version>
         <javax.el.version>3.0.1-b08</javax.el.version>
         <jackson.dataformat.convert.version>2.9.4</jackson.dataformat.convert.version>
-        <fasterxml.jackson.version>2.10.1</fasterxml.jackson.version>
         <logstash.logback.encoder.version>6.1</logstash.logback.encoder.version>
         <skywalking.version>6.4.0</skywalking.version>
         <hutool.version>4.5.18</hutool.version>
@@ -96,18 +95,6 @@
                 <groupId>org.codehaus.jackson</groupId>
                 <artifactId>jackson-mapper-asl</artifactId>
                 <version>${codehaus-jackson.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${fasterxml.jackson.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${fasterxml.jackson.version}</version>
             </dependency>
 
             <!-- mybatis generator  -->
