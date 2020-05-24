@@ -55,4 +55,8 @@ public class TableEntity {
      * 普通类型
      */
     private String lowerClassName;
+    /**
+     * 持久化实体对象名称
+     */
+    private String entityName;
 }
