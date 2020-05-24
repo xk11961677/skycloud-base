@@ -28,7 +28,7 @@ import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.fastjson.JSON;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.model.enums.FailureCodeEnum;
+import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.codec.ServerCodecConfigurer;
@@ -67,7 +67,7 @@ public class JsonSentinelGatewayBlockExceptionHandler extends SentinelGatewayBlo
         LogUtils.info(log, "gateway default JsonSentinelGatewayBlockExceptionHandler:{}");
         ServerHttpResponse serverHttpResponse = exchange.getResponse();
         serverHttpResponse.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-        MessageRes fail = MessageRes.fail(FailureCodeEnum.GL990002.getCode(), FailureCodeEnum.GL990002.getMsg());
+        MessageRes fail = MessageRes.fail(SystemErrorCodeEnum.GL990002.getCode(), SystemErrorCodeEnum.GL990002.getMsg());
         byte[] data = JSON.toJSONString(fail).getBytes(StandardCharsets.UTF_8);
         DataBuffer buffer = serverHttpResponse.bufferFactory().wrap(data);
         return serverHttpResponse.writeWith(Mono.just(buffer));
