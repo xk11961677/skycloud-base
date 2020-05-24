@@ -29,9 +29,9 @@ import com.sky.framework.model.enums.ErrorCode;
  */
 public enum AucErrorCodeEnum implements ErrorCode {
 
-    AUC1000001(110001, "用户名或密码错误");
+    AUC1000001("110001", "用户名或密码错误");
 
-    private int code;
+    private String code;
 
     private String msg;
 
@@ -49,11 +49,11 @@ public enum AucErrorCodeEnum implements ErrorCode {
      *
      * @return the int
      */
-    public int code() {
+    public String code() {
         return code;
     }
 
-    AucErrorCodeEnum(int code, String msg) {
+    AucErrorCodeEnum(String code, String msg) {
         this.code = code;
         this.msg = msg;
     }
@@ -64,9 +64,9 @@ public enum AucErrorCodeEnum implements ErrorCode {
      * @param code the code
      * @return the enum
      */
-    public static AucErrorCodeEnum getEnum(int code) {
+    public static AucErrorCodeEnum getEnum(String code) {
         for (AucErrorCodeEnum ele : AucErrorCodeEnum.values()) {
-            if (ele.code() == code) {
+            if (ele.code().equals(code)) {
                 return ele;
             }
         }
@@ -79,7 +79,7 @@ public enum AucErrorCodeEnum implements ErrorCode {
     }
 
     @Override
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 }

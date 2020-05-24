@@ -1,6 +1,6 @@
 package ${package}.${moduleName}.service.impl;
 
-import ${package}.${moduleName}.model.po.${className};
+import ${package}.${moduleName}.model.po.${entityName};
 import ${package}.${moduleName}.service.${className}Service;
 import ${package}.${moduleName}.mapper.${className}Mapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @date ${datetime}
  */
 @Service("${classname}Service")
-public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper,${className}> implements ${className}Service {
+public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper,${entityName}> implements ${className}Service {
 
 
 }

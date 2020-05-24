@@ -25,7 +25,7 @@ package com.skycloud.base.geteway.chain.filter;
 import com.alibaba.fastjson.JSON;
 import com.sky.framework.model.dto.MessageReq;
 import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.model.enums.FailureCodeEnum;
+import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import com.skycloud.base.common.constant.BaseConstants;
 import com.skycloud.base.geteway.chain.AbstractFilter;
 import com.skycloud.base.geteway.chain.Context;
@@ -68,7 +68,7 @@ public class TimeFilter extends AbstractFilter {
         Long timestamp = Long.valueOf(time);
         boolean verify = (timestamp > System.currentTimeMillis() - timePluginLimit * 1000) ? true : false;
         if (!verify) {
-            MessageRes result = MessageRes.fail(FailureCodeEnum.GL990008.getCode(), FailureCodeEnum.GL990008.getMsg());
+            MessageRes result = MessageRes.fail(SystemErrorCodeEnum.GL990008.getCode(), SystemErrorCodeEnum.GL990008.getMsg());
             ctx.setResult(result);
         }
     }

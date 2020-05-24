@@ -24,7 +24,7 @@ package com.skycloud.base.authorization.exception;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.model.enums.FailureCodeEnum;
+import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ class CustomOauthException extends OAuth2Exception {
         AuthErrorType authErrorType = AuthErrorType.valueOf(errorCode);
         if(authErrorType == null) {
             log.error("CustomOauthException :{}" + oAuth2Exception);
-            this.messageRes = MessageRes.fail(FailureCodeEnum.GL999999.getCode(), FailureCodeEnum.GL999999.getMsg());
+            this.messageRes = MessageRes.fail(SystemErrorCodeEnum.GL999999.getCode(), SystemErrorCodeEnum.GL999999.getMsg());
         }else {
             log.info("authorization fail :{} "+summary);
             this.messageRes = MessageRes.fail(authErrorType.getCode(),authErrorType.getMsg());

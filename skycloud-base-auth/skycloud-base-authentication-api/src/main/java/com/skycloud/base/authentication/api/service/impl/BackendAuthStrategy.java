@@ -22,11 +22,11 @@
  */
 package com.skycloud.base.authentication.api.service.impl;
 
+import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import com.skycloud.base.authentication.api.service.AuthService;
 import com.skycloud.base.authentication.api.service.AuthStrategy;
 import com.skycloud.base.common.enums.ChannelTypeEnum;
 import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.model.enums.FailureCodeEnum;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -53,7 +53,7 @@ public class BackendAuthStrategy implements AuthStrategy {
         MessageRes result = MessageRes.success();
         boolean permission = authService.hasPermission(authorization, url, method);
         if (!permission) {
-            result = MessageRes.fail(FailureCodeEnum.AUZ100003.getCode(), FailureCodeEnum.AUZ100003.getMsg());
+            result = MessageRes.fail(SystemErrorCodeEnum.AUZ100003.getCode(), SystemErrorCodeEnum.AUZ100003.getMsg());
         }
         return result;
     }

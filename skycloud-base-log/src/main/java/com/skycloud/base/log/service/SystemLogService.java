@@ -22,7 +22,7 @@
  */
 package com.skycloud.base.log.service;
 
-import com.sky.framework.web.support.IService;
+import com.sky.framework.mybatis.service.IService;
 import com.skycloud.base.log.model.po.SystemLog;
 
 /**

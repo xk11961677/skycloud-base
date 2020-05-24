@@ -1,7 +1,7 @@
 package ${package}.${moduleName}.service;
 
-import com.sky.framework.web.support.IService;
-import ${package}.${moduleName}.model.po.${className};
+import com.sky.framework.mybatis.service.IService;
+import ${package}.${moduleName}.model.po.${entityName};
 
 /**
  * ${comments}
@@ -9,7 +9,7 @@ import ${package}.${moduleName}.model.po.${className};
  * @author ${author}
  * @date ${datetime}
  */
-public interface ${className}Service extends IService<${className}> {
+public interface ${className}Service extends IService<${entityName}> {
 
 
 }

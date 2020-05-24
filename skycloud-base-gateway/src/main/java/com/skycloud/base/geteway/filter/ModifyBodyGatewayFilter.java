@@ -133,7 +133,7 @@ public class ModifyBodyGatewayFilter implements GlobalFilter, Ordered {
      *
      * @param
      */
-    private Mono<Void> response(ServerWebExchange exchange, FilterChainContext context, Integer code, String desc) {
+    private Mono<Void> response(ServerWebExchange exchange, FilterChainContext context, String code, String desc) {
         exchange.getResponse().setStatusCode(HttpStatus.OK);
         HttpHeaders headers = exchange.getResponse().getHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -165,7 +165,7 @@ public class ModifyBodyGatewayFilter implements GlobalFilter, Ordered {
      * @param desc
      * @return
      */
-    private byte[] response(Integer code, String desc) {
+    private byte[] response(String code, String desc) {
         byte[] msg = ("{\"code\":\"" + code + "\",\"msg\":\"" + desc + "\"}").getBytes();
         return msg;
     }

@@ -74,7 +74,7 @@ public class SysGeneratorServiceImpl implements SysGeneratorService {
 		//查询表信息
 		Map<String, String> table = queryTable(genConfig.getTableName());
 		if (table == null) {
-			throw new BusinessException(300001, "数据源没有此表");
+			throw new BusinessException("300001", "数据源没有此表");
 		}
 		//查询列信息
 		List<Map<String, String>> columns = queryColumns(genConfig.getTableName());

@@ -67,6 +67,11 @@ public class Codegen implements Serializable {
     @TableField(value = "table_prefix")
     private String tablePrefix;
     /**
+     * 实体后缀
+     */
+    @TableField(value = "entity_name_suffix")
+    private String entityNameSuffix;
+    /**
      * 表名
      */
     @TableField(value = "table_name")
