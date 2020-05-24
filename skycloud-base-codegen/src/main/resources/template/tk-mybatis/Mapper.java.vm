@@ -1,7 +1,7 @@
 package ${package}.${moduleName}.mapper;
 
 import com.sky.framework.mybatis.MyMapper;
-import ${package}.${moduleName}.model.po.${className};
+import ${package}.${moduleName}.model.po.${entityName};
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface ${className}Mapper extends MyMapper<${className}> {
+public interface ${className}Mapper extends MyMapper<${entityName}> {
 
 }

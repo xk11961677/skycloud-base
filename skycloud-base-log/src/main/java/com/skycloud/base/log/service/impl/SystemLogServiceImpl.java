@@ -22,9 +22,9 @@
  */
 package com.skycloud.base.log.service.impl;
 
+import com.sky.framework.mybatis.service.BaseService;
 import com.skycloud.base.log.model.po.SystemLog;
 import com.skycloud.base.log.service.SystemLogService;
-import com.sky.framework.web.support.BaseService;
 import org.springframework.stereotype.Service;
 
 /**

@@ -24,7 +24,7 @@ package com.skycloud.base.authorization.config.custom;
 
 import com.alibaba.fastjson.JSON;
 import com.sky.framework.common.LogUtils;
-import com.sky.framework.model.enums.FailureCodeEnum;
+import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
 import com.skycloud.base.authentication.api.model.dto.CustomLoginDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +61,7 @@ public class RequestUtils {
             return t;
         } catch (Exception e) {
             LogUtils.error(log, ":{}", e.getMessage());
-            throw new AuzBussinessException(FailureCodeEnum.GL990001.getCode(), FailureCodeEnum.GL990001.getMsg());
+            throw new AuzBussinessException(SystemErrorCodeEnum.GL990001.getCode(), SystemErrorCodeEnum.GL990001.getMsg());
         }
     }
 }

@@ -1,6 +1,4 @@
-package ${package}.${moduleName}.model.po;
-
-
+package ${package}.${moduleName}.po.entity;
 
 import lombok.Data;
 #if(${hasBigDecimal})
@@ -20,7 +18,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.baomidou.mybatisplus.annotation.*;
 import java.io.Serializable;
 
-
 /**
  * ${comments}
  *
@@ -29,27 +26,63 @@ import java.io.Serializable;
  */
 @Data
 @TableName("${tableName}")
-public class ${className} implements Serializable {
+public class ${entityName} implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  #foreach ($column in $columns)
-    #if($column.columnName == $pk.columnName)
-      @TableId(type = IdType.AUTO)
-      private $column.entityAttrType $column.lowerAttrName;
-    #else
-     /**
+#foreach ($column in $columns)
+#if($column.columnName == $pk.columnName)
+    @TableId(type = IdType.AUTO)
+    private $column.entityAttrType $column.lowerAttrName;
+#elseif($column.columnName == "create_time")
+    /**
+     * 创建时间
+     */
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
+#elseif($column.columnName == "create_by")
+    /**
+     * 创建人
+     */
+    @TableField(value = "create_by", fill = FieldFill.INSERT)
+    private String createBy;
+#elseif($column.columnName == "update_time")
+    /**
+     * 更新时间
+     */
+    @TableField(name = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date updateTime;
+#elseif($column.columnName == "update_by")
+    /**
+     * 更新人
+     */
+    @TableField(name = "update_by")
+    private String updateBy;
+#elseif($column.columnName == "disabled")
+    /**
+     * 删除标志位
+     *
+     * 0 未删除 1 已删除
+     */
+    @TableField(name = "disabled")
+    private Integer disabled;
+#else
+    /**
      * $column.comments
      */
-      #if($column.columnName != $column.lowerAttrName)
-      @TableField(value = "${column.columnName}")
-      #end
-      #if($column.entityAttrType == "Date")
-      @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-      @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-      #end
-      private $column.entityAttrType $column.lowerAttrName;
-    #end
-  #end
+#if($column.columnName != $column.lowerAttrName)
+    @TableField(value = "${column.columnName}")
+#end
+#if($column.entityAttrType == "Date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+#end
+    private $column.entityAttrType $column.lowerAttrName;
+#end
+#end
 
 }

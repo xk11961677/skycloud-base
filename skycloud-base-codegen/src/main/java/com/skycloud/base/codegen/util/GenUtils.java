@@ -109,16 +109,20 @@ public class GenUtils {
             tableEntity.setComments(table.get("tableComment"));
         }
 
-        String tablePrefix;
-        if (StrUtil.isNotBlank(genConfig.getTablePrefix())) {
-            tablePrefix = genConfig.getTablePrefix();
-        } else {
+        String tablePrefix = genConfig.getTablePrefix();
+        if (StrUtil.isBlank(genConfig.getTablePrefix())) {
             tablePrefix = config.getString("tablePrefix");
+        }
+
+        String entityNameSuffix = genConfig.getEntityNameSuffix();
+        if (StrUtil.isBlank(entityNameSuffix)) {
+            entityNameSuffix = config.getString("entityNameSuffix");
         }
 
         //表名转换成Java类名
         String className = tableToJava(tableEntity.getTableName(), tablePrefix);
         tableEntity.setCaseClassName(className);
+        tableEntity.setEntityName(className + entityNameSuffix);
         tableEntity.setLowerClassName(StringUtils.uncapitalize(className));
 
         //列信息

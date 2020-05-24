@@ -22,10 +22,10 @@
  */
 package com.skycloud.base.authentication.service;
 
+import com.sky.framework.mybatis.service.IService;
 import com.skycloud.base.authentication.api.model.dto.UserLoginDTO;
 import com.skycloud.base.authentication.api.model.vo.UserLoginVO;
 import com.skycloud.base.authentication.model.po.User;
-import com.sky.framework.web.support.IService;
 
 /**
  * 用户表

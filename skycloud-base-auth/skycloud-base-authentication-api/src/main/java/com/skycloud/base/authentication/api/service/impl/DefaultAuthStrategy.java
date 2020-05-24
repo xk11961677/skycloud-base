@@ -22,10 +22,10 @@
  */
 package com.skycloud.base.authentication.api.service.impl;
 
+import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import com.skycloud.base.authentication.api.service.AuthService;
 import com.skycloud.base.authentication.api.service.AuthStrategy;
 import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.model.enums.FailureCodeEnum;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -55,7 +55,7 @@ public class DefaultAuthStrategy implements AuthStrategy {
         MessageRes result = MessageRes.success();
         String userId = authService.checkJwtRedis(authorization);
         if (StringUtils.isEmpty(userId)) {
-            result = MessageRes.fail(FailureCodeEnum.AUZ100016.getCode(), FailureCodeEnum.AUZ100016.getMsg());
+            result = MessageRes.fail(SystemErrorCodeEnum.AUZ100016.getCode(), SystemErrorCodeEnum.AUZ100016.getMsg());
         }
         result.setData(userId);
         return result;

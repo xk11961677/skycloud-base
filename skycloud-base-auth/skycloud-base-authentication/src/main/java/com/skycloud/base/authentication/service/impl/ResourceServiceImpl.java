@@ -25,7 +25,7 @@ package com.skycloud.base.authentication.service.impl;
 import com.sky.framework.common.json.JsonUtils;
 import com.sky.framework.common.tree.ITreeNode;
 import com.sky.framework.common.tree.Tree;
-import com.sky.framework.web.support.BaseService;
+import com.sky.framework.mybatis.service.BaseService;
 import com.skycloud.base.authentication.enums.ResourceTypeEnum;
 import com.skycloud.base.authentication.mapper.ResourceMapper;
 import com.skycloud.base.authentication.model.bo.ResourceTreeNodeBO;

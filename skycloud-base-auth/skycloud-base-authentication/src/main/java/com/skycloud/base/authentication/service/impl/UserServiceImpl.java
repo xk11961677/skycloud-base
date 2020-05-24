@@ -22,6 +22,7 @@
  */
 package com.skycloud.base.authentication.service.impl;
 
+import com.sky.framework.mybatis.service.BaseService;
 import com.skycloud.base.authentication.api.exception.AucBussinessException;
 import com.skycloud.base.authentication.api.model.dto.UserLoginDTO;
 import com.skycloud.base.authentication.api.model.vo.RoleVO;
@@ -31,7 +32,6 @@ import com.skycloud.base.authentication.mapper.UserMapper;
 import com.skycloud.base.authentication.model.po.Role;
 import com.skycloud.base.authentication.model.po.User;
 import com.skycloud.base.authentication.service.UserService;
-import com.sky.framework.web.support.BaseService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

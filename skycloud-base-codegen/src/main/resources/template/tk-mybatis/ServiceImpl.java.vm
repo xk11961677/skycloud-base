@@ -1,8 +1,8 @@
 package ${package}.${moduleName}.service.impl;
 
-import ${package}.${moduleName}.model.po.${className};
+import ${package}.${moduleName}.model.po.${entityName};
 import ${package}.${moduleName}.service.${className}Service;
-import com.sky.framework.web.support.BaseService;
+import com.sky.framework.mybatis.service.BaseService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @date ${datetime}
  */
 @Service("${classname}Service")
-public class ${className}ServiceImpl extends BaseService<${className}> implements ${className}Service {
+public class ${className}ServiceImpl extends BaseService<${entityName}> implements ${className}Service {
 
 
 }

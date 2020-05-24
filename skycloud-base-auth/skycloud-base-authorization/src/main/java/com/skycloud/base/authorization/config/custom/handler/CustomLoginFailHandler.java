@@ -25,13 +25,12 @@ package com.skycloud.base.authorization.config.custom.handler;
 import com.alibaba.fastjson.JSON;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.model.enums.FailureCodeEnum;
+import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -51,7 +50,7 @@ public class CustomLoginFailHandler extends SimpleUrlAuthenticationFailureHandle
         response.setStatus(HttpStatus.OK.value());
         response.setContentType("application/json;charset=UTF-8");
 
-        String resp = JSON.toJSONString(MessageRes.fail(FailureCodeEnum.AUZ100001.getCode(), FailureCodeEnum.AUZ100001.getMsg()));
+        String resp = JSON.toJSONString(MessageRes.fail(SystemErrorCodeEnum.AUZ100001.getCode(), SystemErrorCodeEnum.AUZ100001.getMsg()));
         response.getWriter().write(resp);
     }
 

@@ -26,7 +26,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.model.enums.FailureCodeEnum;
+import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import com.sky.framework.redis.util.RedisTokenUtils;
 import com.sky.framework.redis.util.RedisUtils;
 import com.skycloud.base.authentication.api.model.vo.UserLoginVO;
@@ -93,7 +93,7 @@ public class CustomLoginAuthSuccessHandler extends SavedRequestAwareAuthenticati
             writer.write(resp);
         } catch (Exception e) {
             LogUtils.error(log, "登录异常", e);
-            String result = JSON.toJSONString(MessageRes.fail(FailureCodeEnum.GL999999.getCode(), FailureCodeEnum.GL999999.getMsg()));
+            String result = JSON.toJSONString(MessageRes.fail(SystemErrorCodeEnum.GL999999.getCode(), SystemErrorCodeEnum.GL999999.getMsg()));
             writer.write(result);
         } finally {
             if (writer != null) {

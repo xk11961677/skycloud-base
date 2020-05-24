@@ -25,7 +25,7 @@ package com.skycloud.base.geteway;
 import com.alibaba.fastjson.JSON;
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.model.enums.FailureCodeEnum;
+import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import com.skycloud.base.geteway.common.RemoteAddrKeyResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -62,7 +62,7 @@ public class GatewayApplication {
     @RequestMapping(value = "/defaultFallback", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Mono<String> defaultFallback() {
         LogUtils.info(log, "gateway default hystrix:{}");
-        MessageRes fail = MessageRes.fail(FailureCodeEnum.GL990002.getCode(), FailureCodeEnum.GL990002.getMsg());
+        MessageRes fail = MessageRes.fail(SystemErrorCodeEnum.GL990002.getCode(), SystemErrorCodeEnum.GL990002.getMsg());
         return Mono.just(JSON.toJSONString(fail));
     }
 

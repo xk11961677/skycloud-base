@@ -22,7 +22,7 @@
  */
 package com.skycloud.base.geteway.config;
 
-import com.sky.framework.model.enums.FailureCodeEnum;
+import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import org.apache.commons.lang.ObjectUtils;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
@@ -67,7 +67,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         if (error instanceof ResponseStatusException) {
             code = ((ResponseStatusException) error).getStatus().value();
         }
-        int errCode = this.errCodeConverter(code);
+        String errCode = this.errCodeConverter(code);
         return response(code, errCode, this.buildMessage(request, error));
     }
 
@@ -102,13 +102,13 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
      * @param code
      * @return
      */
-    private int errCodeConverter(int code) {
-        int errCode = FailureCodeEnum.GL999999.getCode();
+    private String errCodeConverter(int code) {
+        String errCode = SystemErrorCodeEnum.GL999999.getCode();
         if (code == HttpStatus.BAD_REQUEST.value()) {
-            errCode = FailureCodeEnum.GL990003.getCode();
+            errCode = SystemErrorCodeEnum.GL990003.getCode();
         }
         if (code == HttpStatus.NOT_FOUND.value()) {
-            errCode = FailureCodeEnum.GL990004.getCode();
+            errCode = SystemErrorCodeEnum.GL990004.getCode();
         }
         return errCode;
     }
@@ -140,7 +140,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
      * @param errorMessage 异常信息
      * @return
      */
-    public Map<String, Object> response(int status, int errCode, String errorMessage) {
+    public Map<String, Object> response(int status, String errCode, String errorMessage) {
         Map<String, Object> map = new HashMap<>(8);
         map.put("code", errCode);
         map.put("msg", errorMessage);

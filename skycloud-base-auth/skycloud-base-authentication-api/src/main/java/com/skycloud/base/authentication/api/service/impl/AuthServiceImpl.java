@@ -40,7 +40,6 @@ import org.springframework.security.jwt.crypto.sign.InvalidSignatureException;
 import org.springframework.security.jwt.crypto.sign.MacSigner;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -90,7 +89,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean hasPermission(MessageRes authResult) {
-        return authResult.getCode() == 0 && (boolean) authResult.getData();
+        return authResult.isSuccess() && (boolean) authResult.getData();
     }
 
     @Override
