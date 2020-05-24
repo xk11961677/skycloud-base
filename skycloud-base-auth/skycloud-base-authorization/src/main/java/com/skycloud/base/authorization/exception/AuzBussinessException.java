@@ -51,7 +51,7 @@ public class AuzBussinessException extends BusinessException {
      * @param msgFormat the msg format
      * @param args      the args
      */
-    public AuzBussinessException(int code, String msgFormat, Object... args) {
+    public AuzBussinessException(String code, String msgFormat, Object... args) {
         super(code, msgFormat, args);
     }
 
@@ -61,7 +61,7 @@ public class AuzBussinessException extends BusinessException {
      * @param code the code
      * @param msg  the msg
      */
-    public AuzBussinessException(int code, String msg) {
+    public AuzBussinessException(String code, String msg) {
         super(code, msg);
     }
 

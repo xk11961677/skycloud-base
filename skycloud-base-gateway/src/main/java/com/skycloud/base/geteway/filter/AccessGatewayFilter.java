@@ -24,7 +24,7 @@ package com.skycloud.base.geteway.filter;
 
 import com.sky.framework.common.LogUtils;
 import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.model.enums.FailureCodeEnum;
+import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import com.skycloud.base.authentication.api.client.AuthFeignApi;
 import com.skycloud.base.authentication.api.service.AuthService;
 import com.skycloud.base.authentication.api.service.impl.AuthStrategyManager;
@@ -136,7 +136,7 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
         HttpHeaders headers = serverWebExchange.getResponse().getHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         DataBuffer buffer = serverWebExchange.getResponse()
-                .bufferFactory().wrap(response(FailureCodeEnum.AUZ100001.getCode(), FailureCodeEnum.AUZ100001.getMsg()));
+                .bufferFactory().wrap(response(SystemErrorCodeEnum.AUZ100001.getCode(), SystemErrorCodeEnum.AUZ100001.getMsg()));
         return serverWebExchange.getResponse().writeWith(Flux.just(buffer));
     }
 
@@ -146,7 +146,7 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
      *
      * @param HttpStatus.FORBIDDEN.getReasonPhrase().getBytes()
      */
-    private Mono<Void> unpermission(ServerWebExchange serverWebExchange, Integer code, String msg) {
+    private Mono<Void> unpermission(ServerWebExchange serverWebExchange, String code, String msg) {
         serverWebExchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
         HttpHeaders headers = serverWebExchange.getResponse().getHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -172,7 +172,7 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
      * @param desc
      * @return
      */
-    private byte[] response(Integer code, String desc) {
+    private byte[] response(String code, String desc) {
         byte[] msg = ("{\"code\":\"" + code + "\",\"msg\":\"" + desc + "\"}").getBytes();
         return msg;
     }

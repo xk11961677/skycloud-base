@@ -22,8 +22,8 @@
  */
 package com.skycloud.base.authentication.service;
 
+import com.sky.framework.mybatis.service.IService;
 import com.skycloud.base.authentication.model.po.UserRole;
-import com.sky.framework.web.support.IService;
 
 /**
  * 用户和角色关系表

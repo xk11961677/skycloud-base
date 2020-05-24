@@ -22,7 +22,7 @@
  */
 package com.skycloud.base.log.model.po;
 
-import com.sky.framework.web.support.BaseEntity;
+import com.sky.framework.model.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

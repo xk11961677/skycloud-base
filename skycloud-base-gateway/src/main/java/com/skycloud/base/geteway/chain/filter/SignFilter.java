@@ -28,7 +28,7 @@ import com.sky.framework.common.encrypt.DefaultMd5Verifier;
 import com.sky.framework.common.encrypt.Verifier;
 import com.sky.framework.model.dto.MessageReq;
 import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.model.enums.FailureCodeEnum;
+import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import com.skycloud.base.common.constant.BaseConstants;
 import com.skycloud.base.geteway.chain.AbstractFilter;
 import com.skycloud.base.geteway.chain.Context;
@@ -88,16 +88,16 @@ public class SignFilter extends AbstractFilter {
         MessageRes result = ctx.getResult();
         if (validate.isHasErrors()) {
             List<String> errors = validate.getErrorMsg();
-            String msg = !CollectionUtils.isEmpty(errors) ? errors.get(0) : FailureCodeEnum.GL990001.getMsg();
-            result.setCode(FailureCodeEnum.GL990001.getCode());
+            String msg = !CollectionUtils.isEmpty(errors) ? errors.get(0) : SystemErrorCodeEnum.GL990001.getMsg();
+            result.setCode(SystemErrorCodeEnum.GL990001.getCode());
             result.setMsg(msg);
             return;
         }
         HttpHeaders headers = ctx.getHeaders();
         boolean verify = this.verifySignature(headers, messageReq);
         if (!verify) {
-            result.setCode(FailureCodeEnum.GL990005.getCode());
-            result.setMsg(FailureCodeEnum.GL990005.getMsg());
+            result.setCode(SystemErrorCodeEnum.GL990005.getCode());
+            result.setMsg(SystemErrorCodeEnum.GL990005.getMsg());
             return;
         }
         String info = decodeParameters(messageReq);

@@ -90,7 +90,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean hasPermission(MessageRes authResult) {
-        return authResult.getCode() == 0 && (boolean) authResult.getData();
+        return authResult.isSuccess() && (boolean) authResult.getData();
     }
 
     @Override

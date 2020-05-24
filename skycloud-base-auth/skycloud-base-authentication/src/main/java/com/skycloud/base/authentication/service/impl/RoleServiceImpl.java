@@ -22,9 +22,9 @@
  */
 package com.skycloud.base.authentication.service.impl;
 
+import com.sky.framework.mybatis.service.BaseService;
 import com.skycloud.base.authentication.model.po.Role;
 import com.skycloud.base.authentication.service.RoleService;
-import com.sky.framework.web.support.BaseService;
 import org.springframework.stereotype.Service;
 
 /**

@@ -23,7 +23,7 @@
 package com.skycloud.base.common.fallback;
 
 import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.model.enums.FailureCodeEnum;
+import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import com.sky.framework.model.exception.BusinessException;
 
 /**
@@ -42,6 +42,6 @@ public class FallbackResult {
             BusinessException be = (BusinessException) cause;
             return MessageRes.fail(be.getCode(), be.getMessage());
         }
-        return MessageRes.fail(FailureCodeEnum.GL990002.getCode(), FailureCodeEnum.GL990002.getMsg());
+        return MessageRes.fail(SystemErrorCodeEnum.GL990002.getCode(), SystemErrorCodeEnum.GL990002.getMsg());
     }
 }

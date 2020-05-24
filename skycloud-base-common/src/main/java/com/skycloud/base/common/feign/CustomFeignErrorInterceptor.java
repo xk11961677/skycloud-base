@@ -28,6 +28,7 @@ import com.sky.framework.model.exception.BusinessException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.ObjectUtils;
 import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
@@ -61,8 +62,8 @@ public class CustomFeignErrorInterceptor implements ErrorDecoder {
         }
         try {
             HashMap map = JSON.parseObject(response.body().asInputStream(), HashMap.class);
-            Integer code = (Integer) map.get("code");
-            String message = (String) map.get("msg");
+            String code = ObjectUtils.toString(map.get("code"));
+            String message = ObjectUtils.toString(map.get("msg"));
             if (code != null) {
                 throw new BusinessException(code, message);
             }

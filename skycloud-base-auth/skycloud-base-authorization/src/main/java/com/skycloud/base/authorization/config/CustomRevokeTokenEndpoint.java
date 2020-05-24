@@ -23,7 +23,7 @@
 package com.skycloud.base.authorization.config;
 
 import com.sky.framework.model.dto.MessageRes;
-import com.sky.framework.model.enums.FailureCodeEnum;
+import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import com.sky.framework.redis.util.RedisUtils;
 import com.skycloud.base.authorization.common.Constants;
 import com.skycloud.base.authorization.exception.AuzBussinessException;
@@ -78,7 +78,7 @@ public class CustomRevokeTokenEndpoint {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         String channel = request.getHeader(BaseConstants.CHANNEL);
         if (StringUtils.isEmpty(token) || StringUtils.isEmpty(channel)) {
-            throw new AuzBussinessException(FailureCodeEnum.GL990001.getCode(), FailureCodeEnum.GL990001.getMsg());
+            throw new AuzBussinessException(SystemErrorCodeEnum.GL990001.getCode(), SystemErrorCodeEnum.GL990001.getMsg());
         }
         if (!token.contains("bearer ")) {
             token = token.substring(7);
