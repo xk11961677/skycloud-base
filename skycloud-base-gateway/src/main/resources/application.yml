@@ -10,4 +10,5 @@ apollo:
     enabled: true
     eagerLoad:
       enabled: true
-    namespaces: application,redis,redisson,gateway-route-config.yml
+    namespaces: application,redis,fw-redisson,gateway-route-config.yml
+

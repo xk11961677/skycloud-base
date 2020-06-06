@@ -17,7 +17,7 @@
 
     <properties>
         <codehaus-jackson.version>1.9.13</codehaus-jackson.version>
-        <springframework.version>5.1.6.RELEASE</springframework.version>
+        <springframework.version>5.2.1.RELEASE</springframework.version>
         <spring.security.jwt.version>1.0.10.RELEASE</spring.security.jwt.version>
         <spring.security.oauth2.version>2.3.6.RELEASE</spring.security.oauth2.version>
         <guava.version>26.0-jre</guava.version>
@@ -33,7 +33,7 @@
         <apollo.client.version>1.4.0</apollo.client.version>
         <orika-spring.version>1.8.0</orika-spring.version>
         <disruptor.version>3.4.0</disruptor.version>
-        <sky.framework.version>1.0.1-SNAPSHOT</sky.framework.version>
+        <sky.framework.version>1.0.2-SNAPSHOT</sky.framework.version>
     </properties>
 
     <dependencyManagement>
@@ -54,7 +54,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Greenwich.SR3</version>
+                <version>Hoxton.SR5</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

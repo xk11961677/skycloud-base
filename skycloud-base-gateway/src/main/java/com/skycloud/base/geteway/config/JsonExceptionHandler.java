@@ -87,13 +87,13 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
      * @param map
      */
     @Override
-    protected HttpStatus getHttpStatus(Map<String, Object> map) {
+    protected int getHttpStatus(Map<String, Object> map) {
         int statusCode = HttpStatus.INTERNAL_SERVER_ERROR.value();
         if (map.get(STATUS) != null) {
             statusCode = Integer.parseInt(ObjectUtils.toString(map.get(STATUS)));
             map.remove(STATUS);
         }
-        return HttpStatus.valueOf(statusCode);
+        return statusCode;
     }
 
     /**

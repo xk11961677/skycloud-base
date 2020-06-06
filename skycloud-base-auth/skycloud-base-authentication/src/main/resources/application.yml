@@ -10,4 +10,4 @@ apollo:
     enabled: true
     eagerLoad:
       enabled: true
-    namespaces: application,redis,redisson
+    namespaces: application,redis,fw-redisson
