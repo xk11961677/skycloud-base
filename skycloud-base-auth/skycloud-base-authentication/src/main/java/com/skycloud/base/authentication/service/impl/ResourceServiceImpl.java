@@ -80,8 +80,8 @@ public class ResourceServiceImpl extends BaseService<Resource> implements Resour
     }
 
     @Override
-    public List<Resource> listApiURL(Resource resource,Integer[] types) {
-        List<Resource> resources = resourceMapper.listApiURL(resource, types);
+    public List<Resource> listApiURL(Integer[] types) {
+        List<Resource> resources = resourceMapper.listApiURL(types);
         return resources;
     }
 }

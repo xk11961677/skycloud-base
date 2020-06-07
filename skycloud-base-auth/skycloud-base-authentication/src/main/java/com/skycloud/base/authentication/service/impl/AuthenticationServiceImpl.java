@@ -68,7 +68,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public void loadResource() {
         Integer[] types = {ResourceTypeEnum.INTERFACE_URL.getKey()};
-        List<Resource> resources = resourceService.listApiURL(null, types);
+        List<Resource> resources = resourceService.listApiURL(types);
         resources.stream().forEach(r -> addResourceConfigAttributes(r));
         LogUtils.debug(log, "resourceConfigAttributes:{}", () -> ResourceMatcherContainer.getInstance());
     }

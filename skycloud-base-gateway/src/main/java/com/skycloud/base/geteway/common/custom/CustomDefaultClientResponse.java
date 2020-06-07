@@ -224,6 +224,11 @@ public class CustomDefaultClientResponse implements ClientResponse {
                 });
     }
 
+    @Override
+    public String logPrefix() {
+        return this.logPrefix;
+    }
+
     // Used by DefaultClientResponseBuilder
     HttpRequest request() {
         return this.requestSupplier.get();
