@@ -137,12 +137,12 @@ public class SignFilter extends AbstractFilter {
     @SuppressWarnings("all")
     private boolean match(ServerWebExchange exchange) {
         Route route = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
-        if (ignore(gatewayProperties.getSignPluginIgnoreRoutes(), route.getId())) {
+        if (ignore(gatewayProperties.getSignPluginCloseRoute(), route.getId())) {
             return false;
         }
         ServerHttpRequest request = exchange.getRequest();
         String channel = request.getHeaders().getFirst(BaseConstants.CHANNEL);
-        if (ignore(gatewayProperties.getSignPluginIgnoreChannel(), channel)) {
+        if (ignore(gatewayProperties.getSignPluginCloseChannel(), channel)) {
             return false;
         }
         String path = request.getURI().getPath();
@@ -174,7 +174,7 @@ public class SignFilter extends AbstractFilter {
     private boolean verifySignature(HttpHeaders headers, MessageReq messageReq) {
         String clientId = messageReq.getClientId();
         headers.set(CLIENT_ID, clientId);
-        Map<String, String> clientSecret = gatewayProperties.getSignClientSecret();
+        Map<String, String> clientSecret = gatewayProperties.getSignPluginSecret();
         String secret = clientSecret.getOrDefault(clientId, DEFAULT_SECRET);
         boolean verify = verifier.verify(messageReq, secret);
         return verify;

@@ -23,7 +23,6 @@
 package com.skycloud.base.geteway;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Map;
@@ -39,72 +38,60 @@ public class GatewayProperties {
     /**
      * 是否开启修改请求体插件
      */
-    @Value("${gateway.modify_body_plugin_open:true}")
-    private boolean modifyBodyPluginOpen;
+    private boolean modifyBodyPluginOpen = true;
 
     /**
      * 日志插件
      */
-    @Value("${gateway.parameter_plugin_open:true}")
-    private boolean parameterPluginOpen;
+    private boolean parameterPluginOpen = true;
 
     /**
      * 是否开启验签插件
      */
-    @Value("${gateway.sign_plugin_open:true}")
-    private boolean signPluginOpen;
+    private boolean signPluginOpen = true;
 
     /**
      * 签名秘钥
      */
-    @Value("#{${gateway.sign_plugin_secret}}")
-    private Map<String, String> signClientSecret = new ConcurrentHashMap<>();
+    private Map<String, String> signPluginSecret = new ConcurrentHashMap<>();
 
     /**
      * 某渠道忽略此插件
      */
-    @Value("${gateway.sign_plugin_close_channel:''}")
-    private String signPluginIgnoreChannel;
+    private String signPluginCloseChannel;
 
     /**
      * 不执行此插件的URL 以逗号分割且结尾
      */
-    @Value("${gateway.sign_plugin_close_url:''}")
     private String signPluginCloseUrl;
 
     /**
      * 不需要网关签名的路由配置
      */
-    @Value("${gateway.sign_plugin_close_route:''}")
-    private String signPluginIgnoreRoutes;
+    private String signPluginCloseRoute;
 
 
     /**
      * 是否开启验证时间限制
      */
-    @Value("${gateway.time_plugin_open:true}")
-    private boolean timePluginOpen;
+    private boolean timePluginOpen = true;
 
     /**
      * 是否开启验证时间限制,单位秒
      */
-    @Value("${gateway.time_plugin_limit:600}")
-    private int timePluginLimit;
+    private int timePluginLimit = 600;
     /**
      * 某渠道忽略此插件
      */
-    @Value("${gateway.time_plugin_close_channel:''}")
-    private String timePluginIgnoreChannel;
+    private String timePluginCloseChannel;
 
     /**
      * 不执行此插件的URL 以逗号分割且结尾
      */
-    @Value("${gateway.time_plugin_close_url:''}")
     private String timePluginCloseUrl;
 
     /**
      * 不需要网关签名的路由配置
      */
-    @Value("${gateway.time_plugin_close_route:''}")
-    private String timePluginIgnoreRoutes;
+    private String timePluginCloseRoutes;
 }

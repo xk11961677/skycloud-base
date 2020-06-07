@@ -67,10 +67,9 @@ public interface ResourceService extends IService<Resource> {
     /**
      * 获取所有API URL
      *
-     * @param resource
      * @param types
      * @return
      */
-    List<Resource> listApiURL(Resource resource, Integer[] types);
+    List<Resource> listApiURL(Integer[] types);
 
 }

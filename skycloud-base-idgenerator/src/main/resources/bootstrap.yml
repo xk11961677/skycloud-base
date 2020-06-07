@@ -7,7 +7,7 @@ spring:
     nacos:
       config:
         enabled: true
-        shared-dataids: redis.properties,redisson.yaml
+        shared-dataids: redis.properties,fw-redisson.properties
         server-addr: 47.96.117.253:8070
   main:
     allow-bean-definition-overriding: true

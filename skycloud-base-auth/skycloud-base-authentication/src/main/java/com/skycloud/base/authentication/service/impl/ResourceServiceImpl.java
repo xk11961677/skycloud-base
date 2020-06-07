@@ -74,14 +74,14 @@ public class ResourceServiceImpl extends BaseService<Resource> implements Resour
     }
 
     @Override
-    public Set<Resource> listByRoleCodes(String[] codes,Integer[] types) {
-        List<Resource> resources = resourceMapper.listResourceByRoleCodes(codes,types);
+    public Set<Resource> listByRoleCodes(String[] codes, Integer[] types) {
+        List<Resource> resources = resourceMapper.listResourceByRoleCodes(codes, types);
         return new HashSet<>(resources);
     }
 
     @Override
-    public List<Resource> listApiURL(Resource resource,Integer[] types) {
-        List<Resource> resources = resourceMapper.listApiURL(resource, types);
+    public List<Resource> listApiURL(Integer[] types) {
+        List<Resource> resources = resourceMapper.listApiURL(types);
         return resources;
     }
 }

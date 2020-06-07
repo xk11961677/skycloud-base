@@ -24,19 +24,26 @@ package com.skycloud.base.geteway.common.custom;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.codec.Hints;
+import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.*;
 import org.springframework.http.client.reactive.ClientHttpResponse;
 import org.springframework.http.codec.HttpMessageReader;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.util.MimeType;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyExtractor;
 import org.springframework.web.reactive.function.BodyExtractors;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
+import org.springframework.web.reactive.function.client.UnknownHttpStatusCodeException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.function.Supplier;
 
 /**
  * 抄袭
@@ -50,12 +57,17 @@ public class CustomDefaultClientResponse implements ClientResponse {
     private final Headers headers;
     private final ExchangeStrategies strategies;
     private final String logPrefix;
+    private final String requestDescription;
+    private final Supplier<HttpRequest> requestSupplier;
 
-    public CustomDefaultClientResponse(ClientHttpResponse response, ExchangeStrategies strategies, String logPrefix) {
+    public CustomDefaultClientResponse(ClientHttpResponse response, ExchangeStrategies strategies, String logPrefix
+            , String requestDescription, Supplier<HttpRequest> requestSupplier) {
         this.response = response;
         this.strategies = strategies;
-        this.headers = new CustomDefaultClientResponse.DefaultHeaders();
+        this.headers = new DefaultHeaders();
         this.logPrefix = logPrefix;
+        this.requestDescription = requestDescription;
+        this.requestSupplier = requestSupplier;
     }
 
     @Override
@@ -85,10 +97,10 @@ public class CustomDefaultClientResponse implements ClientResponse {
 
     @Override
     public <T> T body(BodyExtractor<T, ? super ClientHttpResponse> extractor) {
-        return extractor.extract(this.response, new BodyExtractor.Context() {
+        T result = extractor.extract(this.response, new BodyExtractor.Context() {
             @Override
             public List<HttpMessageReader<?>> messageReaders() {
-                return CustomDefaultClientResponse.this.strategies.messageReaders();
+                return strategies.messageReaders();
             }
 
             @Override
@@ -98,9 +110,17 @@ public class CustomDefaultClientResponse implements ClientResponse {
 
             @Override
             public Map<String, Object> hints() {
-                return Hints.from(Hints.LOG_PREFIX_HINT, CustomDefaultClientResponse.this.logPrefix);
+                return Hints.from(Hints.LOG_PREFIX_HINT, logPrefix);
             }
         });
+        String description = "Body from " + this.requestDescription + " [DefaultClientResponse]";
+        if (result instanceof Mono) {
+            return (T) ((Mono<?>) result).checkpoint(description);
+        } else if (result instanceof Flux) {
+            return (T) ((Flux<?>) result).checkpoint(description);
+        } else {
+            return result;
+        }
     }
 
     @Override
@@ -121,6 +141,13 @@ public class CustomDefaultClientResponse implements ClientResponse {
     @Override
     public <T> Flux<T> bodyToFlux(ParameterizedTypeReference<T> typeReference) {
         return (Flux) this.body(BodyExtractors.toFlux(typeReference));
+    }
+
+    @Override
+    public Mono<Void> releaseBody() {
+        return this.body(BodyExtractors.toDataBuffers())
+                .map(DataBufferUtils::release)
+                .then();
     }
 
     @Override
@@ -151,6 +178,58 @@ public class CustomDefaultClientResponse implements ClientResponse {
     @Override
     public <T> Mono<ResponseEntity<List<T>>> toEntityList(ParameterizedTypeReference<T> typeReference) {
         return this.toEntityListInternal(this.bodyToFlux(typeReference));
+    }
+
+    @Override
+    public Mono<ResponseEntity<Void>> toBodilessEntity() {
+        return releaseBody()
+                .then(CustomWebClientUtils.toEntity(this, Mono.empty()));
+    }
+
+    @Override
+    public Mono<WebClientResponseException> createException() {
+        return DataBufferUtils.join(body(BodyExtractors.toDataBuffers()))
+                .map(dataBuffer -> {
+                    byte[] bytes = new byte[dataBuffer.readableByteCount()];
+                    dataBuffer.read(bytes);
+                    DataBufferUtils.release(dataBuffer);
+                    return bytes;
+                })
+                .defaultIfEmpty(new byte[0])
+                .map(bodyBytes -> {
+                    HttpRequest request = this.requestSupplier.get();
+                    Charset charset = headers().contentType()
+                            .map(MimeType::getCharset)
+                            .orElse(StandardCharsets.ISO_8859_1);
+                    int statusCode = rawStatusCode();
+                    HttpStatus httpStatus = HttpStatus.resolve(statusCode);
+                    if (httpStatus != null) {
+                        return WebClientResponseException.create(
+                                statusCode,
+                                httpStatus.getReasonPhrase(),
+                                headers().asHttpHeaders(),
+                                bodyBytes,
+                                charset,
+                                request);
+                    } else {
+                        return new UnknownHttpStatusCodeException(
+                                statusCode,
+                                headers().asHttpHeaders(),
+                                bodyBytes,
+                                charset,
+                                request);
+                    }
+                });
+    }
+
+    @Override
+    public String logPrefix() {
+        return logPrefix;
+    }
+
+    // Used by DefaultClientResponseBuilder
+    HttpRequest request() {
+        return this.requestSupplier.get();
     }
 
     private <T> Mono<ResponseEntity<List<T>>> toEntityListInternal(Flux<T> bodyFlux) {

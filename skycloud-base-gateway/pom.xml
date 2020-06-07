@@ -69,7 +69,6 @@
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
-
         <!-- monitor -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

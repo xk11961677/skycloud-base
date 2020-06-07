@@ -94,12 +94,12 @@ public class TimeFilter extends AbstractFilter {
     @SuppressWarnings("all")
     private boolean match(ServerWebExchange exchange) {
         Route route = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
-        if (ignore(gatewayProperties.getTimePluginIgnoreRoutes(), route.getId())) {
+        if (ignore(gatewayProperties.getTimePluginCloseRoutes(), route.getId())) {
             return false;
         }
         ServerHttpRequest request = exchange.getRequest();
         String channel = request.getHeaders().getFirst(BaseConstants.CHANNEL);
-        if (ignore(gatewayProperties.getTimePluginIgnoreChannel(), channel)) {
+        if (ignore(gatewayProperties.getTimePluginCloseChannel(), channel)) {
             return false;
         }
         String path = request.getURI().getPath();

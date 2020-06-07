@@ -60,9 +60,8 @@ public interface ResourceMapper extends MyMapper<Resource> {
     /**
      * 获取所有API URL
      *
-     * @param resource
      * @param types
      * @return
      */
-    List<Resource> listApiURL(Resource resource, @Param("types") Integer[] types);
+    List<Resource> listApiURL(@Param("types") Integer[] types);
 }

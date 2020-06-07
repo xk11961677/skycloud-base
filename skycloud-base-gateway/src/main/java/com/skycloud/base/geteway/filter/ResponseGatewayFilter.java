@@ -36,6 +36,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
 import org.springframework.stereotype.Component;
@@ -46,6 +47,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.net.URI;
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 
@@ -81,7 +83,8 @@ public class ResponseGatewayFilter implements GlobalFilter, Ordered {
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.add(HttpHeaders.CONTENT_TYPE, originalResponseContentType);
                 ResponseAdapter responseAdapter = new ResponseAdapter(body, httpHeaders);
-                CustomDefaultClientResponse clientResponse = new CustomDefaultClientResponse(responseAdapter, ExchangeStrategies.withDefaults(), "");
+                CustomDefaultClientResponse clientResponse = new CustomDefaultClientResponse(responseAdapter,
+                        ExchangeStrategies.withDefaults(), "","",() -> EMPTY_REQUEST);
                 Mono<String> rawBody = clientResponse.bodyToMono(String.class).map(s -> s);
                 BodyInserter<Mono<String>, ReactiveHttpOutputMessage> bodyInserter = BodyInserters.fromPublisher(rawBody, String.class);
                 CustomCachedBodyOutputMessage outputMessage = new CustomCachedBodyOutputMessage(exchange, exchange.getResponse().getHeaders());
@@ -106,4 +109,23 @@ public class ResponseGatewayFilter implements GlobalFilter, Ordered {
 
     }
 
+    private static final HttpRequest EMPTY_REQUEST = new HttpRequest() {
+
+        private final URI empty = URI.create("");
+
+        @Override
+        public String getMethodValue() {
+            return "UNKNOWN";
+        }
+
+        @Override
+        public URI getURI() {
+            return this.empty;
+        }
+
+        @Override
+        public HttpHeaders getHeaders() {
+            return HttpHeaders.EMPTY;
+        }
+    };
 }
