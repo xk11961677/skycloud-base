@@ -23,8 +23,8 @@
 package com.skycloud.base.authentication.service;
 
 import com.sky.framework.mybatis.service.IService;
-import com.skycloud.base.authentication.model.po.Resource;
 import com.skycloud.base.authentication.model.dto.UserDTO;
+import com.skycloud.base.authentication.model.po.Resource;
 
 import java.util.List;
 import java.util.Set;

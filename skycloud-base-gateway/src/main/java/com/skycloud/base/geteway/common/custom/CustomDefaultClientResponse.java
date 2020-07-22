@@ -64,7 +64,7 @@ public class CustomDefaultClientResponse implements ClientResponse {
             , String requestDescription, Supplier<HttpRequest> requestSupplier) {
         this.response = response;
         this.strategies = strategies;
-        this.headers = new DefaultHeaders();
+        this.headers = new CustomDefaultClientResponse.DefaultHeaders();
         this.logPrefix = logPrefix;
         this.requestDescription = requestDescription;
         this.requestSupplier = requestSupplier;
@@ -116,9 +116,11 @@ public class CustomDefaultClientResponse implements ClientResponse {
         String description = "Body from " + this.requestDescription + " [DefaultClientResponse]";
         if (result instanceof Mono) {
             return (T) ((Mono<?>) result).checkpoint(description);
-        } else if (result instanceof Flux) {
+        }
+        else if (result instanceof Flux) {
             return (T) ((Flux<?>) result).checkpoint(description);
-        } else {
+        }
+        else {
             return result;
         }
     }
@@ -224,7 +226,7 @@ public class CustomDefaultClientResponse implements ClientResponse {
 
     @Override
     public String logPrefix() {
-        return logPrefix;
+        return this.logPrefix;
     }
 
     // Used by DefaultClientResponseBuilder

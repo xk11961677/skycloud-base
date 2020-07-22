@@ -43,12 +43,12 @@ class CustomOauthException extends OAuth2Exception {
         String errorCode = oAuth2Exception.getOAuth2ErrorCode().toUpperCase();
         String summary = oAuth2Exception.getSummary();
         AuthErrorType authErrorType = AuthErrorType.valueOf(errorCode);
-        if(authErrorType == null) {
+        if (authErrorType == null) {
             log.error("CustomOauthException :{}" + oAuth2Exception);
             this.messageRes = MessageRes.fail(SystemErrorCodeEnum.GL999999.getCode(), SystemErrorCodeEnum.GL999999.getMsg());
-        }else {
-            log.info("authorization fail :{} "+summary);
-            this.messageRes = MessageRes.fail(authErrorType.getCode(),authErrorType.getMsg());
+        } else {
+            log.info("authorization fail :{} " + summary);
+            this.messageRes = MessageRes.fail(authErrorType.getCode(), authErrorType.getMsg());
         }
     }
 }

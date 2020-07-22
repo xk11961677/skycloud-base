@@ -22,7 +22,6 @@
  */
 package com.skycloud.base.geteway.config;
 
-
 import com.sky.framework.model.enums.SystemErrorCodeEnum;
 import org.apache.commons.lang.ObjectUtils;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;

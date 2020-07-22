@@ -29,6 +29,7 @@ public abstract class AbstractFilterChainManager implements FilterChain {
 
     @Override
     public void filter(Context context) {
+        throw new UnsupportedOperationException("AbstractFilterChainManager.filter");
     }
 
     /**

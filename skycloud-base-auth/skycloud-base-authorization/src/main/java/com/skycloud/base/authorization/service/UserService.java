@@ -22,7 +22,6 @@
  */
 package com.skycloud.base.authorization.service;
 
-
 import com.sky.framework.mybatis.service.IService;
 import com.skycloud.base.authorization.model.po.User;
 
