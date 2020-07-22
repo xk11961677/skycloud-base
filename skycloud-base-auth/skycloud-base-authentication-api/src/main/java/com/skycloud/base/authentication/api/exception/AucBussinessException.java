@@ -38,15 +38,6 @@ public class AucBussinessException extends BusinessException {
     }
 
     /**
-     * @param code      the code
-     * @param msgFormat the msg format
-     * @param args      the args
-     */
-    public AucBussinessException(String code, String msgFormat, Object... args) {
-        super(code, msgFormat, args);
-    }
-
-    /**
      * @param code the code
      * @param msg  the msg
      */
