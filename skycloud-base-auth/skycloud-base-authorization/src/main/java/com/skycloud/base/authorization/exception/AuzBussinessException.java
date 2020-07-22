@@ -47,17 +47,6 @@ public class AuzBussinessException extends BusinessException {
     /**
      * Instantiates a new Auz rpc exception.
      *
-     * @param code      the code
-     * @param msgFormat the msg format
-     * @param args      the args
-     */
-    public AuzBussinessException(String code, String msgFormat, Object... args) {
-        super(code, msgFormat, args);
-    }
-
-    /**
-     * Instantiates a new Auz rpc exception.
-     *
      * @param code the code
      * @param msg  the msg
      */
