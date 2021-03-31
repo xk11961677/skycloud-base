@@ -20,7 +20,7 @@
 <!--        <springframework.version>5.2.1.RELEASE</springframework.version>-->
         <spring.security.jwt.version>1.0.10.RELEASE</spring.security.jwt.version>
         <spring.security.oauth2.version>2.3.6.RELEASE</spring.security.oauth2.version>
-        <guava.version>26.0-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
         <boot.admin.version>2.1.5</boot.admin.version>
         <httpclientutil.version>1.0</httpclientutil.version>
         <fastjson.version>1.2.69</fastjson.version>
