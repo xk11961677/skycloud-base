@@ -23,7 +23,7 @@
         <guava.version>26.0-jre</guava.version>
         <boot.admin.version>2.1.5</boot.admin.version>
         <httpclientutil.version>1.0</httpclientutil.version>
-        <fastjson.version>1.2.69</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <feign.form.spring.version>3.0.3</feign.form.spring.version>
         <javax.el.version>3.0.1-b08</javax.el.version>
         <jackson.dataformat.convert.version>2.9.4</jackson.dataformat.convert.version>
